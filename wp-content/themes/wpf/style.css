@@ -887,6 +887,110 @@ FOOTER #footnav UL LI A:after {
 #mission-mission .text H2 SPAN,
 #mission-vision .text H2 SPAN { color: #FFFFFF; }
 
+#reports {
+  background: #1275BB;
+  color: #FFFFFF;
+  font-weight: 400;
+  position: relative;
+  padding: 58px 0 100px;
+}
+
+#reports #line {
+  position: absolute;
+  top: 66px;
+  left: 0;
+  width: 100%;
+  height: 5px;
+  background-image: linear-gradient(to right, transparent 33%, #FFFFFF 33%);
+}
+
+#reports H2 {
+  position: relative;
+  z-index: 2;
+  display: inline-block;
+  background: #1275BB;
+  padding-right: 1.25em;
+  margin: 0 0 1.8em;
+  font-family: 'Geometos', sans-serif;
+  font-weight: 400;
+  font-size: 30px;
+  line-height: 1em;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+#reports .cycle-slide {
+  vertical-align: top;
+  white-space: normal;
+  padding: 0 35px;
+  box-sizing: border-box;
+}
+
+#reports .cycle-slide > DIV { display: flex; }
+
+#reports .cycle-slide IMG {
+  margin-right: 1em;
+  height: 266px;
+  width: auto;
+}
+
+#reports .cycle-slide > DIV > DIV {
+  position: relative;
+  padding-bottom: 4em;
+}
+
+#reports .cycle-slide H3 {
+  margin: 0 0 0.2em;
+  padding-top: 0.7em;
+  font-family: 'Geometos', sans-serif;
+  font-weight: 400;
+  font-size: 150%;
+  line-height: 1em;
+  text-transform: uppercase;
+}
+
+#reports .cycle-slide H3 SPAN { color: #1C305B; }
+
+#reports .cycle-slide A:link,
+#reports .cycle-slide A:visited {
+  position: absolute;
+  bottom: 0.8em;
+  left: 0;
+  background: #24A9E0;
+  color: #FFFFFF;
+  display: inline-block;
+  font-family: 'Geometos', sans-serif;
+  font-weight: 400;
+  font-size: 97.92%;
+  line-height: 1em;
+  text-transform: uppercase;
+  padding: 1em 1em 0.75em;
+}
+
+#reports .cycle-slide A:hover,
+#reports .cycle-slide A:active { background: #1C305B; }
+
+#reports #prev, #reports #next {
+  position: absolute;
+  top: 50%;
+  left: -7px;
+  -webkit-transform: translateY(-50%) scale(.7,1);
+  -ms-transform: translateY(-50%) scale(.7,1);
+  transform: translateY(-50%) scale(.7,1);
+  color: #1C305B;
+  font-size: 49px;
+  line-height: 1em;
+}
+
+#reports #next { left: auto; right: -7px; }
+
+#reports #prev:hover, #reports #next:hover { color: #24A9E0; }
+
+#reports #prev.disabled, #reports #next.disabled { display: none; }
+
+
+
+
 
 @media only screen and (max-width: 1200px) {
   .bars { position: relative; }
@@ -945,6 +1049,10 @@ FOOTER #footnav UL LI A:after {
   #ep #publication #publication-info IMG { width: 33%; }
 
   #ep #publication .button { font-size: 2vw; }
+
+  #reports .cycle-slide { font-size: 1.27vw; }
+  #reports .cycle-slide IMG { height: 22vw; }
+  #reports .cycle-slide H3 { font-size: 1.8vw; }
 }
 
 @media only screen and (max-width: 1000px) {
@@ -1240,6 +1348,27 @@ FOOTER #footnav UL LI A:after {
     background-image: linear-gradient(105deg, #1C305B 78%, transparent 78%);
   }
   #hero .box .site-width .box-text { width: 75%; }
+
+  #mission-mission,
+  #mission-vision { padding: 0 0 4em; }
+
+  #mission-mission .image,
+  #mission-vision .image {
+    position: static;
+    width: 100%;
+    height: auto;
+    margin-bottom: 4em;
+  }
+
+  #mission-mission .image:before,
+  #mission-vision .image:before {
+    content: "";
+    display: block;
+    padding-top: 60%;
+  }
+
+  #mission-mission .text,
+  #mission-vision .text { width: 100%; text-align: left; }
 }
 
 @media only screen and (max-width: 480px) {

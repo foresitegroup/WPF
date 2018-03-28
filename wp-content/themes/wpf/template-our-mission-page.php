@@ -10,7 +10,7 @@ if ( have_posts() ) :
     <div class="title-banner">
       <?php the_title('<h1 class="site-width">','</h1>'); ?>
     </div>
-    
+
     <div class="bars">
       <div class="site-width">
         <?php the_content(); ?>
@@ -45,5 +45,49 @@ endif;
     </div>
   </div>
 </div>
+
+<script src="<?php echo get_template_directory_uri(); ?>/inc/jquery.cycle2.min.js"></script>
+<script src="<?php echo get_template_directory_uri(); ?>/inc/jquery.cycle2.carousel.min.js"></script>
+
+<div id="reports">
+  <div id="line"></div>
+
+  <div class="site-width">
+    <h2>Annual Reports</h2>
+
+    <div class="cycle-slideshow" data-cycle-timeout="0" data-cycle-slides="> div" data-cycle-fx="carousel" data-cycle-carousel-visible="2" data-cycle-carousel-fluid="true" data-cycle-prev="#prev" data-cycle-next="#next" data-allow-wrap="false">
+      <?php
+      $reports = new WP_Query(array('post_type'=>'annual_reports', 'orderby'=>'title', 'showposts' => -1));
+
+      while($reports->have_posts()) : $reports->the_post();
+        echo "<div>";
+          echo "<div>";
+            echo '<img src="' . get_the_post_thumbnail_url(get_the_ID()) . '" alt="">';
+
+            echo "<div>";
+              the_title('<h3>','</h3>');
+              echo fg_excerpt(35, '...');
+              echo '<a href="' . get_post_meta(get_the_ID(), 'annual_report_pdf', true) . '">Download Report <i class="fas fa-download"></i></a>';
+            echo "</div>";
+          echo "</div>";
+        echo "</div>";
+      endwhile;
+      ?>
+
+      <a href=# id="prev"><i class="fas fa-chevron-left"></i></a> 
+      <a href=# id="next"><i class="fas fa-chevron-right"></i></a>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  jQuery(document).ready(function() {
+    jQuery('#mission-mission H2, #mission-vision H2, #reports .cycle-slide H3').html(function(){
+      var text = jQuery(this).text().trim().split(' ');
+      var first = text.shift();
+      return '<span>'+first+'</span>'+' '+text.join(' ');
+    });
+  });
+</script>
 
 <?php get_footer(); ?>

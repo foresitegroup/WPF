@@ -19,6 +19,17 @@ if ( have_posts() ) :
 endif;
 ?>
 
+<script type="text/javascript">
+  jQuery(document).ready(function() {
+    jQuery('#hero H1').html(function(){
+      var text = jQuery(this).text().trim().split(' ');
+      var first = text.shift();
+      var second = text.shift();
+      return '<span>'+first+' '+second+'</span>'+' '+text.join(' ');
+    });
+  });
+</script>
+
 <div id="ep-header">
   <div class="site-width">
     <h1 class="left"><span>Upcoming</span> Events</h1>
@@ -122,7 +133,7 @@ endif;
   		while ($blog->have_posts() ) : $blog->the_post();
   			echo '<div class="blog">';
   			  the_title("<h1>","</h1>");
-  			  echo home_excerpt(50);
+  			  echo fg_excerpt(50);
   			  echo '<div><a href="';
   			  the_permalink();
   			  echo '">Read More</a></div>';

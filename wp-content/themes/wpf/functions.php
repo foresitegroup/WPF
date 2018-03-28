@@ -47,8 +47,110 @@ function themename_setup() {
 add_action( 'after_setup_theme', 'themename_setup' );
 
 
-// Custom excerpt for Home Page blog display
-function home_excerpt($limit) {
-  return wp_trim_words(get_the_excerpt(), $limit, '');
+// Custom excerpt
+function fg_excerpt($limit, $more = '') {
+  return wp_trim_words(get_the_excerpt(), $limit, $more);
+}
+
+
+
+
+
+
+
+add_action('plugins_loaded', function(){
+  // if($GLOBALS['pagenow']=='post.php'){
+    add_action('admin_print_scripts', 'my_admin_scripts');
+    add_action('admin_print_styles',  'my_admin_styles');
+  // }
+});
+
+function my_admin_scripts(){
+  wp_enqueue_script('jquery');
+  wp_enqueue_script('media-upload');
+  wp_enqueue_script('thickbox');
+}
+
+function my_admin_styles(){
+  wp_enqueue_style('thickbox');
+}
+
+add_action('init', 'annual_reports');
+function annual_reports() {
+  register_post_type('annual_reports',
+    array(
+      'labels' => array(
+        'name' => 'Annual Reports',
+        'singular_name' => 'Annual Report',
+        'add_new' => 'Add New',
+        'add_new_item' => 'Add New Annual Report',
+        'edit' => 'Edit',
+        'edit_item' => 'Edit Annual Report',
+        'new_item' => 'New Annual Report',
+        'view' => 'View',
+        'view_item' => 'View Annual Report',
+        'search_items' => 'Search Annual Reports',
+        'not_found' => 'No Annual Reports found',
+        'not_found_in_trash' => 'No Annual Reports found in Trash',
+        'parent' => 'Parent Annual Report'
+      ),
+
+      'public' => false,
+      'show_ui' => true,
+      'show_in_menu' => true,
+      'menu_position' => 50,
+      'supports' => array('title','editor','thumbnail'),
+      'taxonomies' => array(''),
+      'menu_icon' => 'dashicons-analytics',
+      'has_archive' => true
+    )
+  );
+}
+
+add_action('add_meta_boxes', 'annual_reports_metabox');
+function annual_reports_metabox() {
+  add_meta_box('annual_reports_metabox_display_box',
+    'Annual Report PDF',
+    'annual_reports_metabox_display',
+    'annual_reports',
+    'normal',
+    'high'
+  );
+}
+
+function annual_reports_metabox_display($post) {
+  $ar_meta = get_post_meta($post->ID);
+  ?>
+  
+  <input type="text" name="annual_report_pdf" id="annual_report_pdf" value="<?php if (isset($ar_meta['annual_report_pdf'])) echo $ar_meta['annual_report_pdf'][0]; ?>">
+  <input type="button" id="annual_report_pdf_button" class="button" value="Add PDF">
+  
+  <script>
+    jQuery('#annual_report_pdf_button').click(function() {
+      var send_attachment_bkp = wp.media.editor.send.attachment;
+      wp.media.editor.send.attachment = function(props, attachment) {
+        jQuery('#annual_report_pdf').val(attachment.url);
+        wp.media.editor.send.attachment = send_attachment_bkp;
+      }
+ 
+      wp.media.editor.open();
+ 
+      return false;
+    });
+  </script>
+  <?php
+}
+
+add_action('admin_head', 'annual_reports_css');
+function annual_reports_css() {
+  echo '<style>
+    #annual_report_pdf { width: 90%; padding: 0.32em 8px; margin-right: 0.75em; }
+  </style>';
+}
+
+add_action('save_post', 'save_annual_reports');
+function save_annual_reports($post_id) {
+  if (isset($_POST['annual_report_pdf']))
+    update_post_meta($post_id, 'annual_report_pdf', $_POST['annual_report_pdf']);
 }
 ?>
