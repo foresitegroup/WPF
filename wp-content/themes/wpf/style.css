@@ -973,7 +973,7 @@ FOOTER #footnav UL LI A:after {
 #reports #prev, #reports #next {
   position: absolute;
   top: 50%;
-  left: -7px;
+  left: -6px;
   -webkit-transform: translateY(-50%) scale(.7,1);
   -ms-transform: translateY(-50%) scale(.7,1);
   transform: translateY(-50%) scale(.7,1);
@@ -982,11 +982,75 @@ FOOTER #footnav UL LI A:after {
   line-height: 1em;
 }
 
-#reports #next { left: auto; right: -7px; }
+#reports #next { left: auto; right: -6px; }
 
 #reports #prev:hover, #reports #next:hover { color: #24A9E0; }
 
 #reports #prev.disabled, #reports #next.disabled { display: none; }
+
+/***************/
+/* STAFF/BOARD */
+/***************/
+#tabs {
+  background: #1275BB;
+  text-align: center;
+}
+
+#tabs INPUT,
+#staff, #board { display: none; }
+
+#tabs LABEL {
+  display: inline-block;
+  box-sizing: border-box;
+  width: 26.56%;
+  margin: 0 3.5625%;
+  padding: 0.8em 1em 0.45em;
+  background: #1C305B;
+  color: #FFFFFF;
+  font-family: 'Geometos', sans-serif;
+  font-weight: 400;
+  font-size: 30px;
+  line-height: 1em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+#tabs INPUT:checked + LABEL {
+  background: #FFFFFF;
+  color: #1C305B;
+  box-shadow: 0px 0px 30px 0px rgba(0,0,0,0.5);
+}
+
+#tab1:checked ~ DIV DIV #staff,
+#tab2:checked ~ DIV DIV #board { display: block; }
+
+#tabs .bars {
+  padding: 2em 0;
+  background-color: #FFFFFF;
+  text-align: left;
+  position: relative;
+  z-index: 3;
+}
+
+.lightbox { display: none; }
+
+.featherlight:last-of-type {
+  background: rgba(28,48,91,0.85) !important;
+}
+
+.featherlight .featherlight-content {
+  margin: 0 !important;
+  padding: 0 !important;
+  border-bottom: 0 !important;
+  max-width: 1100px;
+}
+
+.featherlight .featherlight-close-icon {
+  color: #9B9B9B !important;
+  font-size: 25px;
+  margin: 20px 20px 0 0;
+  outline: none;
+}
 
 
 
@@ -1124,6 +1188,8 @@ FOOTER #footnav UL LI A:after {
   FOOTER { padding: 50px 0; }
 
   #ep #events .event > DIV { width: 69%; }
+
+  #reports .cycle-slide { padding: 0 25px; }
 }
 
 @media only screen and (max-width: 750px) {
@@ -1369,6 +1435,13 @@ FOOTER #footnav UL LI A:after {
 
   #mission-mission .text,
   #mission-vision .text { width: 100%; text-align: left; }
+
+  #reports .cycle-slide { padding: 0 40px; font-size: 2.4vw; }
+  #reports .cycle-slide IMG { height: 40vw; }
+  #reports .cycle-slide H3 { padding-top: 0.2em; font-size: 3.6vw; }
+
+  #reports .cycle-slide A:link,
+  #reports .cycle-slide A:visited { bottom: 0.3em; }
 }
 
 @media only screen and (max-width: 480px) {
@@ -1400,4 +1473,17 @@ FOOTER #footnav UL LI A:after {
 
   #home-join:before { padding-top: 70%; }
   #home-join > DIV { width: 62%; padding-top: 1.5em; font-size: 3vw; }
+
+  #reports { padding-bottom: 58px; }
+
+  #reports H2 { padding-right: 0; margin-bottom: 1em; }
+  #reports #line { display: none; }
+
+  #reports .cycle-slide { font-size: 4vw; line-height: 1.6em; }
+
+  #reports .cycle-slide > DIV { flex-direction: column-reverse; }
+
+  #reports .cycle-slide IMG { height: auto; max-width: 100%; margin: 2em 0 0; }
+
+  #reports .cycle-slide H3 { font-size: 5.9vw; }
 }

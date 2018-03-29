@@ -46,16 +46,13 @@ endif;
   </div>
 </div>
 
-<script src="<?php echo get_template_directory_uri(); ?>/inc/jquery.cycle2.min.js"></script>
-<script src="<?php echo get_template_directory_uri(); ?>/inc/jquery.cycle2.carousel.min.js"></script>
-
 <div id="reports">
   <div id="line"></div>
 
   <div class="site-width">
     <h2>Annual Reports</h2>
 
-    <div class="cycle-slideshow" data-cycle-timeout="0" data-cycle-slides="> div" data-cycle-fx="carousel" data-cycle-carousel-visible="2" data-cycle-carousel-fluid="true" data-cycle-prev="#prev" data-cycle-next="#next" data-allow-wrap="false">
+    <div id="reports-slideshow">
       <?php
       $reports = new WP_Query(array('post_type'=>'annual_reports', 'orderby'=>'title', 'showposts' => -1));
 
@@ -80,8 +77,39 @@ endif;
   </div>
 </div>
 
+<script src="<?php echo get_template_directory_uri(); ?>/inc/jquery.cycle2.min.js"></script>
+<script src="<?php echo get_template_directory_uri(); ?>/inc/jquery.cycle2.carousel.min.js"></script>
+
 <script type="text/javascript">
   jQuery(document).ready(function() {
+    function buildCarousel() {
+      var slides = 2;
+
+      if (window.innerWidth < 601) { slides = 1; }
+
+      jQuery('#reports-slideshow').cycle({
+        timeout: 0,
+        slides: "> div",
+        prev: "#prev",
+        next: "#next",
+        fx: 'carousel',
+        carouselFluid: 'true',
+        carouselVisible: slides,
+        allowWrap: false
+      });
+    }
+
+    function resizeCarousel() {
+      jQuery('#reports-slideshow').cycle('destroy');
+      buildCarousel();
+    }
+
+    buildCarousel();
+
+    jQuery(window).resize(function(){
+      setTimeout(function() { resizeCarousel(); },100);
+    });
+
     jQuery('#mission-mission H2, #mission-vision H2, #reports .cycle-slide H3').html(function(){
       var text = jQuery(this).text().trim().split(' ');
       var first = text.shift();

@@ -53,28 +53,9 @@ function fg_excerpt($limit, $more = '') {
 }
 
 
-
-
-
-
-
-add_action('plugins_loaded', function(){
-  // if($GLOBALS['pagenow']=='post.php'){
-    add_action('admin_print_scripts', 'my_admin_scripts');
-    add_action('admin_print_styles',  'my_admin_styles');
-  // }
-});
-
-function my_admin_scripts(){
-  wp_enqueue_script('jquery');
-  wp_enqueue_script('media-upload');
-  wp_enqueue_script('thickbox');
-}
-
-function my_admin_styles(){
-  wp_enqueue_style('thickbox');
-}
-
+///////////////////
+// ANNUAL REPORTS
+///////////////////
 add_action('init', 'annual_reports');
 function annual_reports() {
   register_post_type('annual_reports',
@@ -152,5 +133,84 @@ add_action('save_post', 'save_annual_reports');
 function save_annual_reports($post_id) {
   if (isset($_POST['annual_report_pdf']))
     update_post_meta($post_id, 'annual_report_pdf', $_POST['annual_report_pdf']);
+}
+
+
+//////////
+// STAFF
+//////////
+add_action('init', 'fg_staff');
+function fg_staff() {
+  register_post_type('fg_staff',
+    array(
+      'labels' => array(
+        'name' => 'Staff',
+        'singular_name' => 'Staff',
+        'add_new' => 'Add New',
+        'add_new_item' => 'Add New Staff',
+        'edit' => 'Edit',
+        'edit_item' => 'Edit Staff',
+        'new_item' => 'New Staff',
+        'view' => 'View',
+        'view_item' => 'View Staff',
+        'search_items' => 'Search Staff',
+        'not_found' => 'No Staff found',
+        'not_found_in_trash' => 'No Staff found in Trash',
+        'parent' => 'Parent Staff'
+      ),
+
+      'public' => false,
+      'show_ui' => true,
+      'show_in_menu' => true,
+      'menu_position' => 50,
+      'supports' => array('title','editor','thumbnail'),
+      'taxonomies' => array(''),
+      'menu_icon' => 'dashicons-businessman',
+      'has_archive' => true
+    )
+  );
+}
+
+add_action('add_meta_boxes', 'fg_staff_metabox');
+function fg_staff_metabox() {
+  add_meta_box('fg_staff_metabox_display_box',
+    'Additional Information',
+    'fg_staff_metabox_display',
+    'fg_staff',
+    'normal',
+    'high'
+  );
+}
+
+add_filter('enter_title_here', 'fg_staff_title');
+function fg_staff_title($input) {
+  if (get_post_type() === 'fg_staff') return "Enter name here";
+  return $input;
+}
+
+function fg_staff_metabox_display($post) {
+  $meta = get_post_meta($post->ID);
+  ?>
+  <input type="text" name="fg_staff_position" placeholder="Title/Position" value="<?php if (isset($meta['fg_staff_position'])) echo $ar_meta['fg_staff_position'][0]; ?>">
+  <input type="email" name="fg_staff_email" placeholder="Email" value="<?php if (isset($meta['fg_staff_email'])) echo $ar_meta['fg_staff_email'][0]; ?>">
+  <input type="text" name="fg_staff_phone" placeholder="Telephone" value="<?php if (isset($meta['fg_staff_phone'])) echo $ar_meta['fg_staff_phone'][0]; ?>">
+  <?php
+}
+
+add_action('admin_head', 'fg_staff_css');
+function fg_staff_css() {
+  echo '<style>
+    #fg_staff_metabox_display_box INPUT { width: 100%; margin: 0.5em 0; padding: 0.32em 8px; box-sizing: border-box; }
+  </style>';
+}
+
+add_action('save_post', 'save_fg_staff');
+function save_fg_staff($post_id) {
+  if (isset($_POST['fg_staff_position']))
+    update_post_meta($post_id, 'fg_staff_position', $_POST['fg_staff_position']);
+  if (isset($_POST['fg_staff_email']))
+    update_post_meta($post_id, 'fg_staff_email', $_POST['fg_staff_email']);
+  if (isset($_POST['fg_staff_phone']))
+    update_post_meta($post_id, 'fg_staff_phone', $_POST['fg_staff_phone']);
 }
 ?>
