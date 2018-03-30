@@ -191,9 +191,10 @@ function fg_staff_title($input) {
 function fg_staff_metabox_display($post) {
   $meta = get_post_meta($post->ID);
   ?>
-  <input type="text" name="fg_staff_position" placeholder="Title/Position" value="<?php if (isset($meta['fg_staff_position'])) echo $ar_meta['fg_staff_position'][0]; ?>">
-  <input type="email" name="fg_staff_email" placeholder="Email" value="<?php if (isset($meta['fg_staff_email'])) echo $ar_meta['fg_staff_email'][0]; ?>">
-  <input type="text" name="fg_staff_phone" placeholder="Telephone" value="<?php if (isset($meta['fg_staff_phone'])) echo $ar_meta['fg_staff_phone'][0]; ?>">
+  <input type="text" name="fg_staff_position" placeholder="Title/Position" value="<?php if (isset($meta['fg_staff_position'])) echo $meta['fg_staff_position'][0]; ?>">
+  <input type="email" name="fg_staff_email" placeholder="Email" value="<?php if (isset($meta['fg_staff_email'])) echo $meta['fg_staff_email'][0]; ?>">
+  <input type="text" name="fg_staff_phone" placeholder="Telephone" value="<?php if (isset($meta['fg_staff_phone'])) echo $meta['fg_staff_phone'][0]; ?>">
+  <input type="text" name="fg_staff_extension" placeholder="Extension" value="<?php if (isset($meta['fg_staff_extension'])) echo $meta['fg_staff_extension'][0]; ?>">
   <?php
 }
 
@@ -201,6 +202,10 @@ add_action('admin_head', 'fg_staff_css');
 function fg_staff_css() {
   echo '<style>
     #fg_staff_metabox_display_box INPUT { width: 100%; margin: 0.5em 0; padding: 0.32em 8px; box-sizing: border-box; }
+    .column-fg_staff_email { width: 25%; }
+    .column-fg_staff_phone { width: 15%; }
+    .column-fg_staff_extension { width: 10%; }
+    .column-fg_staff_image { width: 10%; }
   </style>';
 }
 
@@ -212,5 +217,133 @@ function save_fg_staff($post_id) {
     update_post_meta($post_id, 'fg_staff_email', $_POST['fg_staff_email']);
   if (isset($_POST['fg_staff_phone']))
     update_post_meta($post_id, 'fg_staff_phone', $_POST['fg_staff_phone']);
+  if (isset($_POST['fg_staff_extension']))
+    update_post_meta($post_id, 'fg_staff_extension', $_POST['fg_staff_extension']);
+}
+
+add_filter('manage_fg_staff_posts_columns', 'set_custom_edit_fg_staff_columns');
+function set_custom_edit_fg_staff_columns($columns) {
+  $columns['title'] = "Name";
+  $columns['fg_staff_position'] = "Position";
+  $columns['fg_staff_email'] = "Email";
+  $columns['fg_staff_phone'] = "Phone";
+  $columns['fg_staff_extension'] = "Extension";
+  $columns['fg_staff_image'] = "Image";
+
+  unset($columns['date']);
+
+  return $columns;
+}
+
+add_action('manage_fg_staff_posts_custom_column', 'custom_fg_staff_column', 10, 2);
+function custom_fg_staff_column($column, $post_id) {
+  switch ($column) {
+    case 'fg_staff_position':
+      echo get_post_meta($post_id, 'fg_staff_position', true);
+      break;
+    case 'fg_staff_email':
+      echo get_post_meta($post_id, 'fg_staff_email', true);
+      break;
+    case 'fg_staff_phone':
+      echo get_post_meta($post_id, 'fg_staff_phone', true);
+      break;
+    case 'fg_staff_extension':
+      echo get_post_meta($post_id, 'fg_staff_extension', true);
+      break;
+    case 'fg_staff_image':
+      echo get_the_post_thumbnail($post_id, array(40, 40));
+      break;
+  }
+}
+
+add_filter('manage_edit-fg_staff_sortable_columns', 'custom_fg_staff_sortable_columns' );
+function custom_fg_staff_sortable_columns($column) {
+  unset($column['title']);
+  return $column;
+}
+
+
+//////////
+// BOARD
+//////////
+add_action('init', 'fg_board');
+function fg_board() {
+  register_post_type('fg_board',
+    array(
+      'labels' => array(
+        'name' => 'Board',
+        'singular_name' => 'Board',
+        'add_new' => 'Add New',
+        'add_new_item' => 'Add New Board',
+        'edit' => 'Edit',
+        'edit_item' => 'Edit Board',
+        'new_item' => 'New Board',
+        'view' => 'View',
+        'view_item' => 'View Board',
+        'search_items' => 'Search Board',
+        'not_found' => 'No Board found',
+        'not_found_in_trash' => 'No Board found in Trash',
+        'parent' => 'Parent Board'
+      ),
+
+      'public' => false,
+      'show_ui' => true,
+      'show_in_menu' => true,
+      'menu_position' => 50,
+      'supports' => array('title','thumbnail'),
+      'taxonomies' => array(''),
+      'menu_icon' => 'dashicons-groups',
+      'has_archive' => true
+    )
+  );
+}
+
+add_filter('enter_title_here', 'fg_board_title');
+function fg_board_title($input) {
+  if (get_post_type() === 'fg_board') return "Enter full name here";
+  return $input;
+}
+
+add_action('add_meta_boxes', 'fg_board_metabox');
+function fg_board_metabox() {
+  add_meta_box('fg_board_metabox_display_box',
+    'Additional Information',
+    'fg_board_metabox_display',
+    'fg_board',
+    'normal',
+    'high'
+  );
+}
+
+function fg_board_metabox_display($post) {
+  $meta = get_post_meta($post->ID);
+  ?>
+  <input type="text" name="fg_board_lastname" placeholder="Last name for sorting purposes (REQUIRED)" value="<?php if (isset($meta['fg_board_lastname'])) echo $meta['fg_board_lastname'][0]; ?>" id="lastname">
+  <input type="text" name="fg_board_company" placeholder="Company" value="<?php if (isset($meta['fg_board_company'])) echo $meta['fg_board_company'][0]; ?>">
+  
+  <script>
+    jQuery(function($) {
+      $('#post').submit(function(e){
+        if ($('#lastname').val() === '') { e.preventDefault(); alert('Last name required.'); }
+      });
+    });
+  </script>
+  <?php
+}
+
+add_action('admin_head', 'fg_board_css');
+function fg_board_css() {
+  echo '<style>
+    #fg_board_metabox_display_box INPUT { width: 100%; margin: 0.5em 0; padding: 0.32em 8px; box-sizing: border-box; }
+  </style>';
+}
+
+add_action('save_post', 'save_fg_board');
+function save_fg_board($post_id) {
+  if (isset($_POST['fg_board_lastname']))
+    update_post_meta($post_id, 'fg_board_lastname', $_POST['fg_board_lastname']);
+
+  if (isset($_POST['fg_board_company']))
+    update_post_meta($post_id, 'fg_board_company', $_POST['fg_board_company']);
 }
 ?>

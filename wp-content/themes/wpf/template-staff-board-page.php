@@ -27,10 +27,73 @@ endif;
   <div class="bars">
     <div class="site-width">
       <div id="staff">
-        <a href="#" data-featherlight="#mylightbox" class="staff">Open element in lightbox</a>
-        <div id="mylightbox" class="lightbox">
-          Rob Henken is the President of the Public Policy Forum. Since joining the Forum in January 2008, Henken has authored or co-authored four reports that won national awards from the Governmental Research Association. He was named one of Milwaukee's 100 most influential leaders in The Milwaukee Business Journal's annual "Power Book" in 2012 and one of Milwaukee's "Game Changers" by M Magazine in 2013.
-        </div>
+        <?php
+        $staff = new WP_Query(array('post_type'=>'fg_staff', 'orderby'=>'menu_order', 'order'=> 'ASC', 'showposts' => -1));
+
+        while($staff->have_posts()) : $staff->the_post();
+          ?>
+          <a href="#" data-featherlight="#staff<?php echo get_the_ID(); ?>" class="staff"<?php if (has_post_thumbnail()) echo ' style="background-image: url('.get_the_post_thumbnail_url().')"'; ?>);>
+            <?php if (!has_post_thumbnail()) the_title('<div class="no-image-name">','</div>'); ?>
+
+            <div class="staff-content">
+              <?php
+              the_title('<h3>','</h3>');
+
+              if (get_post_meta(get_the_ID(), 'fg_staff_position', true))
+                echo "<h4>".get_post_meta(get_the_ID(), 'fg_staff_position', true)."</h4>";
+
+              if (get_post_meta(get_the_ID(), 'fg_staff_email', true))
+                echo '<div><i class="far fa-envelope"></i> '.get_post_meta(get_the_ID(), 'fg_staff_email', true).'</div>';
+
+              if (get_post_meta(get_the_ID(), 'fg_staff_phone', true)) {
+                echo '<div><i class="fas fa-phone"></i> '.get_post_meta(get_the_ID(), 'fg_staff_phone', true);
+
+                if (get_post_meta(get_the_ID(), 'fg_staff_extension', true)) echo " ext. ".get_post_meta(get_the_ID(), 'fg_staff_extension', true);
+
+                echo '</div>';
+              }
+              ?>
+              <div class="info"></div>
+            </div>
+          </a>
+          <div id="staff<?php echo get_the_ID(); ?>" class="staff-modal">
+            <div class="site-width">
+              <div class="info">
+                <?php
+                if (has_post_thumbnail()) echo '<img src="'.get_the_post_thumbnail_url().'" alt="">';
+
+                the_title('<h3>','</h3>');
+
+                if (get_post_meta(get_the_ID(), 'fg_staff_position', true))
+                  echo "<h4>".get_post_meta(get_the_ID(), 'fg_staff_position', true)."</h4>";
+
+                if (get_post_meta(get_the_ID(), 'fg_staff_email', true))
+                  echo '<br><a href="mailto:'.get_post_meta(get_the_ID(), 'fg_staff_email', true).'"><i class="far fa-envelope"></i> '.get_post_meta(get_the_ID(), 'fg_staff_email', true).'</a>';
+
+                if (get_post_meta(get_the_ID(), 'fg_staff_phone', true)) {
+                  $phone = preg_replace("/[^0-9,.]/", "", get_post_meta(get_the_ID(), 'fg_staff_phone', true));
+
+                  if (get_post_meta(get_the_ID(), 'fg_staff_extension', true))
+                    $phone .= ";ext=".get_post_meta(get_the_ID(), 'fg_staff_extension', true);
+
+                  echo '<br><a href="tel:'.$phone.'"><i class="fas fa-phone"></i> '.get_post_meta(get_the_ID(), 'fg_staff_phone', true);
+
+                  if (get_post_meta(get_the_ID(), 'fg_staff_extension', true)) echo " ext. ".get_post_meta(get_the_ID(), 'fg_staff_extension', true);
+
+                  echo "</a>";
+                }
+                ?>
+              </div>
+
+              <div class="bio">
+                <h4>BIO</h4>
+                <?php nl2br(the_content()); ?>
+              </div>
+            </div>
+          </div>
+          <?php
+        endwhile;
+        ?>
       </div>
 
       <div id="board">
