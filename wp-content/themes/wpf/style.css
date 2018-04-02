@@ -1189,7 +1189,7 @@ FOOTER #footnav UL LI A:after {
 
 .staff-modal .info H4 {
   margin: 0;
-  color: #1B3A69;
+  color: #1C305B;
   font-weight: 600;
   font-style: italic;
   font-size: 171.42%;
@@ -1206,7 +1206,7 @@ FOOTER #footnav UL LI A:after {
   margin: 0.25em 0.5em 0.25em 0;
   font-size: 20px;
   line-height: 1em;
-  color: #1B3A69;
+  color: #1C305B;
   vertical-align: middle;
 }
 
@@ -1228,7 +1228,7 @@ FOOTER #footnav UL LI A:after {
 
 .staff-modal .bio H4 {
   margin: 0 0 0.3em;
-  color: #1B3A69;
+  color: #1C305B;
   font-family: 'Geometos', sans-serif;
   font-weight: 400;
   font-size: 233.91%;
@@ -1240,6 +1240,69 @@ FOOTER #footnav UL LI A:after {
 
 .staff-modal .bio A:hover,
 .staff-modal .bio A:active { color: #000000; }
+
+#officers {
+  background: #1275BB;
+  color: #FFFFFF;
+  padding: 30px 2.72%;
+}
+
+#officers H2 {
+  margin: 0 0 0.5em;
+  font-family: 'Geometos', sans-serif;
+  font-weight: 400;
+  font-size: 214.28%;
+  line-height: 1em;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+#officers .officer {
+  float: left;
+  width: 13.36%;
+  margin-right: 3.968%;
+}
+
+#officers .officer:last-of-type { margin-right: 0; }
+
+#officers .officer .image {
+  background: url(images/no-headshot.jpg) no-repeat center top;
+  background-size: 100% auto;
+}
+
+#officers .officer .image:before {
+  content: "";
+  display: block;
+  padding-top: 100%;
+}
+
+#officers .officer H3 {
+  margin: 0.5em 0 0.3em;
+  color: #1C305B;
+  font-family: 'Geometos', sans-serif;
+  font-weight: 400;
+  font-size: 114.28%;
+  line-height: 1em;
+  text-transform: uppercase;
+}
+
+#officers .officer H4 {
+  margin: 0;
+  font-family: 'Geometos', sans-serif;
+  font-weight: 400;
+  font-size: 100%;
+  line-height: 1em;
+  text-transform: uppercase;
+}
+
+#officers .officer H5 {
+  margin: 0.3em 0 0;
+  color: #C3C3C3;
+  font-style: italic;
+  font-weight: 600;
+  font-size: 71.42%;
+  line-height: 1em;
+}
 
 
 

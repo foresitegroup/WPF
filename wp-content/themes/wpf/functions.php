@@ -317,12 +317,49 @@ function fg_board_metabox() {
 
 function fg_board_metabox_display($post) {
   $meta = get_post_meta($post->ID);
+
+  $fg_board_type = $meta['fg_board_type'][0];
+  if ($fg_board_type == "") $fg_board_type = "director";
+
+  if (isset($meta['fg_board_officer_title'])) $fg_board_officer_title = $meta['fg_board_officer_title'][0];
   ?>
   <input type="text" name="fg_board_lastname" placeholder="Last name for sorting purposes (REQUIRED)" value="<?php if (isset($meta['fg_board_lastname'])) echo $meta['fg_board_lastname'][0]; ?>" id="lastname">
   <input type="text" name="fg_board_company" placeholder="Company" value="<?php if (isset($meta['fg_board_company'])) echo $meta['fg_board_company'][0]; ?>">
   
+  <br><br>
+
+  <label><input type="radio" name="fg_board_type" value="officer"<?php if ($fg_board_type == "officer") echo " checked"; ?> id="r-officer"> Officer</label>
+  <label><input type="radio" name="fg_board_type" value="director"<?php if ($fg_board_type == "director") echo " checked"; ?>> Director</label>
+  <label><input type="radio" name="fg_board_type" value="emeritus"<?php if ($fg_board_type == "emeritus") echo " checked"; ?>> Emeritus</label>
+
+  <div id="officer-info">
+    <br>
+    <select name="fg_board_officer_title">
+      <option value="">Select Board Officer Title...</option>
+      <option value="Board Chair"<?php if (isset($fg_board_officer_title) && $fg_board_officer_title == "Board Chair") echo ' selected'; ?>>Board Chair</option>
+      <option value="Vice Chair"<?php if (isset($fg_board_officer_title) && $fg_board_officer_title == "Vice Chair") echo ' selected'; ?>>Vice Chair</option>
+      <option value="Secretary"<?php if (isset($fg_board_officer_title) && $fg_board_officer_title == "Secretary") echo ' selected'; ?>>Secretary</option>
+      <option value="Treasurer"<?php if (isset($fg_board_officer_title) && $fg_board_officer_title == "Treasurer") echo ' selected'; ?>>Treasurer</option>
+      <option value="President"<?php if (isset($fg_board_officer_title) && $fg_board_officer_title == "President") echo ' selected'; ?>>President</option>
+    </select>
+  </div>
+  
   <script>
     jQuery(function($) {
+      if ($('#r-officer').is(':checked')) {
+        $('#officer-info, #postimagediv').css('display', 'block');
+      } else {
+        $('#officer-info, #postimagediv').css('display', 'none');
+      }
+
+      $('input[type=radio]').change(function(){
+        if (this.value == 'officer') {
+          $('#officer-info, #postimagediv').css('display', 'block');
+        } else {
+          $('#officer-info, #postimagediv').css('display', 'none');
+        }
+      });
+
       $('#post').submit(function(e){
         if ($('#lastname').val() === '') { e.preventDefault(); alert('Last name required.'); }
       });
@@ -332,9 +369,14 @@ function fg_board_metabox_display($post) {
 }
 
 add_action('admin_head', 'fg_board_css');
-function fg_board_css() {
+function fg_board_css($post) {
+  // $fg_board_type = esc_html(get_post_meta($post->ID, 'fg_board_type', true));
+  $meta = get_post_meta($post->ID);
+
+  $fg_board_type = $meta['fg_board_type'][0];
   echo '<style>
-    #fg_board_metabox_display_box INPUT { width: 100%; margin: 0.5em 0; padding: 0.32em 8px; box-sizing: border-box; }
+    #fg_board_metabox_display_box INPUT[type="text"] { width: 100%; margin: 0.5em 0; padding: 0.32em 8px; box-sizing: border-box; }
+    #fg_board_metabox_display_box LABEL { margin-right: 1em; }
   </style>';
 }
 
@@ -345,5 +387,11 @@ function save_fg_board($post_id) {
 
   if (isset($_POST['fg_board_company']))
     update_post_meta($post_id, 'fg_board_company', $_POST['fg_board_company']);
+
+  if (isset($_POST['fg_board_type']))
+    update_post_meta($post_id, 'fg_board_type', $_POST['fg_board_type']);
+
+  if (isset($_POST['fg_board_officer_title']))
+    update_post_meta($post_id, 'fg_board_officer_title', $_POST['fg_board_officer_title']);
 }
 ?>
