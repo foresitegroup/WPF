@@ -1153,6 +1153,7 @@ FOOTER #footnav UL LI A:after {
 }
 
 .featherlight .featherlight-close-icon {
+  background: transparent !important;
   color: #9B9B9B !important;
   font-size: 25px;
   margin: 20px 20px 0 0;
@@ -1204,14 +1205,14 @@ FOOTER #footnav UL LI A:after {
 
 .staff-modal .info I {
   margin: 0.25em 0.5em 0.25em 0;
-  font-size: 20px;
+  font-size: 142.85%;
   line-height: 1em;
   color: #1C305B;
   vertical-align: middle;
 }
 
 .staff-modal .info I.fa-phone {
-  font-size: 18px;
+  font-size: 128.57%;
   -webkit-transform: rotate(90deg);
   -ms-transform: rotate(90deg);
   transform: rotate(90deg);
@@ -1245,6 +1246,7 @@ FOOTER #footnav UL LI A:after {
   background: #1275BB;
   color: #FFFFFF;
   padding: 30px 2.72%;
+  margin-bottom: 70px;
 }
 
 #officers H2 {
@@ -1303,6 +1305,138 @@ FOOTER #footnav UL LI A:after {
   font-size: 71.42%;
   line-height: 1em;
 }
+
+#board .line { position: relative; }
+
+#board .line > DIV {
+  position: absolute;
+  top: 0.6em;
+  left: 0;
+  width: 100%;
+  height: 6px;
+  background: #1C305B;
+}
+
+#board .line H2 {
+  display: inline-block;
+  margin: 0;
+  padding-right: 0.5em;
+  background: #FFFFFF;
+  color: #1C305B;
+  font-family: 'Geometos', sans-serif;
+  font-weight: 400;
+  font-size: 30px;
+  line-height: 1em;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  position: relative;
+  z-index: 3;
+}
+
+#board .directors,
+#board .emeritus-directors {
+  margin-top: 40px;
+  -webkit-column-count: 3;
+  -moz-column-count: 3;
+  column-count: 3;
+}
+
+#board .directors { margin-bottom: 65px; }
+
+#board .director,
+#board .emeritus {
+  color: #606060;
+  font-style: italic;
+  padding-bottom: 1.5em;
+  -webkit-column-break-inside: avoid;
+  page-break-inside: avoid;
+  break-inside: avoid-column;
+}
+
+#board .director H3,
+#board .emeritus H3 {
+  margin: 0;
+  color: #1C305B;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 100%;
+  line-height: 1em;
+}
+
+/**************/
+/* WHAT WE DO */
+/**************/
+.wwd {
+  position: relative;
+  background: #1C305B;
+  color: #FFFFFF;
+  font-weight: 400;
+  line-height: 1.8em;
+}
+
+.wwd .image {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 50%;
+  height: 100%;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+}
+
+.wwd.right .image {
+  right: auto;
+  left: 0;
+}
+
+.wwd .text {
+  float: left;
+  width: 45%;
+  padding: 5.5em 0;
+}
+
+.wwd.right .text {
+  float: right;
+  width: 39%;
+  text-align: right;
+}
+
+.wwd H2 {
+  margin: 0 0 0.3em;
+  color: #24A9E0;
+  font-family: 'Geometos', sans-serif;
+  font-weight: 400;
+  font-size: 305.5%;
+  line-height: 1em;
+  text-transform: uppercase;
+}
+
+.wwd .button:link,
+.wwd .button:visited {
+  margin-top: 0.75em;
+  display: inline-block;
+  background: #24A9E0;
+  color: #FFFFFF;
+  font-family: 'Geometos', sans-serif;
+  font-weight: 400;
+  font-size: 97%;
+  line-height: 1em;
+  text-transform: uppercase;
+  padding: 1.25em 1.4em 1em;
+}
+
+.wwd .button:hover,
+.wwd .button:active {
+  background: #FFFFFF;
+  color: #24A9E0;
+}
+
+
+
+
+
+
 
 
 
@@ -1369,6 +1503,16 @@ FOOTER #footnav UL LI A:after {
   #reports .cycle-slide { font-size: 1.27vw; }
   #reports .cycle-slide IMG { height: 22vw; }
   #reports .cycle-slide H3 { font-size: 1.8vw; }
+
+  .featherlight .featherlight-content { width: 96%; }
+  .staff-modal .site-width { width: 100%; }
+
+  #officers .officer {
+    width: 14%;
+    margin-right: 3.2%;
+  }
+
+  #board .line > DIV { width: 102% !important; }
 }
 
 @media only screen and (max-width: 1000px) {
@@ -1393,6 +1537,8 @@ FOOTER #footnav UL LI A:after {
   #ep #publication { padding-left: 5%; padding-right: 5%; }
 
   #ep #publication #publication-info { align-items: start; }
+
+  .staff .staff-content { font-size: 1vw; }
 
   #home-blog .site-width .blog A:link,
   #home-blog .site-width .blog A:visited { font-size: 140%; padding: 0.9em 1.5em 0.65em; }
@@ -1433,6 +1579,8 @@ FOOTER #footnav UL LI A:after {
 
   #home-blog .site-width .blog A:link,
   #home-blog .site-width .blog A:visited { font-size: 110%; }
+
+  .staff-modal .info { font-size: 1.3vw; }
 }
 
 @media only screen and (max-width: 800px) {
@@ -1442,6 +1590,25 @@ FOOTER #footnav UL LI A:after {
   #ep #events .event > DIV { width: 69%; }
 
   #reports .cycle-slide { padding: 0 25px; }
+
+  #tabs LABEL { width: 40%; }
+
+  .staff { width: 33.33%; }
+  .staff .staff-content { font-size: 1.3vw; }
+
+  #officers .officer {
+    width: 30%;
+    margin: 1em 5% 1em 0;
+  }
+
+  #officers .officer:nth-of-type(3) { margin-right: 0; }
+
+  #board .directors,
+  #board .emeritus-directors {
+    -webkit-column-count: 2;
+    -moz-column-count: 2;
+    column-count: 2;
+  }
 }
 
 @media only screen and (max-width: 750px) {
@@ -1620,6 +1787,18 @@ FOOTER #footnav UL LI A:after {
     font-size: 142.85%;
     padding: 0.9em 1.75em 0.65em;
   }
+
+  .staff-modal .info { font-size: 1.1vw; }
+  
+  .wwd .site-width { width: 100%; }
+  .wwd .image { position: static; width: 100%; height: 400px; }
+  .wwd .text, .wwd.right .text {
+    float: none;
+    width: 100%;
+    text-align: left;
+    width: 96%;
+    margin: 0 auto;
+  }
 }
 
 @media only screen and (max-width: 600px) {
@@ -1694,6 +1873,23 @@ FOOTER #footnav UL LI A:after {
 
   #reports .cycle-slide A:link,
   #reports .cycle-slide A:visited { bottom: 0.3em; }
+
+  .staff { width: 50%; }
+  .staff .staff-content { font-size: 1.8vw; }
+
+  .featherlight .featherlight-close-icon { top: -15px !important; right: -15px !important; }
+
+  .staff-modal .site-width { flex-direction: column; }
+  .staff-modal .info { width: 100%; font-size: 2.8vw; padding: 3em 4% 2em; }
+  .staff-modal .info IMG { max-width: 33%; float: left; margin: 0 3% 0 0; }
+  .staff-modal .bio { width: 100%; padding: 3em 4% 2em; }
+
+  #board .directors,
+  #board .emeritus-directors {
+    -webkit-column-count: 1;
+    -moz-column-count: 1;
+    column-count: 1;
+  }
 }
 
 @media only screen and (max-width: 480px) {
@@ -1738,4 +1934,20 @@ FOOTER #footnav UL LI A:after {
   #reports .cycle-slide IMG { height: auto; max-width: 100%; margin: 2em 0 0; }
 
   #reports .cycle-slide H3 { font-size: 5.9vw; }
+
+  #tabs LABEL { font-size: 6.5vw; }
+
+  .staff { width: 100%; }
+  .staff .staff-content { font-size: 3.2vw; }
+
+  #officers .officer,
+  #officers .officer:nth-of-type(3) {
+    width: 45%;
+    margin-right: 10%;
+  }
+
+  #officers .officer:nth-of-type(2),
+  #officers .officer:nth-of-type(4) { margin-right: 0; }
+
+  #board .line H2 { font-size: 6vw; }
 }

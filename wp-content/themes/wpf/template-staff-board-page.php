@@ -19,9 +19,9 @@ endif;
 <link rel="stylesheet" href="<?php echo get_template_directory_uri(); ?>/inc/featherlight.css?<?php echo filemtime(get_template_directory() . "/inc/featherlight.css"); ?>">
 
 <div id="tabs">
-  <input id="tab1" type="radio" name="tabs">
+  <input id="tab1" type="radio" name="tabs" checked>
   <label for="tab1">Staff</label>
-  <input id="tab2" type="radio" name="tabs" checked>
+  <input id="tab2" type="radio" name="tabs">
   <label for="tab2">Board</label>
 
   <div class="bars">
@@ -171,18 +171,65 @@ endif;
           endwhile;
           ?>
         </div>
+        
+        <div class="line">
+          <div></div>
+          <h2>Board of Directors</h2>
+        </div>
+        
+        <div class="directors">
+          <?php
+          $directors = new WP_Query(array('post_type' => 'fg_board', 'showposts' => -1, 'meta_query' => array(array('key' => 'fg_board_lastname'), array('key'=> 'fg_board_type', 'value'=> 'director')), 'orderby' => array('fg_board_lastname' => 'ASC', 'title' => 'ASC')));
 
-        <?php
-        $directors = new WP_Query(array('post_type' => 'fg_board', 'showposts' => -1, 'meta_query' => array(array('key' => 'fg_board_lastname'), array('key'=> 'fg_board_type', 'value'=> array('officer', 'director'))), 'orderby' => array('fg_board_lastname' => 'ASC')));
+          while($directors->have_posts()) : $directors->the_post();
+            echo '<div class="director">';
+              the_title('<h3>','</h3>');
+              if (get_post_meta(get_the_ID(), 'fg_board_company', true))
+                echo get_post_meta(get_the_ID(), 'fg_board_company', true);
+            echo "</div>";
+          endwhile;
+          ?>
+        </div>
 
-        while($directors->have_posts()) : $directors->the_post();
-          the_title('<h4>','</h4>');
-        endwhile;
-        ?>
+        <div class="line">
+          <div></div>
+          <h2>Emeritus Directors</h2>
+        </div>
+        
+        <div class="emeritus-directors">
+          <?php
+          $emeritus = new WP_Query(array('post_type' => 'fg_board', 'showposts' => -1, 'meta_query' => array(array('key' => 'fg_board_lastname'), array('key'=> 'fg_board_type', 'value'=> 'emeritus')), 'orderby' => array('fg_board_lastname' => 'ASC', 'title' => 'ASC')));
+
+          while($emeritus->have_posts()) : $emeritus->the_post();
+            echo '<div class="emeritus">';
+              the_title('<h3>','</h3>');
+              if (get_post_meta(get_the_ID(), 'fg_board_company', true))
+                echo get_post_meta(get_the_ID(), 'fg_board_company', true);
+            echo "</div>";
+          endwhile;
+          ?>
+        </div>
       </div>
     </div>
   </div>
 </div>
+
+<script type="text/javascript">
+  jQuery(document).ready(function() {
+    function LineWidth() {
+      if (window.innerWidth > 1100) {
+        var Lwidth = jQuery(window).width() - ((jQuery(window).width() - 1100) / 2);
+        jQuery('#board .line > DIV').css('width', Lwidth);
+      }
+    }
+
+    LineWidth();
+
+    jQuery(window).resize(function(){
+      setTimeout(function() { LineWidth(); },100);
+    });
+  });
+</script>
 
 <script src="<?php echo get_template_directory_uri(); ?>/inc/featherlight.min.js"></script>
 

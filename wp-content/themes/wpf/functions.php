@@ -53,6 +53,17 @@ function fg_excerpt($limit, $more = '') {
 }
 
 
+// Remove visual editor on certain pages
+add_filter('user_can_richedit', 'fg_remove_visual_editor');
+function fg_remove_visual_editor($can) {
+  global $post;
+
+  if ($post->ID == 55) return false;
+
+  return $can;
+}
+
+
 ///////////////////
 // ANNUAL REPORTS
 ///////////////////
@@ -369,11 +380,7 @@ function fg_board_metabox_display($post) {
 }
 
 add_action('admin_head', 'fg_board_css');
-function fg_board_css($post) {
-  // $fg_board_type = esc_html(get_post_meta($post->ID, 'fg_board_type', true));
-  $meta = get_post_meta($post->ID);
-
-  $fg_board_type = $meta['fg_board_type'][0];
+function fg_board_css() {
   echo '<style>
     #fg_board_metabox_display_box INPUT[type="text"] { width: 100%; margin: 0.5em 0; padding: 0.32em 8px; box-sizing: border-box; }
     #fg_board_metabox_display_box LABEL { margin-right: 1em; }
@@ -393,5 +400,161 @@ function save_fg_board($post_id) {
 
   if (isset($_POST['fg_board_officer_title']))
     update_post_meta($post_id, 'fg_board_officer_title', $_POST['fg_board_officer_title']);
+}
+
+add_filter('manage_fg_board_posts_columns', 'set_custom_edit_fg_board_columns');
+function set_custom_edit_fg_board_columns($columns) {
+  unset($columns['date']);
+
+  $columns['title'] = "Name";
+  $columns['fg_board_company'] = "Company";
+  $columns['fg_board_type'] = "Section";
+
+  $columns['date'] = "Date";
+
+  return $columns;
+}
+
+add_action('manage_fg_board_posts_custom_column', 'custom_fg_board_column', 10, 2);
+function custom_fg_board_column($column, $post_id) {
+  switch ($column) {
+    case 'fg_board_company':
+      echo get_post_meta($post_id, 'fg_board_company', true);
+      break;
+    case 'fg_board_type':
+      echo ucfirst(get_post_meta($post_id, 'fg_board_type', true));
+      break;
+  }
+}
+
+add_filter('manage_edit-fg_board_sortable_columns', 'set_custom_fg_board_sortable_columns');
+function set_custom_fg_board_sortable_columns($columns) {
+  $columns['fg_board_type'] = 'fg_board_type';
+
+  return $columns;
+}
+
+add_action('pre_get_posts', 'fg_board_custom_orderby');
+function fg_board_custom_orderby($query) {
+  if (!is_admin()) return;
+
+  $orderby = $query->get('orderby');
+
+  if ('fg_board_type' == $orderby) {
+    $query->set('meta_key', 'fg_board_type');
+    $query->set('orderby', 'meta_value');
+  }
+}
+
+
+
+///////////////
+// WHAT WE DO
+///////////////
+add_action('admin_init', 'wwd_page');
+function wwd_page() {
+  $post_id = $_GET['post'] ? $_GET['post'] : $_POST['post_ID'];
+  if ($post_id == 95) {
+    remove_post_type_support('page', 'editor');
+    remove_post_type_support('page', 'thumbnail');
+  }
+}
+
+add_action('add_meta_boxes', 'wwd_page_metabox');
+function wwd_page_metabox() {
+  global $post;
+  if ('template-what-we-do-page.php' == get_post_meta($post->ID, '_wp_page_template', true)) {
+    add_meta_box('wwd_page_metabox_display_box',
+      'Sections',
+      'wwd_page_metabox_display',
+      'page',
+      'normal',
+      'high'
+    );
+  }
+}
+
+function wwd_page_metabox_display($post) {
+  $meta = get_post_meta($post->ID);
+  ?>
+  <h3>Section 1</h3>
+  <input type="text" name="wwd_page_section1_title" placeholder="Section 1 Title" value="<?php if (isset($meta['wwd_page_section1_title'])) echo $meta['wwd_page_section1_title'][0]; ?>">
+  <?php
+  wp_editor(get_post_meta($post->ID, 'wwd_page_section1_text', true), 'wwd_page_section1_text', array('textarea_rows' => 5));
+  ?>
+  <input type="text" name="wwd_page_section1_image" id="wwd_page_section1_image" class="wwd_page_image" value="<?php if (isset($meta['wwd_page_section1_image'])) echo $meta['wwd_page_section1_image'][0]; ?>">
+  <input type="button" id="wwd_page_section1_image_button" class="button" value="Add/Edit Image">
+
+  <hr>
+
+  <h3>Section 2</h3>
+  <input type="text" name="wwd_page_section2_title" placeholder="Section 2 Title" value="<?php if (isset($meta['wwd_page_section2_title'])) echo $meta['wwd_page_section2_title'][0]; ?>">
+  <?php
+  wp_editor(get_post_meta($post->ID, 'wwd_page_section2_text', true), 'wwd_page_section2_text', array('textarea_rows' => 5));
+  ?>
+  <input type="text" name="wwd_page_section2_image" id="wwd_page_section2_image" class="wwd_page_image" value="<?php if (isset($meta['wwd_page_section2_image'])) echo $meta['wwd_page_section2_image'][0]; ?>">
+  <input type="button" id="wwd_page_section2_image_button" class="button" value="Add/Edit Image">
+
+  <hr>
+
+  <h3>Section 3</h3>
+  <input type="text" name="wwd_page_section3_title" placeholder="Section 3 Title" value="<?php if (isset($meta['wwd_page_section3_title'])) echo $meta['wwd_page_section3_title'][0]; ?>">
+  <?php
+  wp_editor(get_post_meta($post->ID, 'wwd_page_section3_text', true), 'wwd_page_section3_text', array('textarea_rows' => 5));
+  ?>
+  <input type="text" name="wwd_page_section3_image" id="wwd_page_section3_image" class="wwd_page_image" value="<?php if (isset($meta['wwd_page_section3_image'])) echo $meta['wwd_page_section3_image'][0]; ?>">
+  <input type="button" id="wwd_page_section3_image_button" class="button" value="Add/Edit Image">
+
+  <script>
+    function WWDimage($image_id) {
+      var send_attachment_bkp = wp.media.editor.send.attachment;
+      wp.media.editor.send.attachment = function(props, attachment) {
+        jQuery($image_id).val(attachment.url);
+        wp.media.editor.send.attachment = send_attachment_bkp;
+      }
+      wp.media.editor.open();
+      return false;
+    }
+
+    jQuery('#wwd_page_section1_image_button').click(function(){ WWDimage("#wwd_page_section1_image");});
+    jQuery('#wwd_page_section2_image_button').click(function(){ WWDimage("#wwd_page_section2_image");});
+    jQuery('#wwd_page_section3_image_button').click(function(){ WWDimage("#wwd_page_section3_image");});
+  </script>
+  <?php
+}
+
+add_action('admin_head', 'wwd_page_css');
+function wwd_page_css() {
+  echo '<style>
+    #wwd_page_metabox_display_box H3 { margin: 0 0 0.5em; }
+    #wwd_page_metabox_display_box .wp-editor-wrap { margin: 1em 0 2em; }
+    #wwd_page_metabox_display_box INPUT[type="text"] { width: 100%; padding: 0.32em 8px; box-sizing: border-box; }
+    #wwd_page_metabox_display_box INPUT[type="text"].wwd_page_image { width: 85%; margin-right: 0.75em; }
+    #wwd_page_metabox_display_box HR { margin: 3em 0 2.5em; border-top: 1px dashed #000000; }
+  </style>';
+}
+
+add_action('save_post', 'save_wwd_page');
+function save_wwd_page($post_id) {
+  if (isset($_POST['wwd_page_section1_title']))
+    update_post_meta($post_id, 'wwd_page_section1_title', $_POST['wwd_page_section1_title']);
+  if (isset($_POST['wwd_page_section1_text']))
+    update_post_meta($post_id, 'wwd_page_section1_text', $_POST['wwd_page_section1_text']);
+  if (isset($_POST['wwd_page_section1_image']))
+    update_post_meta($post_id, 'wwd_page_section1_image', $_POST['wwd_page_section1_image']);
+
+  if (isset($_POST['wwd_page_section2_title']))
+    update_post_meta($post_id, 'wwd_page_section2_title', $_POST['wwd_page_section2_title']);
+  if (isset($_POST['wwd_page_section2_text']))
+    update_post_meta($post_id, 'wwd_page_section2_text', $_POST['wwd_page_section2_text']);
+  if (isset($_POST['wwd_page_section2_image']))
+    update_post_meta($post_id, 'wwd_page_section2_image', $_POST['wwd_page_section2_image']);
+
+  if (isset($_POST['wwd_page_section3_title']))
+    update_post_meta($post_id, 'wwd_page_section3_title', $_POST['wwd_page_section3_title']);
+  if (isset($_POST['wwd_page_section3_text']))
+    update_post_meta($post_id, 'wwd_page_section3_text', $_POST['wwd_page_section3_text']);
+  if (isset($_POST['wwd_page_section3_image']))
+    update_post_meta($post_id, 'wwd_page_section3_image', $_POST['wwd_page_section3_image']);
 }
 ?>

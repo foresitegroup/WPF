@@ -88,7 +88,7 @@ endif;
 
   <div id="publication">
     <div id="publication-info">
-      <img src="images/2017-03.jpg" alt="">
+      <img src="http://wpf.foresitegrp.webfactional.com/images/2017-03.jpg" alt="">
 
       <div>
         <h2>The Last Mile:</h2>
