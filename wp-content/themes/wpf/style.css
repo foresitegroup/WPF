@@ -1536,7 +1536,7 @@ FOOTER #footnav UL LI A:after {
 
   #ep #publication { padding-left: 5%; padding-right: 5%; }
 
-  #ep #publication #publication-info { align-items: start; }
+  #ep #publication #publication-info { align-items: flex-start; }
 
   .staff .staff-content { font-size: 1vw; }
 
@@ -1547,7 +1547,7 @@ FOOTER #footnav UL LI A:after {
 @media only screen and (max-width: 900px) {
   #logo { height: auto; width: 55%; }
   #logo IMG {
-    max-height: auto;
+    max-height: none;
     max-width: 100%;
     height: auto;
   }
@@ -1794,9 +1794,8 @@ FOOTER #footnav UL LI A:after {
   .wwd .image { position: static; width: 100%; height: 400px; }
   .wwd .text, .wwd.right .text {
     float: none;
-    width: 100%;
-    text-align: left;
     width: 96%;
+    text-align: left;
     margin: 0 auto;
   }
 }
@@ -1834,9 +1833,9 @@ FOOTER #footnav UL LI A:after {
     -webkit-column-count: 3;
     -moz-column-count: 3;
     column-count: 3;
-    -webkit-column-gap: auto;
-    -moz-column-gap: auto;
-    column-gap: auto;
+    -webkit-column-gap: normal;
+    -moz-column-gap: normal;
+    column-gap: normal;
   }
 
   #hero:before { padding-top: 75%; }

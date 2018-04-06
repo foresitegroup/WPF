@@ -69,48 +69,28 @@ function fg_remove_visual_editor($can) {
 ///////////////////
 add_action('init', 'annual_reports');
 function annual_reports() {
-  register_post_type('annual_reports',
-    array(
+  register_post_type('annual_reports', array(
       'labels' => array(
         'name' => 'Annual Reports',
         'singular_name' => 'Annual Report',
-        'add_new' => 'Add New',
         'add_new_item' => 'Add New Annual Report',
-        'edit' => 'Edit',
         'edit_item' => 'Edit Annual Report',
-        'new_item' => 'New Annual Report',
-        'view' => 'View',
-        'view_item' => 'View Annual Report',
         'search_items' => 'Search Annual Reports',
-        'not_found' => 'No Annual Reports found',
-        'not_found_in_trash' => 'No Annual Reports found in Trash',
-        'parent' => 'Parent Annual Report'
+        'not_found' => 'No Annual Reports found'
       ),
-
-      'public' => false,
       'show_ui' => true,
-      'show_in_menu' => true,
       'menu_position' => 50,
-      'supports' => array('title','editor','thumbnail'),
-      'taxonomies' => array(''),
       'menu_icon' => 'dashicons-analytics',
-      'has_archive' => true
-    )
-  );
+      'supports' => array('title','editor','thumbnail')
+  ));
 }
 
-add_action('add_meta_boxes', 'annual_reports_metabox');
-function annual_reports_metabox() {
-  add_meta_box('annual_reports_metabox_display_box',
-    'Annual Report PDF',
-    'annual_reports_metabox_display',
-    'annual_reports',
-    'normal',
-    'high'
-  );
+add_action('add_meta_boxes', 'annual_reports_mb');
+function annual_reports_mb() {
+  add_meta_box('annual_reports_mb', 'Annual Report PDF', 'annual_reports_mb_content', 'annual_reports', 'normal');
 }
 
-function annual_reports_metabox_display($post) {
+function annual_reports_mb_content($post) {
   $ar_meta = get_post_meta($post->ID);
   ?>
   
@@ -140,8 +120,8 @@ function annual_reports_css() {
   </style>';
 }
 
-add_action('save_post', 'save_annual_reports');
-function save_annual_reports($post_id) {
+add_action('save_post', 'annual_reports_save');
+function annual_reports_save($post_id) {
   if (isset($_POST['annual_report_pdf']))
     update_post_meta($post_id, 'annual_report_pdf', $_POST['annual_report_pdf']);
 }
@@ -152,45 +132,20 @@ function save_annual_reports($post_id) {
 //////////
 add_action('init', 'fg_staff');
 function fg_staff() {
-  register_post_type('fg_staff',
-    array(
-      'labels' => array(
-        'name' => 'Staff',
-        'singular_name' => 'Staff',
-        'add_new' => 'Add New',
-        'add_new_item' => 'Add New Staff',
-        'edit' => 'Edit',
-        'edit_item' => 'Edit Staff',
-        'new_item' => 'New Staff',
-        'view' => 'View',
-        'view_item' => 'View Staff',
-        'search_items' => 'Search Staff',
-        'not_found' => 'No Staff found',
-        'not_found_in_trash' => 'No Staff found in Trash',
-        'parent' => 'Parent Staff'
-      ),
-
-      'public' => false,
-      'show_ui' => true,
-      'show_in_menu' => true,
-      'menu_position' => 50,
-      'supports' => array('title','editor','thumbnail'),
-      'taxonomies' => array(''),
-      'menu_icon' => 'dashicons-businessman',
-      'has_archive' => true
-    )
-  );
-}
-
-add_action('add_meta_boxes', 'fg_staff_metabox');
-function fg_staff_metabox() {
-  add_meta_box('fg_staff_metabox_display_box',
-    'Additional Information',
-    'fg_staff_metabox_display',
-    'fg_staff',
-    'normal',
-    'high'
-  );
+  register_post_type('fg_staff', array(
+    'labels' => array(
+      'name' => 'Staff',
+      'singular_name' => 'Staff',
+      'add_new_item' => 'Add New Staff',
+      'edit_item' => 'Edit Staff',
+      'search_items' => 'Search Staff',
+      'not_found' => 'No Staff found'
+    ),
+    'show_ui' => true,
+    'menu_position' => 50,
+    'menu_icon' => 'dashicons-businessman',
+    'supports' => array('title','editor','thumbnail')
+  ));
 }
 
 add_filter('enter_title_here', 'fg_staff_title');
@@ -199,7 +154,12 @@ function fg_staff_title($input) {
   return $input;
 }
 
-function fg_staff_metabox_display($post) {
+add_action('add_meta_boxes', 'fg_staff_mb');
+function fg_staff_mb() {
+  add_meta_box('fg_staff_mb', 'Additional Information', 'fg_staff_mb_content', 'fg_staff', 'normal');
+}
+
+function fg_staff_mb_content($post) {
   $meta = get_post_meta($post->ID);
   ?>
   <input type="text" name="fg_staff_position" placeholder="Title/Position" value="<?php if (isset($meta['fg_staff_position'])) echo $meta['fg_staff_position'][0]; ?>">
@@ -212,7 +172,7 @@ function fg_staff_metabox_display($post) {
 add_action('admin_head', 'fg_staff_css');
 function fg_staff_css() {
   echo '<style>
-    #fg_staff_metabox_display_box INPUT { width: 100%; margin: 0.5em 0; padding: 0.32em 8px; box-sizing: border-box; }
+    #fg_staff_mb INPUT { width: 100%; margin: 0.5em 0; padding: 0.32em 8px; box-sizing: border-box; }
     .column-fg_staff_email { width: 25%; }
     .column-fg_staff_phone { width: 15%; }
     .column-fg_staff_extension { width: 10%; }
@@ -220,8 +180,8 @@ function fg_staff_css() {
   </style>';
 }
 
-add_action('save_post', 'save_fg_staff');
-function save_fg_staff($post_id) {
+add_action('save_post', 'fg_staff_save');
+function fg_staff_save($post_id) {
   if (isset($_POST['fg_staff_position']))
     update_post_meta($post_id, 'fg_staff_position', $_POST['fg_staff_position']);
   if (isset($_POST['fg_staff_email']))
@@ -279,34 +239,20 @@ function custom_fg_staff_sortable_columns($column) {
 //////////
 add_action('init', 'fg_board');
 function fg_board() {
-  register_post_type('fg_board',
-    array(
+  register_post_type('fg_board', array(
       'labels' => array(
         'name' => 'Board',
         'singular_name' => 'Board',
-        'add_new' => 'Add New',
         'add_new_item' => 'Add New Board',
-        'edit' => 'Edit',
         'edit_item' => 'Edit Board',
-        'new_item' => 'New Board',
-        'view' => 'View',
-        'view_item' => 'View Board',
         'search_items' => 'Search Board',
-        'not_found' => 'No Board found',
-        'not_found_in_trash' => 'No Board found in Trash',
-        'parent' => 'Parent Board'
+        'not_found' => 'No Board found'
       ),
-
-      'public' => false,
       'show_ui' => true,
-      'show_in_menu' => true,
       'menu_position' => 50,
-      'supports' => array('title','thumbnail'),
-      'taxonomies' => array(''),
       'menu_icon' => 'dashicons-groups',
-      'has_archive' => true
-    )
-  );
+      'supports' => array('title','thumbnail')
+  ));
 }
 
 add_filter('enter_title_here', 'fg_board_title');
@@ -315,18 +261,12 @@ function fg_board_title($input) {
   return $input;
 }
 
-add_action('add_meta_boxes', 'fg_board_metabox');
-function fg_board_metabox() {
-  add_meta_box('fg_board_metabox_display_box',
-    'Additional Information',
-    'fg_board_metabox_display',
-    'fg_board',
-    'normal',
-    'high'
-  );
+add_action('add_meta_boxes', 'fg_board_mb');
+function fg_board_mb() {
+  add_meta_box('fg_board_mb', 'Additional Information', 'fg_board_mb_content', 'fg_board', 'normal');
 }
 
-function fg_board_metabox_display($post) {
+function fg_board_mb_content($post) {
   $meta = get_post_meta($post->ID);
 
   $fg_board_type = $meta['fg_board_type'][0];
@@ -382,13 +322,13 @@ function fg_board_metabox_display($post) {
 add_action('admin_head', 'fg_board_css');
 function fg_board_css() {
   echo '<style>
-    #fg_board_metabox_display_box INPUT[type="text"] { width: 100%; margin: 0.5em 0; padding: 0.32em 8px; box-sizing: border-box; }
-    #fg_board_metabox_display_box LABEL { margin-right: 1em; }
+    #fg_board_mb INPUT[type="text"] { width: 100%; margin: 0.5em 0; padding: 0.32em 8px; box-sizing: border-box; }
+    #fg_board_mb LABEL { margin-right: 1em; }
   </style>';
 }
 
-add_action('save_post', 'save_fg_board');
-function save_fg_board($post_id) {
+add_action('save_post', 'fg_board_save');
+function fg_board_save($post_id) {
   if (isset($_POST['fg_board_lastname']))
     update_post_meta($post_id, 'fg_board_lastname', $_POST['fg_board_lastname']);
 
@@ -430,7 +370,6 @@ function custom_fg_board_column($column, $post_id) {
 add_filter('manage_edit-fg_board_sortable_columns', 'set_custom_fg_board_sortable_columns');
 function set_custom_fg_board_sortable_columns($columns) {
   $columns['fg_board_type'] = 'fg_board_type';
-
   return $columns;
 }
 
@@ -440,7 +379,7 @@ function fg_board_custom_orderby($query) {
 
   $orderby = $query->get('orderby');
 
-  if ('fg_board_type' == $orderby) {
+  if ($orderby == 'fg_board_type') {
     $query->set('meta_key', 'fg_board_type');
     $query->set('orderby', 'meta_value');
   }
@@ -460,21 +399,15 @@ function wwd_page() {
   }
 }
 
-add_action('add_meta_boxes', 'wwd_page_metabox');
-function wwd_page_metabox() {
+add_action('add_meta_boxes', 'wwd_page_mb');
+function wwd_page_mb() {
   global $post;
   if ('template-what-we-do-page.php' == get_post_meta($post->ID, '_wp_page_template', true)) {
-    add_meta_box('wwd_page_metabox_display_box',
-      'Sections',
-      'wwd_page_metabox_display',
-      'page',
-      'normal',
-      'high'
-    );
+    add_meta_box('wwd_page_mb', 'Sections', 'wwd_page_mb_content', '', 'normal');
   }
 }
 
-function wwd_page_metabox_display($post) {
+function wwd_page_mb_content($post) {
   $meta = get_post_meta($post->ID);
   ?>
   <h3>Section 1</h3>
@@ -526,16 +459,16 @@ function wwd_page_metabox_display($post) {
 add_action('admin_head', 'wwd_page_css');
 function wwd_page_css() {
   echo '<style>
-    #wwd_page_metabox_display_box H3 { margin: 0 0 0.5em; }
-    #wwd_page_metabox_display_box .wp-editor-wrap { margin: 1em 0 2em; }
-    #wwd_page_metabox_display_box INPUT[type="text"] { width: 100%; padding: 0.32em 8px; box-sizing: border-box; }
-    #wwd_page_metabox_display_box INPUT[type="text"].wwd_page_image { width: 85%; margin-right: 0.75em; }
-    #wwd_page_metabox_display_box HR { margin: 3em 0 2.5em; border-top: 1px dashed #000000; }
+    #wwd_page_mb H3 { margin: 0 0 0.5em; }
+    #wwd_page_mb .wp-editor-wrap { margin: 1em 0 2em; }
+    #wwd_page_mb INPUT[type="text"] { width: 100%; padding: 0.32em 8px; box-sizing: border-box; }
+    #wwd_page_mb INPUT[type="text"].wwd_page_image { width: 85%; margin-right: 0.75em; }
+    #wwd_page_mb HR { margin: 3em 0 2.5em; border-top: 1px dashed #000000; }
   </style>';
 }
 
-add_action('save_post', 'save_wwd_page');
-function save_wwd_page($post_id) {
+add_action('save_post', 'wwd_page_save');
+function wwd_page_save($post_id) {
   if (isset($_POST['wwd_page_section1_title']))
     update_post_meta($post_id, 'wwd_page_section1_title', $_POST['wwd_page_section1_title']);
   if (isset($_POST['wwd_page_section1_text']))
@@ -556,5 +489,199 @@ function save_wwd_page($post_id) {
     update_post_meta($post_id, 'wwd_page_section3_text', $_POST['wwd_page_section3_text']);
   if (isset($_POST['wwd_page_section3_image']))
     update_post_meta($post_id, 'wwd_page_section3_image', $_POST['wwd_page_section3_image']);
+}
+
+
+/////////////
+// RESEARCH
+/////////////
+add_action('init', 'fg_research');
+function fg_research() {
+  register_post_type('fg_research', array(
+      'labels' => array(
+        'name' => 'Research',
+        'singular_name' => 'Research',
+        'add_new_item' => 'Add New Research',
+        'edit_item' => 'Edit Research',
+        'search_items' => 'Search Research',
+        'not_found' => 'No Research found'
+      ),
+      'show_ui' => true,
+      'menu_position' => 50,
+      'menu_icon' => 'dashicons-chart-pie',
+      'supports' => array('title', 'editor','thumbnail'),
+      'taxonomies' => array('research-category', 'research-post_tags')
+  ));
+}
+
+function fg_research_create_taxonomy() {
+  register_taxonomy('research-category', 'fg_research',
+    array(
+      'label' => 'Category',
+      'rewrite' => array('slug' => 'research-category'),
+      'hierarchical' => true
+    )
+  );
+
+  register_taxonomy('research-post_tags', 'fg_research',
+    array(
+      'label' => 'Tags',
+      'rewrite' => array('slug' => 'research-post_tags')
+    )
+  );
+}
+add_action('init', 'fg_research_create_taxonomy');
+
+add_action('add_meta_boxes', 'fg_research_mb');
+function fg_research_mb() {
+  add_meta_box('fg_research_mb', 'Links', 'fg_research_mb_content', 'fg_research', 'normal');
+  add_meta_box('fg_research_mb_media', 'Media Coverage', 'fg_research_mb_media_content', 'fg_research', 'normal');
+}
+
+function get_current_post_type() {
+  global $post, $typenow, $current_screen;
+  
+  //we have a post so we can just get the post type from that
+  if ( $post && $post->post_type )
+    return $post->post_type;
+    
+  //check the global $typenow - set in admin.php
+  elseif( $typenow )
+    return $typenow;
+    
+  //check the global $current_screen object - set in sceen.php
+  elseif( $current_screen && $current_screen->post_type )
+    return $current_screen->post_type;
+  
+  //lastly check the post_type querystring
+  elseif( isset( $_REQUEST['post_type'] ) )
+    return sanitize_key( $_REQUEST['post_type'] );
+  
+  //we do not know the post type!
+  return null;
+}
+
+
+// Place subtitle input after the title
+add_action('edit_form_after_title', 'fg_research_subtitle');
+function fg_research_subtitle($post) {
+  if (get_post_type() == 'fg_research') {
+    $meta = get_post_meta($post->ID);
+    echo '<input type="text" name="fg_research_subtitle" placeholder="Enter subtitle here" value="';
+    if (isset($meta['fg_research_subtitle'])) echo $meta['fg_research_subtitle'][0];
+    echo '" id="fg_research_subtitle">';
+  }
+}
+
+function fg_research_mb_content($post) {
+  $meta = get_post_meta($post->ID);
+  ?>
+  <input type="text" name="fg_research_full_report" placeholder="Full Report" id="fg_research_full_report" class="with_button" value="<?php if (isset($meta['fg_research_full_report'])) echo $meta['fg_research_full_report'][0]; ?>">
+  <input type="button" id="fg_research_full_report_button" class="button" value="Add/Edit PDF">
+
+  <input type="text" name="fg_research_executive_summary" placeholder="Executive Summary" id="fg_research_executive_summary" class="with_button" value="<?php if (isset($meta['fg_research_executive_summary'])) echo $meta['fg_research_executive_summary'][0]; ?>">
+  <input type="button" id="fg_research_executive_summary_button" class="button" value="Add/Edit PDF">
+
+  <input type="text" name="fg_research_blog" placeholder="Blog (Full URL to page)" value="<?php if (isset($meta['fg_research_blog'])) echo $meta['fg_research_blog'][0]; ?>">
+
+  <input type="text" name="fg_research_press_release" placeholder="Press Release" id="fg_research_press_release" class="with_button" value="<?php if (isset($meta['fg_research_press_release'])) echo $meta['fg_research_press_release'][0]; ?>">
+  <input type="button" id="fg_research_press_release_button" class="button" value="Add/Edit PDF">
+
+  <input type="text" name="fg_research_video" placeholder="Video Summary (URL to YouTube or Vimeo page)" value="<?php if (isset($meta['fg_research_video'])) echo $meta['fg_research_video'][0]; ?>">
+  
+  <script>
+    function WWDimage($image_id) {
+      var send_attachment_bkp = wp.media.editor.send.attachment;
+      wp.media.editor.send.attachment = function(props, attachment) {
+        jQuery($image_id).val(attachment.url);
+        wp.media.editor.send.attachment = send_attachment_bkp;
+      }
+      wp.media.editor.open();
+      return false;
+    }
+
+    jQuery('#fg_research_full_report_button').click(function(){ WWDimage("#fg_research_full_report");});
+    jQuery('#fg_research_executive_summary_button').click(function(){ WWDimage("#fg_research_executive_summary");});
+    jQuery('#fg_research_press_release_button').click(function(){ WWDimage("#fg_research_press_release");});
+  </script>
+  <?php
+}
+
+function fg_research_mb_media_content($post) {
+  $meta = get_post_meta($post->ID);
+  ?>
+  <div class="fg_research_mb_media_fields_wrap">
+    <div class="fg_research_mb_media_fields">
+      <input type="text" name="fg_research_media_title_1" placeholder="Title 1" value="<?php if (isset($meta['fg_research_media_title_1'])) echo $meta['fg_research_media_title_1'][0]; ?>">
+      <input type="text" name="fg_research_media_link_1" placeholder="Link 1" value="<?php if (isset($meta['fg_research_media_link_1'])) echo $meta['fg_research_media_link_1'][0]; ?>">
+      <input type="text" name="fg_research_media_source_1" placeholder="Source 1" value="<?php if (isset($meta['fg_research_media_source_1'])) echo $meta['fg_research_media_source_1'][0]; ?>">
+    </div>
+
+    <?php
+    for ($i = 2; $i <= 19; $i++) {
+      if (array_key_exists('fg_research_media_title_'.$i, $meta) || array_key_exists('fg_research_media_link_'.$i, $meta) || array_key_exists('fg_research_media_source_'.$i, $meta)) {
+        ?>
+        <hr>
+        <div class="fg_research_mb_media_fields">
+          <input type="text" name="fg_research_media_title_<?php echo $i; ?>" placeholder="Title <?php echo $i; ?>" value="<?php if (isset($meta['fg_research_media_title_'.$i])) echo $meta['fg_research_media_title_'.$i][0]; ?>">
+          <input type="text" name="fg_research_media_link_<?php echo $i; ?>" placeholder="Link <?php echo $i; ?>" value="<?php if (isset($meta['fg_research_media_link_'.$i])) echo $meta['fg_research_media_link_'.$i][0]; ?>">
+          <input type="text" name="fg_research_media_source_<?php echo $i; ?>" placeholder="source <?php echo $i; ?>" value="<?php if (isset($meta['fg_research_media_source_'.$i])) echo $meta['fg_research_media_source_'.$i][0]; ?>">
+        </div>
+        <?php
+      }
+    }
+    ?>
+  </div>
+
+  <input type="button" class="button add-another" value="Add Another">
+
+  <script>
+    var i = $('.fg_research_mb_media_fields_wrap .fg_research_mb_media_fields').size() + 1;
+
+    $(".add-another").click(function(e){
+      e.preventDefault();
+      $(".fg_research_mb_media_fields_wrap").append('<hr><div class="fg_research_mb_media_fields"><input type="text" name="fg_research_media_title_'+i+'" placeholder="Title '+i+'"><input type="text" name="fg_research_media_link_'+i+'" placeholder="Link '+i+'"><input type="text" name="fg_research_media_source_'+i+'" placeholder="Source '+i+'"></div>');
+      i++;
+    });
+  </script>
+  <?php
+}
+
+add_action('admin_head', 'fg_research_css');
+function fg_research_css() {
+  echo '<style>
+    #fg_research_subtitle { padding: 3px 8px; font-size: 1.7em; line-height: 100%; height: 1.7em; width: 100%; outline: 0; }
+    #fg_research_mb INPUT[type="text"], #fg_research_mb_media INPUT[type="text"] { width: 100%; padding: 0.32em 8px; box-sizing: border-box; margin: 0.5em 0; }
+    #fg_research_mb INPUT[type="text"].with_button { width: 87%; margin-right: 0.75em; }
+    #fg_research_mb .button { margin: 0.5em 0; }
+    #fg_research_mb_media HR { border-top: 1px dotted #000000; }
+    #fg_research_mb_media .add-another { margin-top: 1em; }
+  </style>';
+}
+
+add_action('save_post', 'fg_research_save');
+function fg_research_save($post_id) {
+  if (isset($_POST['fg_research_subtitle']))
+    update_post_meta($post_id, 'fg_research_subtitle', $_POST['fg_research_subtitle']);
+
+  if (isset($_POST['fg_research_full_report']))
+    update_post_meta($post_id, 'fg_research_full_report', $_POST['fg_research_full_report']);
+  if (isset($_POST['fg_research_executive_summary']))
+    update_post_meta($post_id, 'fg_research_executive_summary', $_POST['fg_research_executive_summary']);
+  if (isset($_POST['fg_research_blog']))
+    update_post_meta($post_id, 'fg_research_blog', $_POST['fg_research_blog']);
+  if (isset($_POST['fg_research_press_release']))
+    update_post_meta($post_id, 'fg_research_press_release', $_POST['fg_research_press_release']);
+  if (isset($_POST['fg_research_video']))
+    update_post_meta($post_id, 'fg_research_video', $_POST['fg_research_video']);
+
+  for ($i = 1; $i <= 20; $i++) {
+    if (isset($_POST['fg_research_media_title_'.$i]))
+      update_post_meta($post_id, 'fg_research_media_title_'.$i, $_POST['fg_research_media_title_'.$i]);
+    if (isset($_POST['fg_research_media_link_'.$i]))
+      update_post_meta($post_id, 'fg_research_media_link_'.$i, $_POST['fg_research_media_link_'.$i]);
+    if (isset($_POST['fg_research_media_source_'.$i]))
+      update_post_meta($post_id, 'fg_research_media_source_'.$i, $_POST['fg_research_media_source_'.$i]);
+  }
 }
 ?>
