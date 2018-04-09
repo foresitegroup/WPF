@@ -18,7 +18,7 @@ function filter_ptags_on_images($content){
 
 
 // Wrap video embed code in DIV for responsive goodness
-add_filter( 'embed_oembed_html', 'my_oembed_filter', 10, 4 ) ;
+add_filter('embed_oembed_html', 'my_oembed_filter', 10, 4);
 function my_oembed_filter($html, $url, $attr, $post_ID) {
   $return = '<div class="video">'.$html.'</div>';
   return $return;
@@ -497,7 +497,7 @@ function wwd_page_save($post_id) {
 /////////////
 add_action('init', 'fg_research');
 function fg_research() {
-  register_post_type('fg_research', array(
+  register_post_type('research', array(
       'labels' => array(
         'name' => 'Research',
         'singular_name' => 'Research',
@@ -510,32 +510,23 @@ function fg_research() {
       'menu_position' => 50,
       'menu_icon' => 'dashicons-chart-pie',
       'supports' => array('title', 'editor','thumbnail'),
-      'taxonomies' => array('research-category', 'research-post_tags')
+      'taxonomies' => array('research-category', 'research-post_tags'),
+      'has_archive' => true,
+      'public' => true
   ));
 }
 
 function fg_research_create_taxonomy() {
-  register_taxonomy('research-category', 'fg_research',
-    array(
-      'label' => 'Category',
-      'rewrite' => array('slug' => 'research-category'),
-      'hierarchical' => true
-    )
-  );
+  register_taxonomy('research-category', 'research', array('label' => 'Category', 'hierarchical' => true));
 
-  register_taxonomy('research-post_tags', 'fg_research',
-    array(
-      'label' => 'Tags',
-      'rewrite' => array('slug' => 'research-post_tags')
-    )
-  );
+  register_taxonomy('research-post_tags', 'research', array('label' => 'Tags'));
 }
 add_action('init', 'fg_research_create_taxonomy');
 
 add_action('add_meta_boxes', 'fg_research_mb');
 function fg_research_mb() {
-  add_meta_box('fg_research_mb', 'Links', 'fg_research_mb_content', 'fg_research', 'normal');
-  add_meta_box('fg_research_mb_media', 'Media Coverage', 'fg_research_mb_media_content', 'fg_research', 'normal');
+  add_meta_box('fg_research_mb', 'Links', 'fg_research_mb_content', 'research', 'normal');
+  add_meta_box('fg_research_mb_media', 'Media Coverage', 'fg_research_mb_media_content', 'research', 'normal');
 }
 
 function get_current_post_type() {
@@ -565,7 +556,7 @@ function get_current_post_type() {
 // Place subtitle input after the title
 add_action('edit_form_after_title', 'fg_research_subtitle');
 function fg_research_subtitle($post) {
-  if (get_post_type() == 'fg_research') {
+  if (get_post_type() == 'research') {
     $meta = get_post_meta($post->ID);
     echo '<input type="text" name="fg_research_subtitle" placeholder="Enter subtitle here" value="';
     if (isset($meta['fg_research_subtitle'])) echo $meta['fg_research_subtitle'][0];

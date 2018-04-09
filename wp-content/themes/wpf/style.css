@@ -66,6 +66,24 @@ A:hover, A:active {
 
 P { margin: 0 0 1.5em; }
 
+.video {
+  position: relative;
+  padding-bottom: 56.25%;
+  height: 0;
+  overflow: hidden;
+  max-width: 100%;
+}
+ 
+.video iframe,
+.video object,
+.video embed {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
 .site-width {
   width: 1100px;
   margin: 0 auto;
@@ -1432,6 +1450,195 @@ FOOTER #footnav UL LI A:after {
   color: #24A9E0;
 }
 
+/************/
+/* RESEARCH */
+/************/
+#research-single-banner {
+  padding: 2.5em 0 2.25em;
+  background: #EBEBEB;
+  color: #8C8C8C;
+  font-family: 'Geometos', sans-serif;
+  font-weight: 400;
+  font-size: 100%;
+  line-height: 1em;
+}
+
+#research-single-banner .category {
+  font-size: 85.71%;
+  line-height: 1em;
+}
+
+#research-single-banner .category A:link,
+#research-single-banner .category A:visited {
+  color: #24A9E0;
+  text-decoration: none;
+}
+
+#research-single-banner .category A:hover,
+#research-single-banner .category A:active {
+  color: #1C305B;
+  text-decoration: none;
+}
+
+#research-single-banner H1 {
+  margin: 0.3em 0 0;
+  color: #1C305B;
+  font-weight: 400;
+  font-size: 314.28%;
+  line-height: 1em;
+}
+
+#research-single-banner H2 {
+  margin: 0 0 0.45em;
+  color: #24A9E0;
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 600;
+  font-style: italic;
+  font-size: 128.57%;
+  line-height: 1em;
+  position: relative;
+  top: -0.3em;
+}
+
+#research-single-banner H3 {
+  margin: 0 0 0.25em;
+  color: #1C305B;
+  font-weight: 400;
+  font-size: 100%;
+  line-height: 1em;
+}
+
+#research-single-banner .view A:link,
+#research-single-banner .view A:visited {
+  color: #1C305B;
+  text-decoration: underline;
+}
+
+#research-single-banner .view A:hover,
+#research-single-banner .view A:active {
+  color: #24A9E0;
+  text-decoration: underline;
+}
+
+#research-single-banner .view A:before {
+  content: "";
+  display: inline-block;
+  position: relative;
+  top: 0.4em;
+  height: 1.5em;
+  width: 1em;
+  margin-left: 1em;
+  border-left: 2px solid #8C8C8C;
+}
+
+#research-single-banner .view A:first-of-type:before {
+  width: 0.5em;
+  margin-left: 0;
+  border-left: 0;
+}
+
+.with-video {
+  background-image: linear-gradient(to right, transparent 66%, #1C305B 66%);
+  position: relative;
+  margin-bottom: 3em;
+}
+
+.with-video .cover {
+  width: 29.81%;
+  box-shadow: 0 0 40px 0 rgba(0,0,0,0.5);
+  position: relative;
+  z-index: 5;
+}
+
+.with-video .cover IMG {
+  max-width: 100%;
+  height: auto;
+}
+
+.with-video .video-box {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+}
+
+.with-video .video-box .site-width {
+  display: inherit;
+  justify-content: flex-end;
+}
+
+.with-video .video-box .site-width .video-wrap {
+  width: 62.72%;
+  box-sizing: border-box;
+  padding: 0 1em 0 5em;
+  background: #1C305B;
+  color: #FFFFFF;
+  position: relative;
+}
+
+.with-video .video-box .site-width .video-wrap H4 {
+  position: absolute;
+  top: 50%;
+  left: 1.75em;
+  z-index: 10;
+  margin: 0;
+  font-family: 'Geometos', sans-serif;
+  font-weight: 400;
+  font-size: 17px;
+  line-height: 1em;
+  -webkit-transform: rotateZ(-90deg) translateX(-50%);
+  -ms-transform: rotateZ(-90deg) translateX(-50%);
+  transform: rotateZ(-90deg) translateX(-50%);
+  -webkit-transform-origin: top left;
+  -ms-transform-origin: top left;
+  transform-origin: top left;
+}
+
+.with-video .video-box .site-width .video-wrap .video {
+  position: relative;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+
+
+.content-with-video {
+  position: relative;
+}
+
+.content-with-video .media {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-image: linear-gradient(to right, #EBEBEB 30%, transparent 30%);
+  color: #1C305B;
+}
+
+.content-with-video .media-coverage {
+  width: 29.81%;
+  background: #EBEBEB;
+  font-size: 16px;
+  line-height: 1.3em;
+}
+
+.content-with-video .media-coverage H4 {
+  margin: 0;
+  font-family: 'Geometos', sans-serif;
+  font-weight: 400;
+  font-size: 125%;
+  line-height: 1em;
+}
+
+.content-with-video .content {
+  float: right;
+  width: 62.72%;
+  position: relative;
+  z-index: 10;
+}
 
 
 
