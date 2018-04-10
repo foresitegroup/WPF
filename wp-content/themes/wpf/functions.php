@@ -510,7 +510,7 @@ function fg_research() {
       'menu_position' => 50,
       'menu_icon' => 'dashicons-chart-pie',
       'supports' => array('title', 'editor','thumbnail'),
-      'taxonomies' => array('research-category', 'research-post_tags'),
+      'taxonomies' => array('research-category', 'research-tag'),
       'has_archive' => true,
       'public' => true
   ));
@@ -519,7 +519,11 @@ function fg_research() {
 function fg_research_create_taxonomy() {
   register_taxonomy('research-category', 'research', array('label' => 'Category', 'hierarchical' => true));
 
-  register_taxonomy('research-post_tags', 'research', array('label' => 'Tags'));
+  register_taxonomy(
+    'research-tag',
+    'research',
+    array('label' => 'Tags')
+  );
 }
 add_action('init', 'fg_research_create_taxonomy');
 
@@ -602,21 +606,15 @@ function fg_research_mb_media_content($post) {
   $meta = get_post_meta($post->ID);
   ?>
   <div class="fg_research_mb_media_fields_wrap">
-    <div class="fg_research_mb_media_fields">
-      <input type="text" name="fg_research_media_title_1" placeholder="Title 1" value="<?php if (isset($meta['fg_research_media_title_1'])) echo $meta['fg_research_media_title_1'][0]; ?>">
-      <input type="text" name="fg_research_media_link_1" placeholder="Link 1" value="<?php if (isset($meta['fg_research_media_link_1'])) echo $meta['fg_research_media_link_1'][0]; ?>">
-      <input type="text" name="fg_research_media_source_1" placeholder="Source 1" value="<?php if (isset($meta['fg_research_media_source_1'])) echo $meta['fg_research_media_source_1'][0]; ?>">
-    </div>
-
     <?php
-    for ($i = 2; $i <= 19; $i++) {
+    for ($i = 1; $i <= 20; $i++) {
       if (array_key_exists('fg_research_media_title_'.$i, $meta) || array_key_exists('fg_research_media_link_'.$i, $meta) || array_key_exists('fg_research_media_source_'.$i, $meta)) {
+        if ($i > 1) echo '<hr>';
         ?>
-        <hr>
         <div class="fg_research_mb_media_fields">
           <input type="text" name="fg_research_media_title_<?php echo $i; ?>" placeholder="Title <?php echo $i; ?>" value="<?php if (isset($meta['fg_research_media_title_'.$i])) echo $meta['fg_research_media_title_'.$i][0]; ?>">
           <input type="text" name="fg_research_media_link_<?php echo $i; ?>" placeholder="Link <?php echo $i; ?>" value="<?php if (isset($meta['fg_research_media_link_'.$i])) echo $meta['fg_research_media_link_'.$i][0]; ?>">
-          <input type="text" name="fg_research_media_source_<?php echo $i; ?>" placeholder="source <?php echo $i; ?>" value="<?php if (isset($meta['fg_research_media_source_'.$i])) echo $meta['fg_research_media_source_'.$i][0]; ?>">
+          <input type="text" name="fg_research_media_source_<?php echo $i; ?>" placeholder="Source <?php echo $i; ?>" value="<?php if (isset($meta['fg_research_media_source_'.$i])) echo $meta['fg_research_media_source_'.$i][0]; ?>">
         </div>
         <?php
       }
@@ -624,14 +622,15 @@ function fg_research_mb_media_content($post) {
     ?>
   </div>
 
-  <input type="button" class="button add-another" value="Add Another">
+  <input type="button" class="button add-another" value="Add Media">
 
   <script>
     var i = $('.fg_research_mb_media_fields_wrap .fg_research_mb_media_fields').size() + 1;
 
     $(".add-another").click(function(e){
       e.preventDefault();
-      $(".fg_research_mb_media_fields_wrap").append('<hr><div class="fg_research_mb_media_fields"><input type="text" name="fg_research_media_title_'+i+'" placeholder="Title '+i+'"><input type="text" name="fg_research_media_link_'+i+'" placeholder="Link '+i+'"><input type="text" name="fg_research_media_source_'+i+'" placeholder="Source '+i+'"></div>');
+      if (i > 1) $(".fg_research_mb_media_fields_wrap").append('<hr>');
+      $(".fg_research_mb_media_fields_wrap").append('<div class="fg_research_mb_media_fields"><input type="text" name="fg_research_media_title_'+i+'" placeholder="Title '+i+'"><input type="text" name="fg_research_media_link_'+i+'" placeholder="Link '+i+'"><input type="text" name="fg_research_media_source_'+i+'" placeholder="Source '+i+'"></div>');
       i++;
     });
   </script>

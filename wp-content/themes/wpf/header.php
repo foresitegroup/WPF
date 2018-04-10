@@ -28,7 +28,10 @@
 <body <?php body_class(); ?>>
 
   <header class="site-width">
-    <a href="<?php echo home_url(); ?>" id="logo"><img src="<?php echo get_template_directory_uri(); ?>/images/logo.png" alt="Wisconsin Policy Forum"></a>
+    <a href="<?php echo home_url(); ?>" id="logo">
+      <img src="<?php echo get_template_directory_uri(); ?>/images/logo.png" alt="Wisconsin Policy Forum">
+      <img src="<?php echo get_template_directory_uri(); ?>/images/logo-black.png" alt="" class="print">
+    </a>
 
     <?php wp_nav_menu(array('theme_location'=>'top-menu','container'=>'div','container_id'=>'header-right')); ?>
   </header>
