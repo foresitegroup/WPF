@@ -115,9 +115,11 @@ function annual_reports_mb_content($post) {
 
 add_action('admin_head', 'annual_reports_css');
 function annual_reports_css() {
-  echo '<style>
-    #annual_report_pdf { width: 90%; padding: 0.32em 8px; margin-right: 0.75em; }
-  </style>';
+  if (get_post_type() == 'annual_reports') {
+    echo '<style>
+      #annual_report_pdf { width: 90%; padding: 0.32em 8px; margin-right: 0.75em; }
+    </style>';
+  }
 }
 
 add_action('save_post', 'annual_reports_save');
@@ -171,13 +173,15 @@ function fg_staff_mb_content($post) {
 
 add_action('admin_head', 'fg_staff_css');
 function fg_staff_css() {
-  echo '<style>
-    #fg_staff_mb INPUT { width: 100%; margin: 0.5em 0; padding: 0.32em 8px; box-sizing: border-box; }
-    .column-fg_staff_email { width: 25%; }
-    .column-fg_staff_phone { width: 15%; }
-    .column-fg_staff_extension { width: 10%; }
-    .column-fg_staff_image { width: 10%; }
-  </style>';
+  if (get_post_type() == 'fg_staff') {
+    echo '<style>
+      #fg_staff_mb INPUT { width: 100%; margin: 0.5em 0; padding: 0.32em 8px; box-sizing: border-box; }
+      .column-fg_staff_email { width: 25%; }
+      .column-fg_staff_phone { width: 15%; }
+      .column-fg_staff_extension { width: 10%; }
+      .column-fg_staff_image { width: 10%; }
+    </style>';
+  }
 }
 
 add_action('save_post', 'fg_staff_save');
@@ -321,10 +325,12 @@ function fg_board_mb_content($post) {
 
 add_action('admin_head', 'fg_board_css');
 function fg_board_css() {
-  echo '<style>
-    #fg_board_mb INPUT[type="text"] { width: 100%; margin: 0.5em 0; padding: 0.32em 8px; box-sizing: border-box; }
-    #fg_board_mb LABEL { margin-right: 1em; }
-  </style>';
+  if (get_post_type() == 'fg_board') {
+    echo '<style>
+      #fg_board_mb INPUT[type="text"] { width: 100%; margin: 0.5em 0; padding: 0.32em 8px; box-sizing: border-box; }
+      #fg_board_mb LABEL { margin-right: 1em; }
+    </style>';
+  }
 }
 
 add_action('save_post', 'fg_board_save');
@@ -458,13 +464,16 @@ function wwd_page_mb_content($post) {
 
 add_action('admin_head', 'wwd_page_css');
 function wwd_page_css() {
-  echo '<style>
-    #wwd_page_mb H3 { margin: 0 0 0.5em; }
-    #wwd_page_mb .wp-editor-wrap { margin: 1em 0 2em; }
-    #wwd_page_mb INPUT[type="text"] { width: 100%; padding: 0.32em 8px; box-sizing: border-box; }
-    #wwd_page_mb INPUT[type="text"].wwd_page_image { width: 85%; margin-right: 0.75em; }
-    #wwd_page_mb HR { margin: 3em 0 2.5em; border-top: 1px dashed #000000; }
-  </style>';
+  global $post;
+  if ('template-what-we-do-page.php' == get_post_meta($post->ID, '_wp_page_template', true)) {
+    echo '<style>
+      #wwd_page_mb H3 { margin: 0 0 0.5em; }
+      #wwd_page_mb .wp-editor-wrap { margin: 1em 0 2em; }
+      #wwd_page_mb INPUT[type="text"] { width: 100%; padding: 0.32em 8px; box-sizing: border-box; }
+      #wwd_page_mb INPUT[type="text"].wwd_page_image { width: 85%; margin-right: 0.75em; }
+      #wwd_page_mb HR { margin: 3em 0 2.5em; border-top: 1px dashed #000000; }
+    </style>';
+  }
 }
 
 add_action('save_post', 'wwd_page_save');
@@ -582,7 +591,7 @@ function fg_research_mb_content($post) {
   <input type="text" name="fg_research_press_release" placeholder="Press Release" id="fg_research_press_release" class="with_button" value="<?php if (isset($meta['fg_research_press_release'])) echo $meta['fg_research_press_release'][0]; ?>">
   <input type="button" id="fg_research_press_release_button" class="button" value="Add/Edit PDF">
 
-  <input type="text" name="fg_research_video" placeholder="Video Summary (URL to YouTube or Vimeo page)" value="<?php if (isset($meta['fg_research_video'])) echo $meta['fg_research_video'][0]; ?>">
+  <input type="text" name="fg_research_video" placeholder="Video Summary (URL to YouTube, Vimeo or Facebook page)" value="<?php if (isset($meta['fg_research_video'])) echo $meta['fg_research_video'][0]; ?>">
   
   <script>
     function WWDimage($image_id) {
@@ -639,14 +648,26 @@ function fg_research_mb_media_content($post) {
 
 add_action('admin_head', 'fg_research_css');
 function fg_research_css() {
-  echo '<style>
-    #fg_research_subtitle { padding: 3px 8px; font-size: 1.7em; line-height: 100%; height: 1.7em; width: 100%; outline: 0; }
-    #fg_research_mb INPUT[type="text"], #fg_research_mb_media INPUT[type="text"] { width: 100%; padding: 0.32em 8px; box-sizing: border-box; margin: 0.5em 0; }
-    #fg_research_mb INPUT[type="text"].with_button { width: 87%; margin-right: 0.75em; }
-    #fg_research_mb .button { margin: 0.5em 0; }
-    #fg_research_mb_media HR { border-top: 1px dotted #000000; }
-    #fg_research_mb_media .add-another { margin-top: 1em; }
-  </style>';
+  if (get_post_type() == 'research') {
+    echo '<style>
+      #edit-slug-box { display: none; }
+      #fg_research_subtitle { padding: 3px 8px; font-size: 1.7em; line-height: 100%; height: 1.7em; width: 100%; outline: 0; }
+      #fg_research_mb INPUT[type="text"], #fg_research_mb_media INPUT[type="text"] { width: 100%; padding: 0.32em 8px; box-sizing: border-box; margin: 0.5em 0; }
+      #fg_research_mb INPUT[type="text"].with_button { width: 87%; margin-right: 0.75em; }
+      #fg_research_mb .button { margin: 0.5em 0; }
+      #fg_research_mb_media HR { border-top: 1px dotted #000000; }
+      #fg_research_mb_media .add-another { margin-top: 1em; }
+    </style>';
+  }
+}
+
+add_filter('wp_insert_post_data', 'fg_research_custom_permalink');
+function fg_research_custom_permalink($data) {
+  if ($data['post_type'] == 'research') {
+    if (isset($_POST['fg_research_subtitle']))
+      $data['post_name'] = sanitize_title($data['post_title'].' '.$_POST['fg_research_subtitle']);
+  }
+  return $data;
 }
 
 add_action('save_post', 'fg_research_save');
@@ -672,6 +693,52 @@ function fg_research_save($post_id) {
       update_post_meta($post_id, 'fg_research_media_link_'.$i, $_POST['fg_research_media_link_'.$i]);
     if (isset($_POST['fg_research_media_source_'.$i]))
       update_post_meta($post_id, 'fg_research_media_source_'.$i, $_POST['fg_research_media_source_'.$i]);
+  }
+}
+
+add_filter('manage_research_posts_columns', 'set_custom_edit_research_columns');
+function set_custom_edit_research_columns($columns) {
+  unset($columns['date']);
+
+  $columns['research_subtitle'] = "Subtitle";
+  $columns['research_category'] = "Category";
+
+  $columns['date'] = "Date";
+
+  return $columns;
+}
+
+add_action('manage_research_posts_custom_column', 'custom_research_column', 10, 2);
+function custom_research_column($column, $post_id) {
+  switch ($column) {
+    case 'research_subtitle':
+      echo get_post_meta($post_id, 'fg_research_subtitle', true);
+      break;
+    case 'research_category':
+      the_terms($post->ID, 'research-category');
+      break;
+  }
+}
+
+add_action('wp_head', 'insert_open_graph');
+function insert_open_graph($post) {
+  if (is_singular('research')) {
+    ?>
+    <meta property="og:title" content="<?php the_title(); ?>" />
+    <meta property="og:url" content="<?php the_permalink(); ?>" />
+    <?php
+    if(!has_post_thumbnail()) {
+      $og_image = get_template_directory_uri().'/images/logo.png';
+    } else {
+      $og_image = wp_get_attachment_url(get_post_thumbnail_id());
+    }
+    ?>
+    <meta property="og:image" content="<?php echo $og_image; ?>" />
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="<?php the_title(); ?>">
+    <meta name="twitter:description" content="<?php the_excerpt(); ?>">
+    <meta name="twitter:image" content="<?php echo $og_image; ?>">
+    <?php
   }
 }
 ?>

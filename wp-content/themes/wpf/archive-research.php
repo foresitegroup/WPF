@@ -6,15 +6,7 @@
 
 <div class="bars">
   <div class="site-width">
-    <?php
-    if(have_posts()) : while(have_posts()) : the_post();
-      the_title();
-      echo '<div class="entry-content">';
-        the_content();
-        the_permalink();
-      echo '</div>';
-    endwhile; endif;
-    ?>
+    <?php get_template_part('content', 'research'); ?>
   </div>
 </div>
 

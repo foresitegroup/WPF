@@ -1,19 +1,12 @@
 <?php get_header(); ?>
 
 <div class="title-banner">
-  <h1 class="site-width">Research</h1>
+  <h1 class="site-width">Category: <?php echo single_term_title("", false); ?></h1>
 </div>
 
 <div class="bars">
   <div class="site-width">
-    <?php
-    if(have_posts()) : while(have_posts()) : the_post();
-      the_title();
-      echo '<div class="entry-content">';
-        the_content();
-      echo '</div>';
-    endwhile; endif;
-    ?>
+    <?php get_template_part('content', 'research'); ?>
   </div>
 </div>
 

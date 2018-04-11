@@ -48,9 +48,9 @@ if(have_posts()) : while(have_posts()) : the_post();
       <input type="checkbox" id="toggle-share" role="button">
       <label for="toggle-share">Share <i class="fas fa-share-alt"></i></label>
       <div id="share-links">
-        <a href="#" class="facebook"></a>
-        <a href="#" class="twitter"></a>
-        <a href="#" class="linkedin"></a>
+        <a href="http://www.facebook.com/sharer.php?u=<?php the_permalink(); if (has_post_thumbnail()) echo '&picture='.get_the_post_thumbnail_url(); ?>" target="new" class="facebook"></a>
+        <a href="http://www.twitter.com/share?url=<?php the_permalink(); ?>&text=<?php echo str_replace(' ', '+', the_title('','',false)); ?>" target="new" class="twitter"></a>
+        <a href="https://www.linkedin.com/shareArticle?mini=true&url=<?php the_permalink(); ?>&title=<?php echo str_replace(' ', '%20', the_title('','',false)); ?>" target="new" class="linkedin"></a>
       </div>
     </div>
   </div>
@@ -154,6 +154,7 @@ if(have_posts()) : while(have_posts()) : the_post();
     <?php
     $meta = get_post_meta(get_the_ID());
     if (count(preg_grep('/^fg_research_media_/', array_keys($meta))) !== 0) {
+      $medialinks = '<strong>Links:</strong>';
       ?>
       <div id="media-without-video">
         <div id="media-coverage" class="site-width">
@@ -168,7 +169,10 @@ if(have_posts()) : while(have_posts()) : the_post();
 
               if (isset($meta['fg_research_media_title_'.$i])) echo '"'.$meta['fg_research_media_title_'.$i][0].'"';
 
-              if (isset($meta['fg_research_media_link_'.$i])) echo '</a>';
+              if (isset($meta['fg_research_media_link_'.$i])) {
+                echo ' <span class="print">['.$i.']</span></a>';
+                $medialinks .= '<br>['.$i.'] '.$meta['fg_research_media_link_'.$i][0];
+              }
 
               if (isset($meta['fg_research_media_source_'.$i])) echo '<em>'.$meta['fg_research_media_source_'.$i][0].'</em>';
 
