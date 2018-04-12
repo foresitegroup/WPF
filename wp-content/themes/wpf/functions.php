@@ -720,6 +720,13 @@ function custom_research_column($column, $post_id) {
   }
 }
 
+add_action('pre_get_posts', 'research_posts_per_page');
+function research_posts_per_page($query) {
+  if (!is_admin() && $query->is_main_query() && is_post_type_archive('research') || is_tax(array('research-category','research-tag'))) {
+    $query->set('posts_per_page', 6);
+  }
+}
+
 add_action('wp_head', 'insert_open_graph');
 function insert_open_graph($post) {
   if (is_singular('research')) {
