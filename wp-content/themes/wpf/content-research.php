@@ -4,11 +4,11 @@
     <?php
     global $wp;
     $tax = 'research-category';
-    $terms = get_terms($tax);
-    foreach ($terms as $term) {
-      echo '<a href="'.get_term_link($term->slug, $tax).'"';
-      if (get_term_link($term->slug, $tax) == home_url($wp->request.'/')) echo ' class="current-cat"';
-      echo '>'.$term->name.'</a>';
+    $rcats = get_terms($tax);
+    foreach ($rcats as $rcat) {
+      echo '<a href="'.get_term_link($rcat->slug, $tax).'"';
+      if (get_term_link($rcat->slug, $tax) == home_url($wp->request.'/')) echo ' class="current-cat"';
+      echo '>'.$rcat->name.'</a>';
     }
     ?>
   </div>
@@ -16,8 +16,8 @@
 
 <div class="filter-gray">
   <div class="site-width">
-    Filter By Year:
     <form action="<?php echo home_url($wp->request.'/'); ?>" method="POST" name="FilterYear" id="FilterYear">
+      Filter By Year:
       <div class="select">
         <select name="year" onchange="document.FilterYear.submit()">
           <option value="">Year</option>
@@ -32,8 +32,46 @@
         </select>
       </div>
     </form>
+    
+    <form role="search" method="get" id="search" action="<?php echo esc_url(home_url('/')); ?>">
+      Search:
+      <div>
+        <input type="search" id="search-field" name="s" autocomplete="off"><button type="submit" id="search-button"><i class="fas fa-search"></i></button>
+        <input type="hidden" name="post_type" value="research">
+      </div>
+    </form>
+
+    <div id="tags-menu-button">
+      <input type="checkbox" id="toggle-tags" role="button">
+      <label for="toggle-tags">Show All Tags</label>
+    </div>
   </div>
 </div>
+
+<div id="tags-menu">
+  <div class="site-width">
+    <?php
+    $rtags = get_terms('research-tag');
+    foreach ($rtags as $rtag) {
+      echo '<a href="'.get_term_link($rtag->slug, 'research-tag').'">'.$rtag->name.'</a>';
+    }
+    ?>
+  </div>
+</div>
+
+<script type="text/javascript">
+  jQuery(document).ready(function(){
+    jQuery('#toggle-tags').change(function(){
+      if(this.checked) {
+        jQuery(this).siblings('label').html('Hide All Tags');
+        jQuery('#tags-menu').show();
+      } else {
+        jQuery(this).siblings('label').html('Show All Tags');
+        jQuery('#tags-menu').hide();
+      }
+    });
+  });
+</script>
 
 <div class="bars bars-research-index">
   <div class="site-width">

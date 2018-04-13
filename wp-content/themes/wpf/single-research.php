@@ -79,35 +79,6 @@ if(have_posts()) : while(have_posts()) : the_post();
   	</div>
 
   	<div id="content-with-video">
-      <?php
-      $meta = get_post_meta(get_the_ID());
-      if (count(preg_grep('/^fg_research_media_/', array_keys($meta))) !== 0) {
-        $medialinks = '<strong>Links:</strong>';
-        ?>
-    		<div id="media">
-    			<div class="site-width">
-    				<div id="media-coverage">
-    					<h4>Media Coverage</h4>
-
-    					<?php
-    					for ($i = 1; $i <= 20; $i++) {
-                if (isset($meta['fg_research_media_link_'.$i])) echo '<a href="'.$meta['fg_research_media_link_'.$i][0].'">';
-
-    						if (isset($meta['fg_research_media_title_'.$i])) echo '"'.$meta['fg_research_media_title_'.$i][0].'"';
-
-                if (isset($meta['fg_research_media_link_'.$i])) {
-                  echo ' <span class="print">['.$i.']</span></a>';
-                  $medialinks .= '<br>['.$i.'] '.$meta['fg_research_media_link_'.$i][0];
-                }
-
-                if (isset($meta['fg_research_media_source_'.$i])) echo '<em>'.$meta['fg_research_media_source_'.$i][0].'</em>';
-    					}
-    					?>
-    				</div>
-    			</div>
-    		</div>
-      <?php } ?>
-
   		<div class="site-width">
   			<div id="content">
   				<?php the_content(); ?>
@@ -122,6 +93,35 @@ if(have_posts()) : while(have_posts()) : the_post();
           <?php } ?>
   			</div>
   		</div>
+
+      <?php
+      $meta = get_post_meta(get_the_ID());
+      if (count(preg_grep('/^fg_research_media_/', array_keys($meta))) !== 0) {
+        $medialinks = '<strong>Links:</strong>';
+        ?>
+        <div id="media">
+          <div class="site-width">
+            <div id="media-coverage">
+              <h4>Media Coverage</h4>
+
+              <?php
+              for ($i = 1; $i <= 20; $i++) {
+                if (isset($meta['fg_research_media_link_'.$i])) echo '<a href="'.$meta['fg_research_media_link_'.$i][0].'">';
+
+                if (isset($meta['fg_research_media_title_'.$i])) echo '"'.$meta['fg_research_media_title_'.$i][0].'"';
+
+                if (isset($meta['fg_research_media_link_'.$i])) {
+                  echo ' <span class="print">['.$i.']</span></a>';
+                  $medialinks .= '<br>['.$i.'] '.$meta['fg_research_media_link_'.$i][0];
+                }
+
+                if (isset($meta['fg_research_media_source_'.$i])) echo '<em>'.$meta['fg_research_media_source_'.$i][0].'</em>';
+              }
+              ?>
+            </div>
+          </div>
+        </div>
+      <?php } ?>
   	</div>
 
     <script>
