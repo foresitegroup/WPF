@@ -87,33 +87,40 @@ endif;
   <div id="publication-header"><span>Featured</span> Publication</div>
 
   <div id="publication">
-    <div id="publication-info">
-      <img src="http://wpf.foresitegrp.webfactional.com/wp-content/uploads/2018/04/2017-03.jpg" alt="">
+    <?php
+    $homepub = new WP_Query(array('post_type' => 'research', 'posts_per_page' => 1));
 
-      <div>
-        <h2>The Last Mile:</h2>
-        <h3>Connecting Workers to Places of Employment</h3>
-        <h4>March 2017</h4>
-        <h5>Tags:</h5>
+    if ($homepub->have_posts()) :
+      while ($homepub->have_posts()) : $homepub->the_post();
+        echo '<div id="publication-info">';
+          if (has_post_thumbnail()) echo '<img src="'.get_the_post_thumbnail_url().'" alt="">';
 
-        <a href="#" class="tag">Sample Tag</a>
-        <a href="#" class="tag">Sample Tag</a>
-        <a href="#" class="tag">Sample Tag</a>
-        <a href="#" class="tag">Longer Sample Tag</a>
-      </div>
-    </div>
+          echo "<div>";
+            the_title('<h2>','</h2>');
 
-    Our latest research suggests that flexible forms of transit service &mdash; and perhaps new strategies linked to partnerships with ride-hailing companies like Lyft and Uber &mdash; could help address the region's elusive "last mile" problem.<br>
-    <br>
+            if (get_post_meta(get_the_ID(), 'fg_research_subtitle', true))
+              echo "<h3>".get_post_meta(get_the_ID(), 'fg_research_subtitle', true)."</h3>";
 
-    <h2>Policy Recommendations</h2>
-    <ul>
-      <li>Build on recent efforts to improve transportation connections in the Milwaukee area through shared-ride taxi services.</li>
-      <li>Build on recent efforts to improve transportation connections in the Milwaukee area through shared-ride taxi services.</li>
-      <li>Build on recent efforts to improve transportation connections in the Milwaukee area through shared-ride taxi services.</li>
-    </ul>
+            the_date('F Y','<h4>','</h4>');
 
-    <a href="#" class="button">View Publication</a>
+            if (has_term('', 'research-tag')) {
+              echo '<div id="tags">';
+                echo "<h5>Tags:</h5>";
+                the_terms(get_the_ID(), 'research-tag', '', '');
+              echo "</div>";
+            }
+          echo "</div>";
+        echo "</div>";
+
+        the_content();
+
+        echo '<a href="';
+        the_permalink();
+        echo '" class="button">View Publication</a>';
+      endwhile;
+      wp_reset_postdata();
+    endif;
+    ?>
   </div>
 </div>
 
