@@ -58,7 +58,10 @@ add_filter('user_can_richedit', 'fg_remove_visual_editor');
 function fg_remove_visual_editor($can) {
   global $post;
 
-  if ($post->ID == 55) return false;
+  if ($post->ID == 55) return false; // Home Join
+  if ($post->ID == 542) return false; // Join Sidebar
+  if ($post->ID == 544) return false; // Renew Sidebar
+  if ($post->ID == 105) return false; // Join/Renew Dues Structure
 
   return $can;
 }

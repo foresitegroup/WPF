@@ -2183,6 +2183,48 @@ A.research-index:nth-of-type(even) { margin-right: 0; }
 /**************/
 .join-renew STRONG { color: #1C305B; }
 
+.join-form {
+  outline: 1px solid black;
+  float: left;
+  width: 36.54%;
+  height: 500px;
+}
+
+.jr-sidebar {
+  float: right;
+  width: 40.90%;
+  box-sizing: border-box;
+  padding: 4em 2em 0.5em 2em;
+  background: #1C305B;
+  color: #FFFFFF;
+  text-align: center;
+}
+
+.jr-sidebar H3 {
+  margin: 0 0 1.3em;
+  font-family: 'Geometos', sans-serif;
+  font-weight: 400;
+  font-size: 200%;
+  line-height: 1.2em;
+}
+
+.jr-sidebar H3 SPAN { color: #24A9E0; }
+
+.jr-sidebar > DIV {
+  padding-bottom: 3.5em;
+}
+
+.jr-sidebar IMG { margin-bottom: 1.5em; }
+
+.jr-sidebar H4 {
+  margin: 0;
+  color: #24A9E0;
+  font-family: 'Geometos', sans-serif;
+  font-weight: 400;
+  font-size: 171.42%;
+  line-height: 1em;
+}
+
 #dues {
   padding: 3em 0 2.5em;
   background: #1C305B;
@@ -2417,6 +2459,9 @@ A.research-index:nth-of-type(even) { margin-right: 0; }
   .staff .staff-content { font-size: 1vw; }
 
   #research-single-banner .view { font-size: 1.4vw; }
+  
+  .join-form,
+  .jr-sidebar { width: 45%; }
 }
 
 @media only screen and (max-width: 900px) {
@@ -2465,6 +2510,9 @@ A.research-index:nth-of-type(even) { margin-right: 0; }
     -moz-column-count: 3;
     column-count: 3;
   }
+
+  .join-form,
+  .jr-sidebar { width: 48%; }
 }
 
 @media only screen and (max-width: 800px) {
@@ -2763,6 +2811,20 @@ A.research-index:nth-of-type(even) { margin-right: 0; }
     -moz-column-count: 2;
     column-count: 2;
   }
+
+  .join-form,
+  .jr-sidebar { float: none; width: 100%; }
+  .jr-sidebar { margin-top: 4em; }
+
+  .jr-sidebar > DIV {
+    display: inline-block;
+    vertical-align: top;
+    width: 32%;
+    box-sizing: border-box;
+    padding: 0 0.5em 3em;
+  }
+
+  .jr-sidebar IMG { max-width: 100%; height: auto; }
 }
 
 @media only screen and (max-width: 600px) {
@@ -2867,6 +2929,8 @@ A.research-index:nth-of-type(even) { margin-right: 0; }
   #research-buttons > A:link,
   #research-buttons > A:visited,
   #toggle-share + LABEL { font-size: 1.9vw; }
+
+  .jr-sidebar { padding: 4em 0.5em 0.5em 0.5em; }
 }
 
 @media only screen and (max-width: 480px) {
@@ -2936,8 +3000,14 @@ A.research-index:nth-of-type(even) { margin-right: 0; }
     -moz-column-count: 1;
     column-count: 1;
     -webkit-column-gap: 0;
-  -moz-column-gap: 0;
-  column-gap: 0;
+    -moz-column-gap: 0;
+    column-gap: 0;
+  }
+
+  .jr-sidebar > DIV {
+    display: block;
+    width: 100%;
+    padding: 0 0 3.5em;
   }
 }
 

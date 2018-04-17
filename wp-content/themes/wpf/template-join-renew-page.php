@@ -29,14 +29,42 @@ endif;
         $join = get_post(101);
         echo nl2br($join->post_content);
         ?>
-      </div>
+
+        <br><br><br><br>
+        <div class="cf">
+          <div class="join-form">
+            JOIN FORM GOES HERE
+          </div>
+
+          <div class="jr-sidebar">
+            <?php
+            $join_sidebar = get_post(542);
+            echo $join_sidebar->post_content;
+            ?>
+          </div>
+        </div>
+      </div> <!-- END Join tab -->
 
       <div id="renew">
         <?php
         $renew = get_post(103);
         echo nl2br($renew->post_content);
         ?>
-      </div>
+
+        <br><br><br><br>
+        <div class="cf">
+          <div class="join-form">
+            RENEW FORM GOES HERE
+          </div>
+
+          <div class="jr-sidebar">
+            <?php
+            $renew_sidebar = get_post(544);
+            echo $renew_sidebar->post_content;
+            ?>
+          </div>
+        </div>
+      </div> <!-- END Renew tab -->
     </div>
   </div>
 </div>
