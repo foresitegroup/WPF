@@ -66,6 +66,61 @@ A:hover, A:active {
 
 P { margin: 0 0 1.5em; }
 
+.select,
+.wpf-select .nf-field-element {
+  position: relative;
+  border: 2px solid #CCCCCC;
+  background: #FFFFFF;
+  display: inline-block;
+  margin-left: 0.5em;
+}
+
+.select::before,
+.wpf-select .nf-field-element::before {
+  font-family: "Font Awesome 5 Free";
+  font-weight: 900;
+  content: "\f0dd";
+  font-size: 25px;
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  width: 35px;
+  height: 35px;
+  border: 2px solid rgba(204,204,204,0.5);
+  border-left-color: #1C305B;
+  box-sizing: border-box;
+  padding-top: 3px;
+  background: #1C305B;
+  color: #FFFFFF;
+  text-align: center;
+}
+
+.select SELECT,
+.wpf-select .nf-field-element SELECT {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  outline: 0;
+  border-radius: 0;
+  border: 0;
+  margin: 0;
+  padding: 0 41px 0 10px;
+  height: 31px;
+  background: transparent;
+  color: #424242;
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 600;
+  font-size: 16px;
+  cursor: pointer;
+  position: relative;
+  z-index: 2;
+}
+
+.select SELECT::-ms-expand,
+.wpf-select .nf-field-element SELECT::-ms-expand { display: none; }
+
+.select SELECT OPTION,
+.wpf-select .nf-field-element SELECT OPTION { text-transform: none; }
+
 .print { display: none; }
 
 .video {
@@ -1026,12 +1081,12 @@ FOOTER #footnav UL LI A:after {
   text-align: center;
 }
 
-#tabs INPUT,
+#tabs > INPUT,
 #staff, #board,
 #join, #renew,
 #general, #presentation { display: none; }
 
-#tabs LABEL {
+#tabs > LABEL {
   display: inline-block;
   box-sizing: border-box;
   min-width: 26.56%;
@@ -1048,7 +1103,7 @@ FOOTER #footnav UL LI A:after {
   white-space: nowrap;
 }
 
-#tabs INPUT:checked + LABEL {
+#tabs > INPUT:checked + LABEL {
   background: #FFFFFF;
   color: #1C305B;
   box-shadow: 0px 0px 30px 0px rgba(0,0,0,0.5);
@@ -1516,56 +1571,6 @@ FOOTER #footnav UL LI A:after {
   display: inline-block;
   margin-right: 10%;
 }
-
-.filter-gray .select {
-  position: relative;
-  border: 2px solid #CCCCCC;
-  background: #FFFFFF;
-  display: inline-block;
-  margin-left: 0.5em;
-}
-
-.filter-gray .select::before {
-  font-family: "Font Awesome 5 Free";
-  font-weight: 900;
-  content: "\f0dd";
-  font-size: 25px;
-  position: absolute;
-  top: -2px;
-  right: -2px;
-  width: 35px;
-  height: 35px;
-  border: 2px solid rgba(204,204,204,0.5);
-  border-left-color: #1C305B;
-  box-sizing: border-box;
-  padding-top: 3px;
-  background: #1C305B;
-  color: #FFFFFF;
-  text-align: center;
-}
-
-.filter-gray .select SELECT {
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  outline: 0;
-  border-radius: 0;
-  border: 0;
-  margin: 0;
-  padding: 0 41px 0 10px;
-  height: 31px;
-  background: transparent;
-  color: #424242;
-  font-family: 'Open Sans', sans-serif;
-  font-weight: 600;
-  font-size: 16px;
-  cursor: pointer;
-  position: relative;
-  z-index: 2;
-}
-
-.filter-gray .select SELECT::-ms-expand { display: none; }
-
-.filter-gray .select SELECT OPTION { text-transform: none; }
 
 .filter-gray #search {
   display: inline-block;
@@ -2183,11 +2188,30 @@ A.research-index:nth-of-type(even) { margin-right: 0; }
 /**************/
 .join-renew STRONG { color: #1C305B; }
 
+#join-form .join-ind { display: none; }
+
+
+
+#join-form .city-container {
+  display: inline-block;
+  width: 48.5%;
+  margin-right: 1.8%;
+}
+
+#join-form .liststate-container {
+  display: inline-block;
+  width: 23%;
+  margin-right: 1.8%;
+}
+
+#join-form .zip-container {
+  display: inline-block;
+  width: 23%;
+}
+
 .join-form {
-  outline: 1px solid black;
   float: left;
   width: 36.54%;
-  height: 500px;
 }
 
 .jr-sidebar {
@@ -2523,7 +2547,7 @@ A.research-index:nth-of-type(even) { margin-right: 0; }
 
   #reports .cycle-slide { padding: 0 25px; }
 
-  #tabs LABEL { width: 40%; }
+  #tabs > LABEL { width: 40%; }
 
   .staff { width: 33.33%; }
   .staff .staff-content { font-size: 1.3vw; }
@@ -2976,7 +3000,7 @@ A.research-index:nth-of-type(even) { margin-right: 0; }
 
   #reports .cycle-slide H3 { font-size: 5.9vw; }
 
-  #tabs LABEL { font-size: 6.5vw; }
+  #tabs > LABEL { font-size: 6.5vw; }
 
   .staff { width: 100%; }
   .staff .staff-content { font-size: 3.2vw; }

@@ -32,9 +32,23 @@ endif;
 
         <br><br><br><br>
         <div class="cf">
-          <div class="join-form">
-            JOIN FORM GOES HERE
+          <div id="join-form" class="join-form">
+            <?php echo do_shortcode("[ninja_form id=2]"); ?>
           </div>
+
+          <script>
+            jQuery(document).ready(function($){ 
+              jQuery('#join-form').on('change','.join-type',function(){
+                if (jQuery('.join-type').val() == 'Individual') {
+                  jQuery('.join-ind').show();
+                  jQuery('.join-comp').hide();
+                } else {
+                  jQuery('.join-ind').hide();
+                  jQuery('.join-comp').show();
+                }
+              });
+            });
+          </script>
 
           <div class="jr-sidebar">
             <?php
