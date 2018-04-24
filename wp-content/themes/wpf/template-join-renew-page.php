@@ -16,6 +16,17 @@ if ( have_posts() ) :
 endif;
 ?>
 
+<script type="text/javascript">
+  // Display Presentation tab if URL is /join-renew/#renewal
+  // and remove "#renew" from URL
+  window.onload = function() {
+    if(window.location.href.indexOf('#renewal') > 0) {
+      document.getElementById("tab2").checked = true;
+      window.history.pushState(null, null, window.location.pathname);
+    }
+  }
+</script>
+
 <div id="tabs">
   <input id="tab1" type="radio" name="tabs" checked>
   <label for="tab1">Join</label>

@@ -11,7 +11,7 @@ if ( have_posts() ) :
       <?php the_title('<h1 class="site-width">','</h1>'); ?>
     </div>
 
-    <div class="bars">
+    <div class="bars our-mission">
       <div class="site-width">
         <?php the_content(); ?>
       </div>
@@ -21,6 +21,16 @@ if ( have_posts() ) :
   endwhile;
 endif;
 ?>
+
+<script type="text/javascript">
+  // Scroll to Annual Reports section if URL is /our-mission/#reports
+  // and remove "#reports" from URL
+  window.onload = function() {
+    if(window.location.href.indexOf('#reports') > 0) {
+      window.history.pushState(null, null, window.location.pathname);
+    }
+  }
+</script>
 
 <?php $mission = get_post(65); ?>
 <div id="mission-mission">

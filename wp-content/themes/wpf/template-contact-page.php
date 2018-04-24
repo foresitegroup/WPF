@@ -17,14 +17,12 @@ endif;
 ?>
 
 <script type="text/javascript">
-  // Display Presentation tab if URL is /contact-us/#presentation
+  // Display Presentation tab if URL is /contact-us/#presentationrequest
   // and remove "#presentation" from URL
   window.onload = function() {
-    var pageurl = window.location.href;
-    if(pageurl.indexOf('#presentation') > 0) {
+    if(window.location.href.indexOf('#presentationrequest') > 0) {
       document.getElementById("tab2").checked = true;
-      var flush = pageurl.substring(0, pageurl.indexOf('#presentation'));              
-      window.history.replaceState(null, null, flush);
+      window.history.pushState(null, null, window.location.pathname);
     }
   }
 </script>
