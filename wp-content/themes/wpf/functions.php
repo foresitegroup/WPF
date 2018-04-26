@@ -732,7 +732,7 @@ function research_posts_per_page($query) {
 
 add_action('wp_head', 'insert_open_graph');
 function insert_open_graph($post) {
-  if (is_singular('research')) {
+  if (is_single()) {
     ?>
     <meta property="og:title" content="<?php the_title(); ?>" />
     <meta property="og:url" content="<?php the_permalink(); ?>" />

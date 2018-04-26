@@ -52,7 +52,7 @@
     <?php
     else:
       if (is_search()) {
-        echo "NO";
+        echo 'Sorry, there are no results for "'.$_GET['s'].'"';
       }
     endif;
     ?>
