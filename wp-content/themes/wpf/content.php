@@ -34,7 +34,7 @@ if (is_single()) : ?>
   </div>
   
   <div class="bars">
-    <div class="site-width">
+    <div class="site-width news-single">
       <div id="news-single-sidebar">
         <?php if (has_post_thumbnail()) { ?>
         <div id="news-single-image" style="background-image: url(<?php echo wp_get_attachment_url(get_post_thumbnail_id()); ?>);"></div>

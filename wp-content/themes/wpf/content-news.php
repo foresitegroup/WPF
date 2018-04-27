@@ -1,6 +1,6 @@
 <?php $category = get_queried_object(); ?>
 
-<div class="bars">
+<div class="bars news-bars">
   <div class="site-width news-index">
     <div class="news-header cf">
       <div class="news-search">

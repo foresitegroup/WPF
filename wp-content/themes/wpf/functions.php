@@ -147,7 +147,7 @@ function fg_staff() {
       'not_found' => 'No Staff found'
     ),
     'show_ui' => true,
-    'menu_position' => 50,
+    'menu_position' => 51,
     'menu_icon' => 'dashicons-businessman',
     'supports' => array('title','editor','thumbnail')
   ));
@@ -256,7 +256,7 @@ function fg_board() {
         'not_found' => 'No Board found'
       ),
       'show_ui' => true,
-      'menu_position' => 50,
+      'menu_position' => 51,
       'menu_icon' => 'dashicons-groups',
       'supports' => array('title','thumbnail')
   ));
@@ -504,6 +504,77 @@ function wwd_page_save($post_id) {
 }
 
 
+///////////
+// EVENTS
+///////////
+add_action('init', 'events');
+function events() {
+  register_post_type('events', array(
+      'labels' => array(
+        'name' => 'Events',
+        'singular_name' => 'Event',
+        'add_new_item' => 'Add New Event',
+        'edit_item' => 'Edit Event',
+        'search_items' => 'Search Events',
+        'not_found' => 'No Events found'
+      ),
+      'show_ui' => true,
+      'menu_position' => 52,
+      'menu_icon' => 'dashicons-calendar-alt',
+      'supports' => array('title','editor')
+  ));
+}
+
+add_action('add_meta_boxes', 'events_mb');
+function events_mb() {
+  add_meta_box('events_mb', 'Event Fields', 'events_mb_content', 'events', 'normal');
+}
+
+function events_mb_content($post) {
+  wp_enqueue_script('jquery-ui-datepicker');
+  wp_enqueue_style('jquery-ui-style', '//ajax.googleapis.com/ajax/libs/jqueryui/1.8.1/themes/smoothness/jquery-ui.css', true);
+  wp_enqueue_script('timepicker', 'https://cdn.jsdelivr.net/npm/timepicker/jquery.timepicker.min.js', true);
+  wp_enqueue_style('timepicker-style', 'https://cdn.jsdelivr.net/npm/timepicker/jquery.timepicker.min.css', true);
+
+  $meta = get_post_meta($post->ID);
+  ?>
+  <script>
+    jQuery(document).ready(function(){
+      jQuery('#event_date').datepicker();
+      jQuery('#event_start_time, #event_end_time').timepicker({ 'scrollDefault': 'now' });
+    });
+  </script>
+
+  <input type="text" name="event_date" placeholder="Event Date" value="<?php if (isset($meta['event_date'])) echo $meta['event_date'][0]; ?>" id="event_date">
+  If not set, "TBD" will be displayed as the event date.<br>
+
+  <input type="text" name="event_start_time" placeholder="Start Time" value="<?php if (isset($meta['event_start_time'])) echo $meta['event_start_time'][0]; ?>" id="event_start_time">
+  to
+  <input type="text" name="event_end_time" placeholder="End Time" value="<?php if (isset($meta['event_end_time'])) echo $meta['event_end_time'][0]; ?>" id="event_end_time">
+  You may set a Start Time with no End Time.<br>
+
+  <input type="text" name="event_location_name" placeholder="Location Name" value="<?php if (isset($meta['event_location_name'])) echo $meta['event_location_name'][0]; ?>">
+  <input type="text" name="event_location_address" placeholder="Location Address" value="<?php if (isset($meta['event_location_address'])) echo $meta['event_location_address'][0]; ?>">
+  
+  <input type="text" name="event_registration_text" placeholder="Registration Text (e.g. &quot;Registration ending soon!&quot;)" value="<?php if (isset($meta['event_registration_text'])) echo $meta['event_registration_text'][0]; ?>">
+  <input type="text" name="event_registration_link" placeholder="Registration Link" value="<?php if (isset($meta['event_registration_link'])) echo $meta['event_registration_link'][0]; ?>">
+  <input type="checkbox" name="event_register_button"<?php if (isset($meta['event_registration_link'])) echo " checked"; ?>> Show "Register" button
+  <?php
+}
+
+add_action('admin_head', 'events_css');
+function events_css() {
+  if (get_post_type() == 'events') {
+    echo '<style>
+      #events_mb INPUT[type="text"] { width: 100%; margin: 0.5em 0; padding: 0.32em 8px; box-sizing: border-box; }
+      #events_mb INPUT[type="text"]#event_date,
+      #events_mb INPUT[type="text"]#event_start_time,
+      #events_mb INPUT[type="text"]#event_end_time { width: 10em; }
+    </style>';
+  }
+}
+
+
 /////////////
 // RESEARCH
 /////////////
@@ -519,7 +590,7 @@ function fg_research() {
         'not_found' => 'No Research found'
       ),
       'show_ui' => true,
-      'menu_position' => 50,
+      'menu_position' => 53,
       'menu_icon' => 'dashicons-chart-pie',
       'supports' => array('title', 'editor','thumbnail'),
       'taxonomies' => array('research-category', 'research-tag'),
@@ -751,4 +822,5 @@ function insert_open_graph($post) {
     <?php
   }
 }
+
 ?>

@@ -131,19 +131,30 @@ endif;
   </div>
 </div>
 
-<div id="home-blog">
+<div id="home-news">
   <div class="site-width">
   	<?php
-  	$blog = new WP_Query(array('showposts' => 3));
+  	$news = new WP_Query(array('showposts' => 3));
 
-  	if ($blog->have_posts()) {
-  		while ($blog->have_posts() ) : $blog->the_post();
-  			echo '<div class="blog">';
+  	if ($news->have_posts()) {
+  		while ($news->have_posts() ) : $news->the_post();
+  			echo '<div class="news-post">';
+          $category = get_the_category();
+          $cats = wp_get_post_categories(get_the_ID(), array('parent' => $category[0]->category_parent));
+          if (!empty($cats)) {
+            $sep = ', '; $output = '';
+            foreach($cats as $cat) {
+              $c = get_category($cat);
+              $output .= esc_html($c->name) . $sep;
+            }
+            echo '<h2>'.trim($output, $sep).'</h2>';
+          }
+
   			  the_title("<h1>","</h1>");
+
   			  echo fg_excerpt(50);
-  			  echo '<div><a href="';
-  			  the_permalink();
-  			  echo '">Read More</a></div>';
+
+          echo '<a href="'.get_permalink().'">Read More</a>';
   			echo '</div>';
   		endwhile;
   	}
