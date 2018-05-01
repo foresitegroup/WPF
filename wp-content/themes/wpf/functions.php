@@ -521,13 +521,14 @@ function events() {
       'show_ui' => true,
       'menu_position' => 52,
       'menu_icon' => 'dashicons-calendar-alt',
-      'supports' => array('title','editor')
+      'supports' => array('title','editor','thumbnail')
   ));
 }
 
 add_action('add_meta_boxes', 'events_mb');
 function events_mb() {
   add_meta_box('events_mb', 'Event Fields', 'events_mb_content', 'events', 'normal');
+  add_meta_box('events_mb_side', 'Event Video', 'events_mb_content_side', 'events', 'side', 'low');
 }
 
 function events_mb_content($post) {
@@ -545,20 +546,35 @@ function events_mb_content($post) {
     });
   </script>
 
-  <input type="text" name="event_date" placeholder="Event Date" value="<?php if (isset($meta['event_date'])) echo $meta['event_date'][0]; ?>" id="event_date">
+  <input type="checkbox" name="event_pin"<?php if ($meta['event_pin'][0] != "") echo " checked"; ?>> Pin event to top of Home Page list<br>
+  <br>
+
+  <input type="text" name="event_date" placeholder="Event Date" value="<?php if ($meta['event_date'][0] != "") echo date("m/d/Y", $meta['event_date'][0]); ?>" id="event_date">
   If not set, "TBD" will be displayed as the event date.<br>
 
-  <input type="text" name="event_start_time" placeholder="Start Time" value="<?php if (isset($meta['event_start_time'])) echo $meta['event_start_time'][0]; ?>" id="event_start_time">
+  <input type="text" name="event_start_time" placeholder="Start Time" value="<?php if ($meta['event_start_time'][0] != "") echo $meta['event_start_time'][0]; ?>" id="event_start_time">
   to
-  <input type="text" name="event_end_time" placeholder="End Time" value="<?php if (isset($meta['event_end_time'])) echo $meta['event_end_time'][0]; ?>" id="event_end_time">
+  <input type="text" name="event_end_time" placeholder="End Time" value="<?php if ($meta['event_end_time'][0] != "") echo $meta['event_end_time'][0]; ?>" id="event_end_time">
   You may set a Start Time with no End Time.<br>
+  <br>
 
-  <input type="text" name="event_location_name" placeholder="Location Name" value="<?php if (isset($meta['event_location_name'])) echo $meta['event_location_name'][0]; ?>">
-  <input type="text" name="event_location_address" placeholder="Location Address" value="<?php if (isset($meta['event_location_address'])) echo $meta['event_location_address'][0]; ?>">
+  <input type="text" name="event_location_name" placeholder="Location Name" value="<?php if ($meta['event_location_name'][0] != "") echo $meta['event_location_name'][0]; ?>">
+  <input type="text" name="event_location_address" placeholder="Location Address" value="<?php if ($meta['event_location_address'][0] != "") echo $meta['event_location_address'][0]; ?>"><br>
+  <br>
   
-  <input type="text" name="event_registration_text" placeholder="Registration Text (e.g. &quot;Registration ending soon!&quot;)" value="<?php if (isset($meta['event_registration_text'])) echo $meta['event_registration_text'][0]; ?>">
-  <input type="text" name="event_registration_link" placeholder="Registration Link" value="<?php if (isset($meta['event_registration_link'])) echo $meta['event_registration_link'][0]; ?>">
-  <input type="checkbox" name="event_register_button"<?php if (isset($meta['event_registration_link'])) echo " checked"; ?>> Show "Register" button
+  <input type="text" name="event_registration_text" placeholder="Registration Text (e.g. &quot;Registration ending soon!&quot;)" value="<?php if ($meta['event_registration_text'][0] != "") echo $meta['event_registration_text'][0]; ?>">
+  <input type="text" name="event_registration_link" placeholder="Registration Link" value="<?php if ($meta['event_registration_link'][0] != "") echo $meta['event_registration_link'][0]; ?>">
+  <input type="checkbox" name="event_register_button"<?php if ($meta['event_registration_button'][0] != "") echo " checked"; ?>> Show "Register" button<br>
+  <br>
+
+  PRICING FIELDS HERE (level type, level price)
+  <?php
+}
+
+function events_mb_content_side($post) {
+  ?>
+  <input type="text" name="event_video" placeholder="URL to video page" value="<?php if (isset($meta['event_video'])) echo $meta['event_video'][0]; ?>"><br>
+  Setting a video will override the Featured Image (if one is set).
   <?php
 }
 
@@ -566,11 +582,79 @@ add_action('admin_head', 'events_css');
 function events_css() {
   if (get_post_type() == 'events') {
     echo '<style>
-      #events_mb INPUT[type="text"] { width: 100%; margin: 0.5em 0; padding: 0.32em 8px; box-sizing: border-box; }
+      #events_mb INPUT[type="text"],
+      #events_mb_side INPUT[type="text"] { width: 100%; margin: 0.5em 0; padding: 0.32em 8px; box-sizing: border-box; }
       #events_mb INPUT[type="text"]#event_date,
       #events_mb INPUT[type="text"]#event_start_time,
       #events_mb INPUT[type="text"]#event_end_time { width: 10em; }
     </style>';
+  }
+}
+
+add_action('save_post', 'events_save');
+function events_save($post_id) {
+  update_post_meta($post_id, 'event_pin', $_POST['event_pin']);
+  $edate = ($_POST['event_date'] != "") ? strtotime($_POST['event_date']) : "";
+  update_post_meta($post_id, 'event_date', $edate);
+  update_post_meta($post_id, 'event_start_time', $_POST['event_start_time']);
+  update_post_meta($post_id, 'event_end_time', $_POST['event_end_time']);
+  update_post_meta($post_id, 'event_location_name', $_POST['event_location_name']);
+  update_post_meta($post_id, 'event_location_address', $_POST['event_location_address']);
+  update_post_meta($post_id, 'event_registration_text', $_POST['event_registration_text']);
+  update_post_meta($post_id, 'event_registration_link', $_POST['event_registration_link']);
+  update_post_meta($post_id, 'event_register_button', $_POST['event_register_button']);
+}
+
+add_filter('manage_events_posts_columns', 'set_custom_edit_events_columns');
+function set_custom_edit_events_columns($columns) {
+  unset($columns['date']);
+
+  $columns['event_date'] = "Event Date";
+  $columns['event_start_time'] = "Time";
+  $columns['event_register_button'] = "Registration";
+  $columns['event_pin'] = "Pinned";
+
+  return $columns;
+}
+
+add_action('manage_events_posts_custom_column', 'custom_events_column', 10, 2);
+function custom_events_column($column, $post_id) {
+  switch ($column) {
+    case 'event_date':
+      $edate = (get_post_meta(get_the_ID(), 'event_date', true) != "") ? date("m/d/Y", get_post_meta($post_id, 'event_date', true)) : "TBD";
+      echo $edate;
+      break;
+    case 'event_start_time':
+      if (get_post_meta($post_id, 'event_start_time', true) != "")
+        echo get_post_meta($post_id, 'event_start_time', true);
+      if (get_post_meta($post_id, 'event_start_time', true) != "" && get_post_meta($post_id, 'event_end_time', true) != "")
+        echo " to ".get_post_meta($post_id, 'event_end_time', true);
+      break;
+    case 'event_register_button':
+      if (get_post_meta($post_id, 'event_registration_link', true) != "" && get_post_meta($post_id, 'event_register_button', true) != "")
+        echo "Open";
+      break;
+    case 'event_pin':
+      if (get_post_meta($post_id, 'event_pin', true) == "on") echo "Yes";
+      break;
+  }
+}
+
+add_filter('manage_edit-events_sortable_columns', 'set_custom_events_sortable_columns');
+function set_custom_events_sortable_columns($columns) {
+  $columns['event_date'] = 'event_date';
+  return $columns;
+}
+
+add_action('pre_get_posts', 'events_custom_orderby', 4);
+function events_custom_orderby($query) {
+  if (!$query->is_main_query() || 'events' != $query->get('post_type')) return;
+
+  $orderby = $query->get('orderby');
+
+  if ($orderby == '' || $orderby == 'event_date') {
+    $query->set('meta_key', 'event_date');
+    $query->set('orderby', 'meta_value_num');
   }
 }
 
