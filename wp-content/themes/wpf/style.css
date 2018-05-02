@@ -17,6 +17,7 @@ font-family: 'Geometos', sans-serif;
 #1C305B - blue
 #24A9E0 - light blue
 #FE7004 - orange
+#FF5555 - red
 */
 
 @font-face {
@@ -1674,6 +1675,162 @@ FOOTER #footnav UL LI A:after {
   background: #FFFFFF;
   color: #24A9E0;
 }
+
+
+/**********/
+/* EVENTS */
+/**********/
+.event-header {
+  margin-top: 4em;
+  padding: 1.5em;
+  background: #1C305B;
+  color: #D6D6D6;
+  font-size: 12px;
+  line-height: 1em;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.event-header:first-of-type { margin-top: 0; }
+
+.event-header .date {
+  width: 3.52em;
+  border: 3px solid #B7B7B7;
+  color: #24A9E0;
+  font-family: 'Geometos', sans-serif;
+  font-weight: 400;
+  font-size: 187.25%;
+  line-height: 1em;
+  position: relative;
+}
+
+.event-header .date:before {
+  content: "";
+  display: block;
+  padding-top: 100%;
+}
+
+.event-header .date > DIV {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%,-42%);
+  -ms-transform: translate(-50%,-42%);
+  transform: translate(-50%,-42%);
+  text-align: center;
+}
+
+.event-header .date > DIV H3 {
+  margin: 0;
+  color: #FFFFFF;
+  font-size: 172.22%;
+  line-height: 1em;
+}
+
+.event-header .details {
+  width: 50%;
+  margin: 0 auto 0 2em;
+}
+
+.event-header .details H2 {
+  margin: 0;
+  color: #FFFFFF;
+  font-family: 'Geometos', sans-serif;
+  font-weight: 400;
+  font-size: 200%;
+  line-height: 1em;
+}
+
+.event-header .details H3 {
+  margin: 0.3em 0 0;
+  color: #24A9E0;
+  font-weight: 400;
+  font-style: italic;
+  font-size: 133.33%;
+  line-height: 1em;
+}
+
+.event-header .details .location { margin-top: 0.6em; }
+
+.event-header .reg-text {
+  margin-right: 3.5%;
+  width: 10%;
+  color: #FF5555;
+  font-family: 'Geometos', sans-serif;
+  font-weight: 400;
+  font-size: 83.33%;
+  line-height: 1.2em;
+}
+
+.event-header .button:link,
+.event-header .button:visited {
+  display: inline-block;
+  margin-right: 3.5%;
+  padding: 1.1em 1.5em 0.7em;
+  background: #FE7004;
+  color: #FFFFFF;
+  font-family: 'Geometos', sans-serif;
+  font-weight: 400;
+  font-size: 133.33%;
+  line-height: 1em;
+}
+
+.event-header .button:hover,
+.event-header .button:active {
+  background: #FFFFFF;
+  color: #FE7004;
+}
+
+.event-header .more-info {
+  color: #FFFFFF;
+  font-family: 'Geometos', sans-serif;
+  font-weight: 400;
+  font-size: 115.416%;
+  line-height: 1em;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.event-header .more-info DIV {
+  width: 65%;
+  margin: 0.2em auto 0;
+  background: url("data:image/svg+xml;charset=UTF-8,%3c?xml version='1.0' encoding='UTF-8'?%3e%3csvg xmlns='http://www.w3.org/2000/svg' width='308' height='153'%3e%3cpath fill='%2324A9E0' d='M8,3H300L154,150z'/%3e%3c/svg%3e") no-repeat center center;
+  background-size: contain;
+}
+
+.event-header .more-info DIV:before {
+  content: "";
+  display: block;
+  padding-top: 50%;
+}
+
+.event-header .more-info .fa-caret-down {
+  font-size: 400%;
+  line-height: 0.5em;
+}
+
+.event-body {
+  /*display: none;*/
+  padding: 2em;
+  background: #E1E1E1;
+  color: #292929;
+}
+
+.event-body-content { display: flex; justify-content: space-between; }
+
+.event-body .event-sidebar {
+  outline: 1px solid red;
+  width: 34.54%;
+}
+
+.event-body .event-text {
+  outline: 1px solid red;
+  width: 52.81%;
+}
+
+.event-body .event-text P:last-of-type { margin-bottom: 0; }
+
 
 /************/
 /* RESEARCH */

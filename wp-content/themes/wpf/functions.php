@@ -542,7 +542,7 @@ function events_mb_content($post) {
   <script>
     jQuery(document).ready(function(){
       jQuery('#event_date').datepicker();
-      jQuery('#event_start_time, #event_end_time').timepicker({ 'scrollDefault': 'now' });
+      jQuery('#event_start_time, #event_end_time').timepicker({ 'scrollDefault': 'now', 'timeFormat': 'g:i A' });
     });
   </script>
 
@@ -553,7 +553,7 @@ function events_mb_content($post) {
   If not set, "TBD" will be displayed as the event date.<br>
 
   <input type="text" name="event_start_time" placeholder="Start Time" value="<?php if ($meta['event_start_time'][0] != "") echo $meta['event_start_time'][0]; ?>" id="event_start_time">
-  to
+  -
   <input type="text" name="event_end_time" placeholder="End Time" value="<?php if ($meta['event_end_time'][0] != "") echo $meta['event_end_time'][0]; ?>" id="event_end_time">
   You may set a Start Time with no End Time.<br>
   <br>
@@ -564,7 +564,7 @@ function events_mb_content($post) {
   
   <input type="text" name="event_registration_text" placeholder="Registration Text (e.g. &quot;Registration ending soon!&quot;)" value="<?php if ($meta['event_registration_text'][0] != "") echo $meta['event_registration_text'][0]; ?>">
   <input type="text" name="event_registration_link" placeholder="Registration Link" value="<?php if ($meta['event_registration_link'][0] != "") echo $meta['event_registration_link'][0]; ?>">
-  <input type="checkbox" name="event_register_button"<?php if ($meta['event_registration_button'][0] != "") echo " checked"; ?>> Show "Register" button<br>
+  <input type="checkbox" name="event_register_button"<?php if ($meta['event_register_button'][0] != "") echo " checked"; ?>> Show "Register" button<br>
   <br>
 
   PRICING FIELDS HERE (level type, level price)
@@ -594,7 +594,7 @@ function events_css() {
 add_action('save_post', 'events_save');
 function events_save($post_id) {
   update_post_meta($post_id, 'event_pin', $_POST['event_pin']);
-  $edate = ($_POST['event_date'] != "") ? strtotime($_POST['event_date']) : "";
+  $edate = ($_POST['event_date'] != "") ? strtotime($_POST['event_date']) : "TBD";
   update_post_meta($post_id, 'event_date', $edate);
   update_post_meta($post_id, 'event_start_time', $_POST['event_start_time']);
   update_post_meta($post_id, 'event_end_time', $_POST['event_end_time']);
@@ -621,14 +621,14 @@ add_action('manage_events_posts_custom_column', 'custom_events_column', 10, 2);
 function custom_events_column($column, $post_id) {
   switch ($column) {
     case 'event_date':
-      $edate = (get_post_meta(get_the_ID(), 'event_date', true) != "") ? date("m/d/Y", get_post_meta($post_id, 'event_date', true)) : "TBD";
+      $edate = (get_post_meta(get_the_ID(), 'event_date', true) != "TBD") ? date("m/d/Y", get_post_meta($post_id, 'event_date', true)) : "TBD";
       echo $edate;
       break;
     case 'event_start_time':
       if (get_post_meta($post_id, 'event_start_time', true) != "")
         echo get_post_meta($post_id, 'event_start_time', true);
       if (get_post_meta($post_id, 'event_start_time', true) != "" && get_post_meta($post_id, 'event_end_time', true) != "")
-        echo " to ".get_post_meta($post_id, 'event_end_time', true);
+        echo " - ".get_post_meta($post_id, 'event_end_time', true);
       break;
     case 'event_register_button':
       if (get_post_meta($post_id, 'event_registration_link', true) != "" && get_post_meta($post_id, 'event_register_button', true) != "")
