@@ -572,6 +572,7 @@ function events_mb_content($post) {
 }
 
 function events_mb_content_side($post) {
+  $meta = get_post_meta($post->ID);
   ?>
   <input type="text" name="event_video" placeholder="URL to video page" value="<?php if (isset($meta['event_video'])) echo $meta['event_video'][0]; ?>"><br>
   Setting a video will override the Featured Image (if one is set).
@@ -603,6 +604,7 @@ function events_save($post_id) {
   update_post_meta($post_id, 'event_registration_text', $_POST['event_registration_text']);
   update_post_meta($post_id, 'event_registration_link', $_POST['event_registration_link']);
   update_post_meta($post_id, 'event_register_button', $_POST['event_register_button']);
+  update_post_meta($post_id, 'event_video', $_POST['event_video']);
 }
 
 add_filter('manage_events_posts_columns', 'set_custom_edit_events_columns');

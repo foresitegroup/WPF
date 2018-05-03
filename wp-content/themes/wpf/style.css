@@ -1824,6 +1824,16 @@ FOOTER #footnav UL LI A:after {
   width: 34.54%;
 }
 
+.event-body .event-sidebar IMG {
+  max-width: 100%;
+  height: auto;
+}
+
+.event-body .event-sidebar IMG,
+.event-body .event-sidebar .video {
+  margin-bottom: 2em;
+}
+
 .event-body .event-text {
   outline: 1px solid red;
   width: 52.81%;

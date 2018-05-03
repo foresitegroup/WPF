@@ -26,7 +26,16 @@ endif;
 <div class="bars">
   <div class="site-width">
     <?php
-    $events = new WP_Query(array('post_type'=>'events', 'meta_key' => 'event_date', 'orderby'=>'meta_value', 'order'=> 'ASC', 'showposts' => -1));
+    $args = array(
+      'post_type' => 'events',
+      'showposts' => -1,
+      'meta_query' => array(
+        array('key' => 'event_date', 'value' => strtotime("Today"), 'compare' => '>=')
+      ),
+      'orderby' => 'meta_value',
+      'order'=> 'ASC'
+    );
+    $events = new WP_Query($args);
 
     while($events->have_posts()) : $events->the_post();
       echo '<div class="event-header">'."\n";
@@ -72,7 +81,16 @@ endif;
       echo '<div class="event-body">'."\n";
         echo '<div class="event-body-content">'."\n";
           echo '<div class="event-sidebar">'."\n";
-            echo "SIDEBAR";
+            if (has_post_thumbnail(get_the_ID()) || get_post_meta(get_the_ID(), 'event_video', true) != "") {
+              if (has_post_thumbnail(get_the_ID()))
+                $event_media = '<img src="'.get_the_post_thumbnail_url(get_the_ID(),'full').'" alt="">';
+
+              if (get_post_meta(get_the_ID(), 'event_video', true) != "")
+                $event_media = '<div class="video">'.wp_oembed_get(get_post_meta(get_the_ID(), 'event_video', true))."</div>\n";
+
+              echo $event_media;
+            }
+
           echo "</div>\n";
 
           echo '<div class="event-text">'."\n";
