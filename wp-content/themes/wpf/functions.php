@@ -536,8 +536,6 @@ function events_mb_content($post) {
   wp_enqueue_style('jquery-ui-style', '//ajax.googleapis.com/ajax/libs/jqueryui/1.8.1/themes/smoothness/jquery-ui.css', true);
   wp_enqueue_script('timepicker', 'https://cdn.jsdelivr.net/npm/timepicker/jquery.timepicker.min.js', true);
   wp_enqueue_style('timepicker-style', 'https://cdn.jsdelivr.net/npm/timepicker/jquery.timepicker.min.css', true);
-
-  $meta = get_post_meta($post->ID);
   ?>
   <script>
     jQuery(document).ready(function(){
@@ -546,35 +544,39 @@ function events_mb_content($post) {
     });
   </script>
 
-  <input type="checkbox" name="event_pin"<?php if ($meta['event_pin'][0] != "") echo " checked"; ?>> Pin event to top of Home Page list<br>
+  <input type="checkbox" name="event_pin"<?php if ($post->event_pin != "") echo " checked"; ?>> Pin event to top of Home Page list<br>
   <br>
 
-  <input type="text" name="event_date" placeholder="Event Date" value="<?php if ($meta['event_date'][0] != "") echo date("m/d/Y", $meta['event_date'][0]); ?>" id="event_date">
+  <input type="text" name="event_date" placeholder="Event Date" value="<?php if ($post->event_date != "") echo date("m/d/Y", $post->event_date); ?>" id="event_date">
   If not set, "TBD" will be displayed as the event date.<br>
 
-  <input type="text" name="event_start_time" placeholder="Start Time" value="<?php if ($meta['event_start_time'][0] != "") echo $meta['event_start_time'][0]; ?>" id="event_start_time">
+  <input type="text" name="event_start_time" placeholder="Start Time" value="<?php if ($post->event_start_time != "") echo $post->event_start_time; ?>" id="event_start_time">
   -
-  <input type="text" name="event_end_time" placeholder="End Time" value="<?php if ($meta['event_end_time'][0] != "") echo $meta['event_end_time'][0]; ?>" id="event_end_time">
+  <input type="text" name="event_end_time" placeholder="End Time" value="<?php if ($post->event_end_time != "") echo $post->event_end_time; ?>" id="event_end_time">
   You may set a Start Time with no End Time.<br>
   <br>
 
-  <input type="text" name="event_location_name" placeholder="Location Name" value="<?php if ($meta['event_location_name'][0] != "") echo $meta['event_location_name'][0]; ?>">
-  <input type="text" name="event_location_address" placeholder="Location Address" value="<?php if ($meta['event_location_address'][0] != "") echo $meta['event_location_address'][0]; ?>"><br>
+  <input type="text" name="event_location_name" placeholder="Location Name" value="<?php if ($post->event_location_name != "") echo $post->event_location_name; ?>">
+  <input type="text" name="event_location_address" placeholder="Location Address" value="<?php if ($post->event_location_address != "") echo $post->event_location_address; ?>"><br>
   <br>
   
-  <input type="text" name="event_registration_text" placeholder="Registration Text (e.g. &quot;Registration ending soon!&quot;)" value="<?php if ($meta['event_registration_text'][0] != "") echo $meta['event_registration_text'][0]; ?>">
-  <input type="text" name="event_registration_link" placeholder="Registration Link" value="<?php if ($meta['event_registration_link'][0] != "") echo $meta['event_registration_link'][0]; ?>">
-  <input type="checkbox" name="event_register_button"<?php if ($meta['event_register_button'][0] != "") echo " checked"; ?>> Show "Register" button<br>
+  <input type="text" name="event_registration_text" placeholder="Registration Text (e.g. &quot;Registration ending soon!&quot;)" value="<?php if ($post->event_registration_text != "") echo $post->event_registration_text; ?>">
+  <input type="text" name="event_registration_link" placeholder="Registration Link" value="<?php if ($post->event_registration_link != "") echo $post->event_registration_link; ?>">
+  <input type="checkbox" name="event_register_button"<?php if ($post->event_register_button != "") echo " checked"; ?>> Show "Register" button<br>
   <br>
 
-  PRICING FIELDS HERE (level type, level price)
+  <strong>PRICING</strong><br>
+  <input type="text" name="event_pricing_member" placeholder="Member" value="<?php if ($post->event_pricing_member != "") echo $post->event_pricing_member; ?>">
+  <input type="text" name="event_pricing_non_member" placeholder="Non-Member" value="<?php if ($post->event_pricing_non_member != "") echo $post->event_pricing_non_member; ?>">
+  <input type="text" name="event_pricing_corporate" placeholder="Corporate" value="<?php if ($post->event_pricing_corporate != "") echo $post->event_pricing_corporate; ?>">
+  <input type="text" name="event_pricing_friends" placeholder="Friends" value="<?php if ($post->event_pricing_friends != "") echo $post->event_pricing_friends; ?>">
+  <input type="text" name="event_pricing_government" placeholder="Government" value="<?php if ($post->event_pricing_government != "") echo $post->event_pricing_government; ?>">
   <?php
 }
 
 function events_mb_content_side($post) {
-  $meta = get_post_meta($post->ID);
   ?>
-  <input type="text" name="event_video" placeholder="URL to video page" value="<?php if (isset($meta['event_video'])) echo $meta['event_video'][0]; ?>"><br>
+  <input type="text" name="event_video" placeholder="URL to video page" value="<?php if ($post->event_video != "") echo $post->event_video; ?>"><br>
   Setting a video will override the Featured Image (if one is set).
   <?php
 }
@@ -604,6 +606,11 @@ function events_save($post_id) {
   update_post_meta($post_id, 'event_registration_text', $_POST['event_registration_text']);
   update_post_meta($post_id, 'event_registration_link', $_POST['event_registration_link']);
   update_post_meta($post_id, 'event_register_button', $_POST['event_register_button']);
+  update_post_meta($post_id, 'event_pricing_member', $_POST['event_pricing_member']);
+  update_post_meta($post_id, 'event_pricing_non_member', $_POST['event_pricing_non_member']);
+  update_post_meta($post_id, 'event_pricing_corporate', $_POST['event_pricing_corporate']);
+  update_post_meta($post_id, 'event_pricing_friends', $_POST['event_pricing_friends']);
+  update_post_meta($post_id, 'event_pricing_government', $_POST['event_pricing_government']);
   update_post_meta($post_id, 'event_video', $_POST['event_video']);
 }
 
@@ -621,23 +628,23 @@ function set_custom_edit_events_columns($columns) {
 
 add_action('manage_events_posts_custom_column', 'custom_events_column', 10, 2);
 function custom_events_column($column, $post_id) {
+  global $post;
   switch ($column) {
     case 'event_date':
-      $edate = (get_post_meta(get_the_ID(), 'event_date', true) != "TBD") ? date("m/d/Y", get_post_meta($post_id, 'event_date', true)) : "TBD";
+      $edate = ($post->event_date != "TBD") ? date("m/d/Y", $post->event_date) : "TBD";
       echo $edate;
       break;
     case 'event_start_time':
-      if (get_post_meta($post_id, 'event_start_time', true) != "")
-        echo get_post_meta($post_id, 'event_start_time', true);
-      if (get_post_meta($post_id, 'event_start_time', true) != "" && get_post_meta($post_id, 'event_end_time', true) != "")
-        echo " - ".get_post_meta($post_id, 'event_end_time', true);
+      if ($post->event_start_time != "") echo $post->event_start_time;
+      if ($post->event_start_time != "" && $post->event_end_time != "")
+        echo " - ".$post->event_end_time;
       break;
     case 'event_register_button':
-      if (get_post_meta($post_id, 'event_registration_link', true) != "" && get_post_meta($post_id, 'event_register_button', true) != "")
+      if ($post->event_registration_link != "" && $post->event_register_button != "")
         echo "Open";
       break;
     case 'event_pin':
-      if (get_post_meta($post_id, 'event_pin', true) == "on") echo "Yes";
+      if ($post->event_pin == "on") echo "Yes";
       break;
   }
 }

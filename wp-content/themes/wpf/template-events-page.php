@@ -38,69 +38,127 @@ endif;
     $events = new WP_Query($args);
 
     while($events->have_posts()) : $events->the_post();
-      echo '<div class="event-header">'."\n";
-        echo '<div class="date">'."\n";
-          echo "<div>\n";
-            if (get_post_meta(get_the_ID(), 'event_date', true) != "TBD") {
-              echo date("M", get_post_meta(get_the_ID(), 'event_date', true));
-              echo '<h3>'.date("d", get_post_meta(get_the_ID(), 'event_date', true)).'</h3>';
+      ?>
+      <div class="event-header">
+        <div class="date">
+          <div>
+            <?php
+            if ($post->event_date != "TBD") {
+              echo date("M", $post->event_date);
+              echo '<h3>'.date("d", $post->event_date).'</h3>';
             } else {
               echo "TBD";
             }
-          echo "</div>\n";
-        echo "</div>\n";
+            ?>
+          </div>
+        </div> <!-- /.date -->
         
-        echo '<div class="details">'."\n";
+        <div class="details">
+          <?php
           the_title('<h2>','</h2>');
 
-          if (get_post_meta(get_the_ID(), 'event_start_time', true) != "") {
-            echo '<h3>'.get_post_meta(get_the_ID(), 'event_start_time', true);
-            if (get_post_meta(get_the_ID(), 'event_start_time', true) != "" && get_post_meta(get_the_ID(), 'event_end_time', true) != "")
-              echo " - ".get_post_meta(get_the_ID(), 'event_end_time', true);
+          if ($post->event_start_time != "") {
+            echo '<h3>'.$post->event_start_time;
+            if ($post->event_start_time != "" && $post->event_end_time != "")
+              echo " - ".$post->event_end_time;
             echo "</h3>\n";
           }
           
-          if (get_post_meta(get_the_ID(), 'event_location_name', true) != "" || get_post_meta(get_the_ID(), 'event_location_address', true) != "") echo '<div class="location">'."\n";
-            if (get_post_meta(get_the_ID(), 'event_location_name', true) != "")
-              echo get_post_meta(get_the_ID(), 'event_location_name', true);
-            if (get_post_meta(get_the_ID(), 'event_location_name', true) != "" && get_post_meta(get_the_ID(), 'event_location_address', true) != "") echo ' &bull; ';
-            if (get_post_meta(get_the_ID(), 'event_location_address', true) != "")
-              echo get_post_meta(get_the_ID(), 'event_location_address', true);
-          if (get_post_meta(get_the_ID(), 'event_location_name', true) != "" || get_post_meta(get_the_ID(), 'event_location_address', true) != "") echo "</div>\n";
-        echo "</div>\n";
+          if ($post->event_location_name != "" || $post->event_location_address) echo '<div class="location">'."\n";
+            if ($post->event_location_name != "") echo $post->event_location_name;
+            if ($post->event_location_name != "" && $post->event_location_address != "") echo '<span>&bull;</span>';
+            if ($post->event_location_address != "") echo $post->event_location_address;
+          if ($post->event_location_name != "" || $post->event_location_address != "") echo "</div>\n";
+          ?>
+        </div> <!-- /.details -->
         
-        if (get_post_meta(get_the_ID(), 'event_registration_text', true) != "")
-          echo '<div class="reg-text">'.get_post_meta(get_the_ID(), 'event_registration_text', true)."</div>\n";
+        <?php
+        if ($post->event_registration_text != "")
+          echo '<div class="reg-text">'.$post->event_registration_text."</div>\n";
 
-        if (get_post_meta(get_the_ID(), 'event_registration_link', true) != "" && get_post_meta(get_the_ID(), 'event_register_button', true) != "")
-            echo '<a href="'.get_post_meta(get_the_ID(), 'event_registration_link', true).'" class="button">Register</a>';
+        if ($post->event_registration_link != "" && $post->event_register_button != "")
+            echo '<a href="'.$post->event_registration_link.'" class="button">Register</a>';
+        ?>
+        <a href="#" class="more-info">More Info<div></div></a>
+      </div> <!-- /.event-header -->
 
-        echo '<a href="#" class="more-info">More Info<div></div></a>';
-      echo "</div>\n";
-
-      echo '<div class="event-body">'."\n";
-        echo '<div class="event-body-content">'."\n";
-          echo '<div class="event-sidebar">'."\n";
-            if (has_post_thumbnail(get_the_ID()) || get_post_meta(get_the_ID(), 'event_video', true) != "") {
+      <div class="event-body">
+        <div class="event-body-content">
+          <div class="event-sidebar">
+            <?php
+            if (has_post_thumbnail(get_the_ID()) || $post->event_video != "") {
               if (has_post_thumbnail(get_the_ID()))
                 $event_media = '<img src="'.get_the_post_thumbnail_url(get_the_ID(),'full').'" alt="">';
 
-              if (get_post_meta(get_the_ID(), 'event_video', true) != "")
-                $event_media = '<div class="video">'.wp_oembed_get(get_post_meta(get_the_ID(), 'event_video', true))."</div>\n";
+              if ($post->event_video != "")
+                $event_media = '<div class="video">'.wp_oembed_get($post->event_video)."</div>\n";
 
               echo $event_media;
             }
 
-          echo "</div>\n";
+            if ($post->event_pricing_member != "" || $post->event_pricing_non_member != "" || $post->event_pricing_corporate != "" || $post->event_pricing_friends != "" || $post->event_pricing_government != "") {
+              ?>
+              <h4>Pricing</h4>
+              <div class="pricing">
+                <?php if ($post->event_pricing_member != "") { ?>
+                  <div class="price">
+                    <div>
+                      <div>Member</div>
+                      <?php echo $post->event_pricing_member; ?>
+                    </div>
+                  </div>
+                <?php } ?>
 
-          echo '<div class="event-text">'."\n";
-            the_content();
-          echo "</div>\n";
-        echo "</div>\n";
-      echo "</div>\n";
-    endwhile;
-    ?>
-  </div>
-</div>
+                <?php if ($post->event_pricing_non_member != "") { ?>
+                  <div class="price">
+                    <div>
+                      <div>Non-Member</div>
+                      <?php echo $post->event_pricing_non_member; ?>
+                    </div>
+                  </div>
+                <?php } ?>
+
+                <?php if ($post->event_pricing_corporate != "") { ?>
+                  <div class="price">
+                    <div>
+                      <div>Corporate Table</div>
+                      <?php echo $post->event_pricing_corporate; ?>
+                    </div>
+                  </div>
+                <?php } ?>
+
+                <?php if ($post->event_pricing_friends != "") { ?>
+                  <div class="price">
+                    <div>
+                      <div>Friends Table</div>
+                      <?php echo $post->event_pricing_friends; ?>
+                    </div>
+                  </div>
+                <?php } ?>
+
+                <?php if ($post->event_pricing_government != "") { ?>
+                  <div class="price">
+                    <div>
+                      <div>Government Table</div>
+                      <?php echo $post->event_pricing_government; ?>
+                    </div>
+                  </div>
+                <?php } ?>
+              </div>
+              <?php
+            }
+            ?>
+            
+            <a href="<?php echo home_url(); ?>/contact-us" class="button">Contact Us</a>
+          </div> <!-- /.event-sidebar -->
+
+          <div class="event-text">
+            <?php the_content(); ?>
+          </div>
+        </div> <!-- /.event-body-content -->
+      </div> <!-- /.event-body -->
+    <?php endwhile; ?>
+  </div> <!-- /.site-width -->
+</div> <!-- /.bars -->
 
 <?php get_footer(); ?>
