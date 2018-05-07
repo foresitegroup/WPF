@@ -39,49 +39,69 @@ endif;
 
 <div id="ep" class="site-width">
   <div id="events">
-    <div id="pinned">
-      <div class="event">
-        <h2><div>May<div>30</div></div></h2>
-        <div>
-          <h3>The Big Event: A Top-Pinned Event To Generate Buzz</h3>
-          <h4>6:00 - 9:00 PM</h4>
-          The Big Event Location<br>
-          123 Main St., Madison, WI
+    <?php
+    $hevents = new WP_Query(array(
+      'post_type' => 'events',
+      'posts_per_page' => -1,
+      'meta_query' => array(
+        'relation' => 'AND',
+        'mdate' => array('key' => 'event_date', 'value' => strtotime("Today"), 'compare' => '>='),
+        'mpin' => array('key' => 'event_pin')
+      ),
+      'orderby' => array('mpin' => 'DESC', 'mdate'=> 'ASC')
+    ));
+
+    if ($hevents->have_posts()) :
+      while ($hevents->have_posts()) : $hevents->the_post();
+        ?>
+        <div class="event<?php if ($post->event_pin == "on") echo " pinned"; ?>">
+          <div class="date-col">
+            <div class="date">
+              <div>
+                <?php
+                if ($post->event_date != "TBD") {
+                  echo date("M", $post->event_date);
+                  echo '<h3>'.date("d", $post->event_date).'</h3>';
+                } else {
+                  echo "TBD";
+                }
+                ?>
+              </div>
+            </div> <!-- /.date -->
+          </div> <!-- /.date-col -->
+          
+          <div class="details">
+            <?php
+            the_title('<h2>','</h2>');
+
+            if ($post->event_start_time != "") {
+              echo '<h3>'.$post->event_start_time;
+              if ($post->event_start_time != "" && $post->event_end_time != "")
+                echo " - ".$post->event_end_time;
+              echo "</h3>\n";
+            }
+
+            if ($post->event_location_name != "" || $post->event_location_address) echo '<div class="location">'."\n";
+              if ($post->event_location_name != "") echo $post->event_location_name;
+              if ($post->event_location_name != "" && $post->event_location_address != "") echo "<br>\n";
+              if ($post->event_location_address != "") echo $post->event_location_address;
+            if ($post->event_location_name != "" || $post->event_location_address != "") echo "</div>\n";
+            ?>
+          </div>
         </div>
-      </div>
-    </div>
+        <?php
+      endwhile;
+      wp_reset_postdata();
+    endif;
+    ?>
 
-    <div class="event">
-      <h2><div>Mar<div>06</div></div></h2>
-      <div>
-        <h3>2018 Wisconsin Policy Forum Annual Meeting</h3>
-        <h4>5:00 - 7:00 PM</h4>
-        The Wisconsin Club<br>
-        900 W Wisconsin Ave., Milwaukee, WI
-      </div>
-    </div>
+    <a href="<?php echo home_url(); ?>/events/" class="button">View Event Calendar</a>
 
-    <div class="event">
-      <h2><div>Mar<div>13</div></div></h2>
-      <div>
-        <h3>Wisconsin Policy Forum Madison Kick-Off Event</h3>
-        <h4>5:00 - 7:00 PM</h4>
-        Brocach Irish Pub & Whiskey Den<br>
-        7 W Main St., Madison, WI
-      </div>
-    </div>
-
-    <div class="event">
-      <h2><div>Apr<div>30</div></div></h2>
-      <div>
-        <h3>2018 Budget Meeting</h3>
-        <h4>5:00 - 7:00 PM</h4>
-        Brocach Irish Pub & Whiskey Den<br>
-        7 W Main St., Madison, WI
-      </div>
-    </div>
-
-    <a href="#" class="button">View Event Calendar</a>
+    <script type="text/javascript">
+      jQuery(document).ready(function($) {
+        $("#ep #events .pinned:last").addClass("pinnedlast");
+      });
+    </script>
   </div>
 
   <div id="publication-header"><span>Featured</span> Publication</div>

@@ -521,7 +521,9 @@ function events() {
       'show_ui' => true,
       'menu_position' => 52,
       'menu_icon' => 'dashicons-calendar-alt',
-      'supports' => array('title','editor','thumbnail')
+      'supports' => array('title','editor','thumbnail'),
+      'has_archive' => true,
+      'public' => true
   ));
 }
 
@@ -547,7 +549,7 @@ function events_mb_content($post) {
   <input type="checkbox" name="event_pin"<?php if ($post->event_pin != "") echo " checked"; ?>> Pin event to top of Home Page list<br>
   <br>
 
-  <input type="text" name="event_date" placeholder="Event Date" value="<?php if ($post->event_date != "") echo date("m/d/Y", $post->event_date); ?>" id="event_date">
+  <input type="text" name="event_date" placeholder="Event Date" value="<?php if ($post->event_date != "TBD") echo date("m/d/Y", $post->event_date); ?>" id="event_date">
   If not set, "TBD" will be displayed as the event date.<br>
 
   <input type="text" name="event_start_time" placeholder="Start Time" value="<?php if ($post->event_start_time != "") echo $post->event_start_time; ?>" id="event_start_time">
@@ -561,7 +563,6 @@ function events_mb_content($post) {
   <br>
   
   <input type="text" name="event_registration_text" placeholder="Registration Text (e.g. &quot;Registration ending soon!&quot;)" value="<?php if ($post->event_registration_text != "") echo $post->event_registration_text; ?>">
-  <input type="text" name="event_registration_link" placeholder="Registration Link" value="<?php if ($post->event_registration_link != "") echo $post->event_registration_link; ?>">
   <input type="checkbox" name="event_register_button"<?php if ($post->event_register_button != "") echo " checked"; ?>> Show "Register" button<br>
   <br>
 
@@ -594,6 +595,14 @@ function events_css() {
   }
 }
 
+add_filter('wp_insert_post_data', 'events_custom_permalink');
+function events_custom_permalink($data) {
+  if ($data['post_type'] == 'events') {
+    $data['post_name'] = sanitize_title($data['post_title']);
+  }
+  return $data;
+}
+
 add_action('save_post', 'events_save');
 function events_save($post_id) {
   update_post_meta($post_id, 'event_pin', $_POST['event_pin']);
@@ -604,7 +613,6 @@ function events_save($post_id) {
   update_post_meta($post_id, 'event_location_name', $_POST['event_location_name']);
   update_post_meta($post_id, 'event_location_address', $_POST['event_location_address']);
   update_post_meta($post_id, 'event_registration_text', $_POST['event_registration_text']);
-  update_post_meta($post_id, 'event_registration_link', $_POST['event_registration_link']);
   update_post_meta($post_id, 'event_register_button', $_POST['event_register_button']);
   update_post_meta($post_id, 'event_pricing_member', $_POST['event_pricing_member']);
   update_post_meta($post_id, 'event_pricing_non_member', $_POST['event_pricing_non_member']);
@@ -640,8 +648,7 @@ function custom_events_column($column, $post_id) {
         echo " - ".$post->event_end_time;
       break;
     case 'event_register_button':
-      if ($post->event_registration_link != "" && $post->event_register_button != "")
-        echo "Open";
+      if ($post->event_register_button != "") echo "Open";
       break;
     case 'event_pin':
       if ($post->event_pin == "on") echo "Yes";
@@ -665,6 +672,12 @@ function events_custom_orderby($query) {
     $query->set('meta_key', 'event_date');
     $query->set('orderby', 'meta_value_num');
   }
+}
+
+add_filter('post_row_actions', 'disable_events_quick_edit', 10, 2);
+function disable_events_quick_edit($actions, $post) {
+  if ('events' === $post->post_type) unset($actions['inline hide-if-no-js']);
+  return $actions;
 }
 
 
