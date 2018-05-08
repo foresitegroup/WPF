@@ -77,7 +77,8 @@ LABEL {
 
 INPUT[type="text"],
 INPUT[type="email"],
-INPUT[type="tel"] {
+INPUT[type="tel"],
+INPUT[type="number"] {
   outline: 0;
   border: 2px solid #CCCCCC;
   background: #FFFFFF;
@@ -1936,6 +1937,112 @@ FOOTER #footnav UL LI A:after {
 .event-body .event-text { width: 52.81%; }
 
 .event-body .event-text P:last-of-type { margin-bottom: 0; }
+
+#eventreg {
+  padding: 5em 0;
+  background: #1C305B;
+  color: #FFFFFF;
+  font-family: 'Geometos', sans-serif;
+  font-weight: 400;
+  font-size: 17px;
+  line-height: 1em;
+}
+
+#eventreg .line { position: relative; }
+#eventreg .line > DIV {
+  position: absolute;
+  top: 0.2em;
+  left: 0;
+  width: 100%;
+  height: 5px;
+  background: #FFFFFF;
+}
+
+#eventreg .line H2 {
+  display: inline-block;
+  margin: 0;
+  padding-right: 1em;
+  background: #1C305B;
+  font-weight: 400;
+  font-size: 109.88%;
+  line-height: 1em;
+  position: relative;
+  z-index: 3;
+}
+
+#eventreg INPUT[type="text"],
+#eventreg INPUT[type="email"],
+#eventreg INPUT[type="tel"],
+#eventreg INPUT[type="number"] {
+  border-width: 1px;
+}
+
+#eventreg .select {
+  width: 100%;
+  border-width: 1px;
+  margin-left: 0;
+}
+
+#eventreg .select:before {
+  border: 1px solid #1C305B;
+  border-left-width: 0;
+  background: #24A9E0;
+}
+
+#eventreg .select SELECT { width: 100%; }
+
+#eventreg INPUT[type="button"] {
+  display: block;
+  width: auto;
+  padding: 1em 3em 0.75em;
+  background: #FE7004;
+  margin: 2em auto 0;
+  -webkit-transition: all 0.2s;
+  -moz-transition: all 0.2s;
+  transition: all 0.2s;
+}
+
+#eventreg INPUT[type="button"]:hover { background: #24A9E0; }
+
+#eventreg #attendee-header { display: none; margin-top: 3em; }
+
+#eventreg H3 {
+  margin: 3em 0 1em;
+  font-weight: 400;
+  font-size: 70.58%;
+  line-height: 1em;
+}
+
+#eventreg H3:first-of-type { margin-top: 2em; }
+
+#eventreg #general,
+#eventreg .attendee {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+#eventreg #general { margin-top: 1.5em; }
+
+#eventreg #general > DIV,
+#eventreg .attendee > DIV {
+  width: 22.72%;
+}
+
+#eventreg #general > DIV SPAN,
+#eventreg .attendee > DIV SPAN {
+  display: block;
+  font-size: 64%;
+  line-height: 1em;
+  margin-bottom: 0.5em;
+}
+
+#eventreg #general LABEL,
+#eventreg .attendee LABEL {
+  color: #24A9E0;
+  display: inline-block;
+  margin-bottom: 0.5em;
+}
 
 
 /************/
