@@ -62,6 +62,7 @@ function fg_remove_visual_editor($can) {
   if ($post->ID == 542) return false; // Join Sidebar
   if ($post->ID == 544) return false; // Renew Sidebar
   if ($post->ID == 105) return false; // Join/Renew Dues Structure
+  if ($post->ID == 765) return false; // Current Members
 
   return $can;
 }

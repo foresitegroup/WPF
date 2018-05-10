@@ -56,9 +56,9 @@ endif;
               <div class="info"></div>
             </div>
           </a>
-          <div id="staff<?php echo get_the_ID(); ?>" class="staff-modal">
+          <div id="staff<?php echo get_the_ID(); ?>" class="modal staff-modal">
             <div class="site-width">
-              <div class="info">
+              <div class="sidebar info">
                 <?php
                 if (has_post_thumbnail()) echo '<img src="'.get_the_post_thumbnail_url().'" alt="">';
 
@@ -85,7 +85,7 @@ endif;
                 ?>
               </div>
 
-              <div class="bio">
+              <div class="content">
                 <h4>BIO</h4>
                 <?php nl2br(the_content()); ?>
               </div>
