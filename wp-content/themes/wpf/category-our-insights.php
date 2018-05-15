@@ -5,8 +5,8 @@
 </div>
 
 <div id="tabs" class="insights-tabs">
-  <a href="<?php echo get_site_url(null, '/insights/our-insights/'); ?>">Our Insights</a>
-  <label>In The News</label>
+  <label>Our Insights</label>
+  <a href="<?php echo get_site_url(null, '/insights/in-the-news/'); ?>">In The News</a>
 </div>
 
 <?php get_template_part('content', 'insights'); ?>

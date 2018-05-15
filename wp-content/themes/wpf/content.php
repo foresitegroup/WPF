@@ -1,7 +1,7 @@
 <?php
 if (is_single()) : ?>
   
-  <div id="news-single-header">
+  <div id="insights-single-header">
     <div class="site-width">
       <?php
       $category = get_the_category();
@@ -34,10 +34,10 @@ if (is_single()) : ?>
   </div>
   
   <div class="bars">
-    <div class="site-width news-single">
-      <div id="news-single-sidebar">
+    <div class="site-width insights-single">
+      <div id="insights-single-sidebar">
         <?php if (has_post_thumbnail()) { ?>
-        <div id="news-single-image" style="background-image: url(<?php echo wp_get_attachment_url(get_post_thumbnail_id()); ?>);"></div>
+        <div id="insights-single-image" style="background-image: url(<?php echo wp_get_attachment_url(get_post_thumbnail_id()); ?>);"></div>
         <?php } ?>
 
         <?php if (has_term('', 'post_tag')) { ?>
@@ -50,18 +50,18 @@ if (is_single()) : ?>
         <?php } ?>
 
         <div id="single-search">
-          Search News Archive
+          Search Insights Archive
           <form role="search" method="get" id="search" action="<?php echo esc_url(home_url('/')); ?>">
             <div>
               <input type="search" id="search-field" name="s" autocomplete="off"><button type="submit" id="search-button"><i class="fas fa-search"></i></button>
-              <input type="radio" name="cat" value="30" id="ro"<?php if ($category[0]->category_parent == 30) echo " checked"; ?>> <label for="ro">Our News</label>
+              <input type="radio" name="cat" value="30" id="ro"<?php if ($category[0]->category_parent == 30) echo " checked"; ?>> <label for="ro">Our Insights</label>
               <input type="radio" name="cat" value="31" id="ri"<?php if ($category[0]->category_parent == 31) echo " checked"; ?>> <label for="ri">In The News</label>
             </div>
           </form>
         </div>
       </div>
       
-      <div id="news-single-text">
+      <div id="insights-single-text">
         <?php the_content(); ?>
       </div>
     </div>

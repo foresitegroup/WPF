@@ -26,9 +26,8 @@ endif;
   // Scroll to Annual Reports section if URL is /our-mission/#reports
   // and remove "#reports" from URL
   window.onload = function() {
-    if(window.location.href.indexOf('#reports') > 0) {
+    if (window.location.href.indexOf('#reports') > 0 || window.location.href.indexOf('#mission-mission') > 0)
       window.history.pushState(null, null, window.location.pathname);
-    }
   }
 </script>
 

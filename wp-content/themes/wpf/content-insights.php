@@ -1,9 +1,9 @@
 <?php $category = get_queried_object(); ?>
 
-<div class="bars news-bars">
-  <div class="site-width news-index">
-    <div class="news-header cf">
-      <div class="news-search">
+<div class="bars insight-bars">
+  <div class="site-width insights-index">
+    <div class="insights-header cf">
+      <div class="insights-search">
         <form role="search" method="get" id="search" action="<?php echo esc_url(home_url('/')); ?>">
           Search:
           <div>
@@ -11,7 +11,7 @@
             <input type="hidden" name="cat" value="<?php echo $category->term_id; ?>">
           </div>
         </form>
-      </div> <!-- /.news-search -->
+      </div> <!-- /.insights-search -->
 
       <div class="pagination">
         <?php
@@ -19,15 +19,15 @@
         echo paginate_links($paginate_args);
         ?>
       </div> <!-- /.pagination -->
-    </div> <!-- /.news-header -->
+    </div> <!-- /.insights-header -->
 
     <?php
     if(have_posts()) :
       ?>
-      <div class="news-posts">
+      <div class="insights-posts">
         <?php
         while(have_posts()) : the_post();
-          echo '<div class="news-post">';
+          echo '<div class="insights-post">';
             $cats = wp_get_post_categories(get_the_ID(), array('parent' => $category->term_id));
             if (!empty($cats)) {
               $sep = ', '; $output = '';
@@ -48,7 +48,7 @@
           echo '</div>';
         endwhile;
         ?>
-      </div> <!-- /.news-posts -->
+      </div> <!-- /.insights-posts -->
     <?php
     else:
       if (is_search()) {
@@ -57,13 +57,13 @@
     endif;
     ?>
 
-    <div class="news-header bottom cf">
+    <div class="insights-header bottom cf">
       <div class="pagination">
         <?php
         $paginate_args = array('show_all' => true, 'prev_text' => '<', 'next_text' => '>');
         echo paginate_links($paginate_args);
         ?>
       </div> <!-- /.pagination -->
-    </div> <!-- /.news-header.bottom -->
-  </div> <!-- /.news-index -->
+    </div> <!-- /.insights-header.bottom -->
+  </div> <!-- /.insights-index -->
 </div> <!-- /.bars -->

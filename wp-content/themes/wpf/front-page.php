@@ -33,7 +33,7 @@ endif;
 <div id="ep-header">
   <div class="site-width">
     <h1 class="left"><span>Upcoming</span> Events</h1>
-    <h1 class="right"><span>Featured</span> Publication</h1>
+    <h1 class="right"><span>Featured</span> Research</h1>
   </div>
 </div>
 
@@ -104,7 +104,7 @@ endif;
     </script>
   </div>
 
-  <div id="publication-header"><span>Featured</span> Publication</div>
+  <div id="publication-header"><span>Featured</span> Research</div>
 
   <div id="publication">
     <?php
@@ -136,7 +136,7 @@ endif;
 
         echo '<a href="';
         the_permalink();
-        echo '" class="button">View Publication</a>';
+        echo '" class="button">View Research</a>';
       endwhile;
       wp_reset_postdata();
     endif;
@@ -151,14 +151,14 @@ endif;
   </div>
 </div>
 
-<div id="home-news">
+<div id="home-insights">
   <div class="site-width">
   	<?php
-  	$news = new WP_Query(array('showposts' => 3));
+  	$insights = new WP_Query(array('showposts' => 3));
 
-  	if ($news->have_posts()) {
-  		while ($news->have_posts() ) : $news->the_post();
-  			echo '<div class="news-post">';
+  	if ($insights->have_posts()) {
+  		while ($insights->have_posts() ) : $insights->the_post();
+  			echo '<div class="insights-post">';
           $category = get_the_category();
           $cats = wp_get_post_categories(get_the_ID(), array('parent' => $category[0]->category_parent));
           if (!empty($cats)) {
