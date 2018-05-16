@@ -412,40 +412,39 @@ function wwd_page() {
 add_action('add_meta_boxes', 'wwd_page_mb');
 function wwd_page_mb() {
   global $post;
-  if ('template-what-we-do-page.php' == get_post_meta($post->ID, '_wp_page_template', true)) {
+  if ('template-what-we-do-page.php' == $post->_wp_page_template) {
     add_meta_box('wwd_page_mb', 'Sections', 'wwd_page_mb_content', '', 'normal');
   }
 }
 
 function wwd_page_mb_content($post) {
-  $meta = get_post_meta($post->ID);
   ?>
   <h3>Section 1</h3>
-  <input type="text" name="wwd_page_section1_title" placeholder="Section 1 Title" value="<?php if (isset($meta['wwd_page_section1_title'])) echo $meta['wwd_page_section1_title'][0]; ?>">
+  <input type="text" name="wwd_page_section1_title" placeholder="Section 1 Title" value="<?php if ($post->wwd_page_section1_title) echo $post->wwd_page_section1_title; ?>">
   <?php
-  wp_editor(get_post_meta($post->ID, 'wwd_page_section1_text', true), 'wwd_page_section1_text', array('textarea_rows' => 5));
+  wp_editor($post->wwd_page_section1_text, 'wwd_page_section1_text', array('textarea_rows' => 5));
   ?>
-  <input type="text" name="wwd_page_section1_image" id="wwd_page_section1_image" class="wwd_page_image" value="<?php if (isset($meta['wwd_page_section1_image'])) echo $meta['wwd_page_section1_image'][0]; ?>">
+  <input type="text" name="wwd_page_section1_image" id="wwd_page_section1_image" class="wwd_page_image" value="<?php if ($post->wwd_page_section1_image) echo $post->wwd_page_section1_image; ?>">
   <input type="button" id="wwd_page_section1_image_button" class="button" value="Add/Edit Image">
 
   <hr>
 
   <h3>Section 2</h3>
-  <input type="text" name="wwd_page_section2_title" placeholder="Section 2 Title" value="<?php if (isset($meta['wwd_page_section2_title'])) echo $meta['wwd_page_section2_title'][0]; ?>">
+  <input type="text" name="wwd_page_section2_title" placeholder="Section 2 Title" value="<?php if ($post->wwd_page_section2_title) echo $post->wwd_page_section2_title; ?>">
   <?php
-  wp_editor(get_post_meta($post->ID, 'wwd_page_section2_text', true), 'wwd_page_section2_text', array('textarea_rows' => 5));
+  wp_editor($post->wwd_page_section2_text, 'wwd_page_section2_text', array('textarea_rows' => 5));
   ?>
-  <input type="text" name="wwd_page_section2_image" id="wwd_page_section2_image" class="wwd_page_image" value="<?php if (isset($meta['wwd_page_section2_image'])) echo $meta['wwd_page_section2_image'][0]; ?>">
+  <input type="text" name="wwd_page_section2_image" id="wwd_page_section2_image" class="wwd_page_image" value="<?php if ($post->wwd_page_section2_image) echo $post->wwd_page_section2_image; ?>">
   <input type="button" id="wwd_page_section2_image_button" class="button" value="Add/Edit Image">
 
   <hr>
 
   <h3>Section 3</h3>
-  <input type="text" name="wwd_page_section3_title" placeholder="Section 3 Title" value="<?php if (isset($meta['wwd_page_section3_title'])) echo $meta['wwd_page_section3_title'][0]; ?>">
+  <input type="text" name="wwd_page_section3_title" placeholder="Section 3 Title" value="<?php if ($post->wwd_page_section3_title) echo $post->wwd_page_section3_title; ?>">
   <?php
-  wp_editor(get_post_meta($post->ID, 'wwd_page_section3_text', true), 'wwd_page_section3_text', array('textarea_rows' => 5));
+  wp_editor($post->wwd_page_section3_text, 'wwd_page_section3_text', array('textarea_rows' => 5));
   ?>
-  <input type="text" name="wwd_page_section3_image" id="wwd_page_section3_image" class="wwd_page_image" value="<?php if (isset($meta['wwd_page_section3_image'])) echo $meta['wwd_page_section3_image'][0]; ?>">
+  <input type="text" name="wwd_page_section3_image" id="wwd_page_section3_image" class="wwd_page_image" value="<?php if ($post->wwd_page_section3_image) echo $post->wwd_page_section3_image; ?>">
   <input type="button" id="wwd_page_section3_image_button" class="button" value="Add/Edit Image">
 
   <script>
@@ -524,7 +523,10 @@ function events() {
       'menu_icon' => 'dashicons-calendar-alt',
       'supports' => array('title','editor','thumbnail'),
       'has_archive' => true,
-      'public' => true
+      'exclude_from_search' => false,
+      'publicly_queryable' => true,
+      'show_in_nav_menus' => true,
+      'show_ui' => true
   ));
 }
 
@@ -625,12 +627,12 @@ function events_save($post_id) {
 
 add_filter('manage_events_posts_columns', 'set_custom_edit_events_columns');
 function set_custom_edit_events_columns($columns) {
-  unset($columns['date']);
-
   $columns['event_date'] = "Event Date";
   $columns['event_start_time'] = "Time";
   $columns['event_register_button'] = "Registration";
   $columns['event_pin'] = "Pinned";
+
+  unset($columns['date']);
 
   return $columns;
 }
@@ -702,7 +704,10 @@ function fg_research() {
       'supports' => array('title', 'editor','thumbnail'),
       'taxonomies' => array('research-category', 'research-tag'),
       'has_archive' => true,
-      'public' => true
+      'exclude_from_search' => false,
+      'publicly_queryable' => true,
+      'show_in_nav_menus' => true,
+      'show_ui' => true
   ));
 }
 
@@ -751,9 +756,8 @@ function get_current_post_type() {
 add_action('edit_form_after_title', 'fg_research_subtitle');
 function fg_research_subtitle($post) {
   if (get_post_type() == 'research') {
-    $meta = get_post_meta($post->ID);
     echo '<input type="text" name="fg_research_subtitle" placeholder="Enter subtitle here" value="';
-    if (isset($meta['fg_research_subtitle'])) echo $meta['fg_research_subtitle'][0];
+    if ($post->fg_research_subtitle != "") echo $post->fg_research_subtitle;
     echo '" id="fg_research_subtitle">';
   }
 }
