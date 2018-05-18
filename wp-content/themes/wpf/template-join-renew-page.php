@@ -44,10 +44,10 @@ endif;
         <br><br><br><br>
         <div class="cf">
           <div id="join-form" class="join-form">
-            <?php echo do_shortcode("[ninja_form id=2]"); ?>
+            <?php echo do_shortcode("[ninja_form id=5]"); ?>
           </div>
 
-          <script>
+<!--           <script>
             jQuery(document).ready(function($){ 
               jQuery('#join-form').on('change','.join-type',function(){
                 if (jQuery('.join-type').val() == 'Individual') {
@@ -59,7 +59,7 @@ endif;
                 }
               });
             });
-          </script>
+          </script> -->
 
           <div class="jr-sidebar">
             <?php
@@ -79,7 +79,7 @@ endif;
         <br><br><br><br>
         <div class="cf">
           <div class="join-form">
-            RENEW FORM GOES HERE
+            <?php echo do_shortcode("[ninja_form id=6]"); ?>
           </div>
 
           <div class="jr-sidebar">

@@ -15,6 +15,9 @@
 
 <div id="eventreg">
   <div class="site-width">
+    <?php echo do_shortcode("[ninja_form id=".$post->event_registration_form."]"); ?>
+
+    <br><br><br><br>
     <form>
       <div class="line">
         <div></div>
@@ -69,6 +72,21 @@
 </div>
 
 <script type="text/javascript">
+  jQuery(document).on( 'nfFormReady', function( e, layoutView ) {
+    function LineWidth() {
+      if (window.innerWidth > 1100) {
+        var Lwidth = jQuery(window).width() - ((jQuery(window).width() - 1100) / 2);
+        jQuery('#eventreg .line > DIV').css('width', Lwidth);
+      }
+    }
+
+    LineWidth();
+
+    jQuery(window).resize(function(){
+      setTimeout(function() { LineWidth(); },100);
+    });
+  });
+
   jQuery(document).ready(function($) {
     function LineWidth() {
       if (window.innerWidth > 1100) {

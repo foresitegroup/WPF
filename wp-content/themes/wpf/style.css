@@ -1952,6 +1952,8 @@ FOOTER #footnav UL LI A:after {
   line-height: 1em;
 }
 
+#eventreg .conditional-header { padding-top: 1.5em; }
+
 #eventreg .line { position: relative; }
 #eventreg .line > DIV {
   position: absolute;
@@ -1974,6 +1976,19 @@ FOOTER #footnav UL LI A:after {
   z-index: 3;
 }
 
+#eventreg .nf-form-fields-required,
+#eventreg .ninja-forms-req-symbol { display: none; }
+
+/*#eventreg .nf-form-content {
+  display: flex;
+}
+
+#eventreg .nf-field-container {
+  width: 22.72%;
+}*/
+
+#eventreg LABEL { color: #24A9E0; }
+
 #eventreg INPUT[type="text"],
 #eventreg INPUT[type="email"],
 #eventreg INPUT[type="tel"],
@@ -1981,23 +1996,26 @@ FOOTER #footnav UL LI A:after {
   border-width: 1px;
 }
 
-#eventreg .select {
+#eventreg .select,
+#eventreg .wpf-select .nf-field-element {
   width: 100%;
   border-width: 1px;
   margin-left: 0;
 }
 
+#eventreg .wpf-select .nf-field-element:before,
 #eventreg .select:before {
   border: 1px solid #1C305B;
   border-left-width: 0;
   background: #24A9E0;
 }
 
+#eventreg .wpf-select .nf-field-element SELECT,
 #eventreg .select SELECT { width: 100%; }
 
 #eventreg INPUT[type="button"] {
   display: block;
-  width: auto;
+  width: auto !important;
   padding: 1em 3em 0.75em;
   background: #FE7004;
   margin: 2em auto 0;
@@ -2009,6 +2027,7 @@ FOOTER #footnav UL LI A:after {
 #eventreg INPUT[type="button"]:hover { background: #24A9E0; }
 
 #eventreg #attendee-header { display: none; margin-top: 3em; }
+
 
 #eventreg H3 {
   margin: 3em 0 1em;
@@ -2742,12 +2761,14 @@ A.research-index:nth-of-type(even) { margin-right: 0; }
 /**************/
 .join-renew STRONG { color: #1C305B; }
 
-#join-form .join-ind { display: none; }
+/*#join-form .join-ind { display: none; }*/
 
 .join-form {
   float: left;
   width: 36.54%;
 }
+
+.join-form .nf-form-fields-required { display: none; }
 
 .join-form .city-container {
   display: inline-block;

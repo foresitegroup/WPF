@@ -567,6 +567,18 @@ function events_mb_content($post) {
   
   <input type="text" name="event_registration_text" placeholder="Registration Text (e.g. &quot;Registration ending soon!&quot;)" value="<?php if ($post->event_registration_text != "") echo $post->event_registration_text; ?>">
   <input type="checkbox" name="event_register_button"<?php if ($post->event_register_button != "") echo " checked"; ?>> Show "Register" button<br>
+  <select name="event_registration_form">
+    <option>Select a registration form...</option>
+    <?php
+    global $wpdb;
+    $regforms = $wpdb->get_results("SELECT * FROM wp_nf3_forms ORDER BY title ASC", OBJECT);
+    foreach ($regforms as $regform) {
+      echo '<option value="'.$regform->id.'"';
+      if ($post->event_registration_form == $regform->id) echo " selected";
+      echo ">".$regform->title."</option>\n";
+    }
+    ?>
+  </select><br>
   <br>
 
   <strong>PRICING</strong><br>
@@ -594,6 +606,7 @@ function events_css() {
       #events_mb INPUT[type="text"]#event_date,
       #events_mb INPUT[type="text"]#event_start_time,
       #events_mb INPUT[type="text"]#event_end_time { width: 10em; }
+      #events_mb SELECT { margin-top: 0.5em; }
     </style>';
   }
 }
@@ -617,6 +630,7 @@ function events_save($post_id) {
   update_post_meta($post_id, 'event_location_address', $_POST['event_location_address']);
   update_post_meta($post_id, 'event_registration_text', $_POST['event_registration_text']);
   update_post_meta($post_id, 'event_register_button', $_POST['event_register_button']);
+  update_post_meta($post_id, 'event_registration_form', $_POST['event_registration_form']);
   update_post_meta($post_id, 'event_pricing_member', $_POST['event_pricing_member']);
   update_post_meta($post_id, 'event_pricing_non_member', $_POST['event_pricing_non_member']);
   update_post_meta($post_id, 'event_pricing_corporate', $_POST['event_pricing_corporate']);
