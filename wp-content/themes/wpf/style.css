@@ -2977,6 +2977,8 @@ A.research-index:nth-of-type(even) { margin-right: 0; }
   position: relative;
 }
 
+.insights-posts .insights-post.focus-post { background: #24A9E0; color: #FFFFFF; }
+
 .insights-posts .insights-post:nth-of-type(3n+3) { margin-right: 0; }
 
 .insights-posts .insights-post H4,
@@ -2991,6 +2993,7 @@ A.research-index:nth-of-type(even) { margin-right: 0; }
 }
 
 .insights-posts .insights-post H5 { color: #24A9E0; }
+.insights-posts .insights-post.focus-post H5 { color: #1C305B; }
 
 .insights-posts .insights-post H5:after {
   content: "\2022";
@@ -3026,13 +3029,23 @@ A.research-index:nth-of-type(even) { margin-right: 0; }
   padding: 0.8em 1.75em 0.55em;
 }
 
+.insights-posts .insights-post.focus-post A.button:link,
+.insights-posts .insights-post.focus-post A.button:visited { background: #1C305B; }
+
 .insights-posts .insights-post A.button:hover,
 .insights-posts .insights-post A.button:active {
   background: #FFFFFF;
   color: #24A9E0;
 }
 
-#insights-single-header {
+.insights-posts .insights-post.focus-post A.button:hover,
+.insights-posts .insights-post.focus-post A.button:active {
+  background: #FFFFFF;
+  color: #1C305B;
+}
+
+#insights-single-header,
+#focus-header {
   background: #EBEBEB;
   color: #7C7C7C;
   font-weight: 700;
@@ -3041,14 +3054,19 @@ A.research-index:nth-of-type(even) { margin-right: 0; }
   padding: 1.5em 0;
 }
 
-#insights-single-header .site-width {
+#focus-header { background: #24A9E0; color: #FFFFFF; padding: 2.7em 0 2em; }
+
+#insights-single-header .site-width,
+#focus-header .site-width {
   position: relative;
   box-sizing: border-box;
   padding-right: 140px;
 }
 
 #insights-single-header H3,
-#insights-single-header H4 {
+#insights-single-header H4,
+#focus-header H2,
+#focus-header H3 {
   display: inline-block;
   margin: 0 0 0.5em;
   color: #24A9E0;
@@ -3059,14 +3077,18 @@ A.research-index:nth-of-type(even) { margin-right: 0; }
 }
 
 #insights-single-header H4 { color: #A5A5A5; }
+#focus-header H2 { color: #1C305B; }
+#focus-header H3 { color: #FFFFFF; }
 
-#insights-single-header H4:after {
+#insights-single-header H4:after,
+#focus-header H2:after {
   content: "\2022";
   color: #999999;
   margin: 0 0.3em;
 }
 
-#insights-single-header H1 {
+#insights-single-header H1,
+#focus-header H1 {
   margin: 0 0 0.1em;
   color: #1C305B;
   font-family: 'Geometos', sans-serif;
@@ -3074,6 +3096,8 @@ A.research-index:nth-of-type(even) { margin-right: 0; }
   font-size: 177.77%;
   line-height: 1.2em;
 }
+
+#focus-header H1 { color: #FFFFFF; }
 
 #insights-single-header H2 {
   margin: 0;
@@ -3093,6 +3117,43 @@ A.research-index:nth-of-type(even) { margin-right: 0; }
 #insights-single-header #share-links {
   top: 5em;
   right: -3em;
+}
+
+#focus-header-buttons {
+  position: absolute;
+  top: -1.6em;
+  right: 0;
+}
+
+#focus-header-buttons .button {
+  display: block;
+  background: #1C305B;
+  color: #FFFFFF;
+  font-family: 'Geometos', sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1em;
+  letter-spacing: 0.1em;
+  text-align: center;
+  box-sizing: border-box;
+  padding: 0.63em 1em;
+  width: 133px;
+  margin-bottom: 0.75em;
+}
+
+#focus-header-buttons .button .far {
+  font-size: 187.5%;
+  line-height: 1em;
+  vertical-align: middle;
+}
+
+#focus-header-buttons .button:hover { background: #FE7004; }
+
+#focus-header-buttons #toggle-share + LABEL {
+  margin-left: 0;
+  text-align: center;
+  box-sizing: border-box;
+  width: 133px;
 }
 
 .insights-single { display: flex; }
@@ -3178,15 +3239,18 @@ A.research-index:nth-of-type(even) { margin-right: 0; }
   top: 0.15em;
 }
 
-#insights-single-text IMG { max-width: 100%; height: auto; }
+#insights-single-text IMG,
+#focus-text IMG { max-width: 100%; height: auto; }
 
-#insights-single-text IMG.alignleft {
+#insights-single-text IMG.alignleft,
+#focus-text IMG.alignleft {
   float: left;
   margin: 0 2em 1em 0;
   max-width: 40%;
 }
 
-#insights-single-text IMG.alignright {
+#insights-single-text IMG.alignright,
+#focus-text IMG.alignright {
   float: right;
   margin: 0 0 1em 2em;
   max-width: 40%;
@@ -3195,7 +3259,9 @@ A.research-index:nth-of-type(even) { margin-right: 0; }
 #insights-single-text LI IMG.alignright { max-width: 25%; }
 
 #insights-single-text IMG.aligncenter,
-#insights-single-text IMG.alignnone { margin: 1em auto; }
+#insights-single-text IMG.alignnone,
+#focus-text IMG.aligncenter,
+#focus-text IMG.alignnone { margin: 1em auto; }
 
 
 

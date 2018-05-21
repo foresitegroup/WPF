@@ -510,23 +510,23 @@ function wwd_page_save($post_id) {
 add_action('init', 'events');
 function events() {
   register_post_type('events', array(
-      'labels' => array(
-        'name' => 'Events',
-        'singular_name' => 'Event',
-        'add_new_item' => 'Add New Event',
-        'edit_item' => 'Edit Event',
-        'search_items' => 'Search Events',
-        'not_found' => 'No Events found'
-      ),
-      'show_ui' => true,
-      'menu_position' => 52,
-      'menu_icon' => 'dashicons-calendar-alt',
-      'supports' => array('title','editor','thumbnail'),
-      'has_archive' => true,
-      'exclude_from_search' => false,
-      'publicly_queryable' => true,
-      'show_in_nav_menus' => true,
-      'show_ui' => true
+    'labels' => array(
+      'name' => 'Events',
+      'singular_name' => 'Event',
+      'add_new_item' => 'Add New Event',
+      'edit_item' => 'Edit Event',
+      'search_items' => 'Search Events',
+      'not_found' => 'No Events found'
+    ),
+    'show_ui' => true,
+    'menu_position' => 52,
+    'menu_icon' => 'dashicons-calendar-alt',
+    'supports' => array('title','editor','thumbnail'),
+    'has_archive' => true,
+    'exclude_from_search' => false,
+    'publicly_queryable' => true,
+    'show_in_nav_menus' => true,
+    'show_ui' => true
   ));
 }
 
@@ -948,4 +948,77 @@ function insert_open_graph($post) {
   }
 }
 
+//////////
+// FOCUS
+//////////
+add_action('init', 'focus');
+function focus() {
+  register_post_type('focus', array(
+    'labels' => array(
+      'name' => 'Focus',
+      'singular_name' => 'Focus',
+      'add_new_item' => 'Add New Focus',
+      'edit_item' => 'Edit Focus',
+      'search_items' => 'Search Focus',
+      'not_found' => 'No Focus found'
+    ),
+    'show_ui' => true,
+    'menu_position' => 51,
+    'menu_icon' => 'dashicons-media-document',
+    'supports' => array('title','editor','thumbnail'),
+    'has_archive' => true,
+    'exclude_from_search' => false,
+    'publicly_queryable' => true,
+    'show_in_nav_menus' => true,
+    'show_ui' => true
+  ));
+}
+
+add_action('add_meta_boxes', 'focus_mb');
+function focus_mb() {
+  add_meta_box('focus_mb_side', 'Volume # & PDF', 'focus_mb_content_side', 'focus', 'side', 'high');
+}
+
+function focus_mb_content_side($post) {
+  ?>
+  <input type="text" name="focus_volume" placeholder="Volume #" value="<?php if ($post->focus_volume != "") echo $post->focus_volume; ?>">
+  <input type="text" name="focus_pdf" placeholder="PDF" id="focus_pdf" class="with_button" value="<?php if ($post->focus_pdf) echo $post->focus_pdf; ?>">
+  <input type="button" id="focus_pdf_button" class="button" value="Add/Edit PDF">
+
+  <script>
+    function WWDimage($image_id) {
+      var send_attachment_bkp = wp.media.editor.send.attachment;
+      wp.media.editor.send.attachment = function(props, attachment) {
+        jQuery($image_id).val(attachment.url);
+        wp.media.editor.send.attachment = send_attachment_bkp;
+      }
+      wp.media.editor.open();
+      return false;
+    }
+
+    jQuery('#focus_pdf_button').click(function(){ WWDimage("#focus_pdf");});
+  </script>
+  <?php
+}
+
+add_action('admin_head', 'focus_css');
+function focus_css() {
+  if (get_post_type() == 'focus') {
+    echo '<style>
+      #focus_mb_side INPUT[type="text"] { width: 100%; margin: 0.5em 0; padding: 0.32em 8px; box-sizing: border-box; }
+    </style>';
+  }
+}
+
+add_action('admin_head', 'focus_editor_style');
+function focus_editor_style() {
+  if (get_post_type() == 'focus')
+    add_editor_style('editor-style-focus.css');
+}
+
+add_action('save_post', 'focus_save');
+function focus_save($post_id) {
+  update_post_meta($post_id, 'focus_volume', $_POST['focus_volume']);
+  update_post_meta($post_id, 'focus_pdf', $_POST['focus_pdf']);
+}
 ?>

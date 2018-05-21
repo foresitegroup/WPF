@@ -1,6 +1,6 @@
 <?php $category = get_queried_object(); ?>
 
-<div class="bars insight-bars">
+<div class="bars insights-bars">
   <div class="site-width insights-index">
     <div class="insights-header cf">
       <div class="insights-search">

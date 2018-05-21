@@ -1,0 +1,86 @@
+BODY#timemce {
+  margin: 0;
+  padding: 0;
+  background: #FFFFFF;
+  color: #474747;
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 1em;
+}
+
+IMG { border: 0; }
+
+HR {
+  display: block;
+  height: 1px;
+  border: 0;
+  border-top: 1px solid #000000;
+  margin: 1em 0;
+  padding: 0;
+}
+
+A:link, A:visited {
+  color: #24A9E0;
+  text-decoration: none;
+  -webkit-transition: all 0.2s;
+  -moz-transition: all 0.2s;
+  transition: all 0.2s;
+}
+
+A:hover, A:active {
+  color: #1C305B;
+  text-decoration: none;
+}
+
+UL, OL {
+  margin: 0 0 2em 0.7em;
+  padding: 0 0 0 0.7em;
+  list-style-type: none;
+}
+
+UL LI, OL LI {
+  padding: 0.5em 0;
+  line-height: 1.2em;
+}
+
+UL LI:before {
+  content: "\2022";
+  color: #E9484A;
+  display: inline-block;
+  width: 1em;
+  margin-left: -1em;
+}
+
+P { margin: 0 0 1.5em; }
+
+H1, H2, H3, H4, H5, H6 {
+  margin: 0 0 0.1em;
+  color: #1C305B;
+  font-family: 'Geometos', sans-serif;
+  font-weight: 400;
+  font-size: 128.57%;
+  line-height: 1em;
+}
+
+H2 { font-size: 121.42%; line-height: 1em; }
+H3 { font-size: 114.28%; line-height: 1em; }
+H4 { font-size: 107.14%; line-height: 1em; }
+H5 { font-size: 100%; line-height: 1em; }
+H6 { font-size: 92.85%; line-height: 1em; }
+
+IMG { max-width: 100%; height: auto; }
+
+IMG.alignleft {
+  float: left;
+  margin: 0 2em 1em 0;
+  max-width: 40%;
+}
+
+IMG.alignright {
+  float: right;
+  margin: 0 0 1em 2em;
+  max-width: 40%;
+}
+
+IMG.aligncenter, IMG.alignnone { margin: 1em auto; }
