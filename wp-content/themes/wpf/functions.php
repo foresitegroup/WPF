@@ -1006,19 +1006,50 @@ function focus_css() {
   if (get_post_type() == 'focus') {
     echo '<style>
       #focus_mb_side INPUT[type="text"] { width: 100%; margin: 0.5em 0; padding: 0.32em 8px; box-sizing: border-box; }
+      TH#focus_pdf, TH#focus_volume { width: 10%; }
     </style>';
   }
 }
 
 add_action('admin_head', 'focus_editor_style');
 function focus_editor_style() {
-  if (get_post_type() == 'focus')
-    add_editor_style('editor-style-focus.css');
+  if (get_post_type() == 'focus') add_editor_style('editor-style-focus.css');
+}
+
+add_filter('tiny_mce_before_init', 'cache_bust');
+function cache_bust($mce_init) {
+  $mce_init['cache_suffix'] = 'v='.time();
+  return $mce_init;
 }
 
 add_action('save_post', 'focus_save');
 function focus_save($post_id) {
   update_post_meta($post_id, 'focus_volume', $_POST['focus_volume']);
   update_post_meta($post_id, 'focus_pdf', $_POST['focus_pdf']);
+}
+
+add_filter('manage_focus_posts_columns', 'set_custom_edit_focus_columns');
+function set_custom_edit_focus_columns($columns) {
+  unset($columns['date']);
+  
+  $columns['focus_pdf'] = "PDF";
+  $columns['focus_volume'] = "Volume";
+
+  $columns['date'] = "Date";
+
+  return $columns;
+}
+
+add_action('manage_focus_posts_custom_column', 'custom_focus_column', 10, 2);
+function custom_focus_column($column, $post_id) {
+  switch ($column) {
+    case 'focus_pdf':
+      if (get_post_meta($post_id, 'focus_pdf', true) != "") echo "Yes";
+      break;
+
+    case 'focus_volume':
+      echo get_post_meta($post_id, 'focus_volume', true);
+      break;
+  }
 }
 ?>

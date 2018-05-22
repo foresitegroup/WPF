@@ -1,12 +1,12 @@
-BODY#timemce {
-  margin: 0;
+#tinymce {
+  margin: 1em;
   padding: 0;
   background: #FFFFFF;
   color: #474747;
   font-family: 'Open Sans', sans-serif;
   font-weight: 600;
   font-size: 14px;
-  line-height: 1em;
+  line-height: 1.4em;
 }
 
 IMG { border: 0; }
@@ -69,6 +69,15 @@ H4 { font-size: 107.14%; line-height: 1em; }
 H5 { font-size: 100%; line-height: 1em; }
 H6 { font-size: 92.85%; line-height: 1em; }
 
+H6 {
+  font-size: 150%;
+  line-height: 1em;
+  background-image: linear-gradient(to right, #1C305B 0, transparent 100%);
+  color: #FFFFFF;
+  padding: 0.55em 0.5em 0.3em;
+  text-shadow: 0 0 5px #1C305B;
+}
+
 IMG { max-width: 100%; height: auto; }
 
 IMG.alignleft {
@@ -83,4 +92,13 @@ IMG.alignright {
   max-width: 40%;
 }
 
-IMG.aligncenter, IMG.alignnone { margin: 1em auto; }
+IMG.aligncenter, IMG.alignnone { display: block; margin: 2em auto; }
+
+BLOCKQUOTE {
+  margin: 2em 0 3em;
+  padding: 2em 1.5em;
+  background: #24A9E0;
+  color: #FFFFFF;
+}
+
+BLOCKQUOTE P:last-of-type { margin-bottom: 0; }
