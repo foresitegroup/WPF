@@ -56,10 +56,11 @@ endif;
 </div>
 
 <div id="reports">
-  <div id="line"></div>
-
   <div class="site-width">
-    <h2>Annual Reports</h2>
+    <div class="line">
+      <div></div>
+      <h2>Annual Reports</h2>
+    </div>
 
     <div id="reports-slideshow">
       <?php
@@ -123,6 +124,19 @@ endif;
       var text = jQuery(this).text().trim().split(' ');
       var first = text.shift();
       return '<span>'+first+'</span>'+' '+text.join(' ');
+    });
+
+    function LineWidth() {
+      if (window.innerWidth > 1100) {
+        var Lwidth = jQuery(window).width() - ((jQuery(window).width() - 1100) / 2);
+        jQuery('#reports .line > DIV').css('width', Lwidth);
+      }
+    }
+
+    LineWidth();
+
+    jQuery(window).resize(function(){
+      setTimeout(function() { LineWidth(); },100);
     });
   });
 </script>

@@ -418,8 +418,8 @@ LABEL[for="toggle-menu"] { display: none; }
   color: #1C305B;
 }
 
-#headnav UL LI.columns UL LI:first-of-type A { text-transform: uppercase; }
-#headnav UL LI.columns UL LI:first-of-type A:after { content: ""; }
+#headnav UL LI.columns UL LI.menu-item-type-post_type_archive A { text-transform: uppercase; }
+#headnav UL LI.columns UL LI.menu-item-type-post_type_archive A:after { content: ""; }
 
 FOOTER {
   background: #464646;
@@ -1219,7 +1219,7 @@ FOOTER #footnav UL LI A:after {
 #mission-mission .text H2 SPAN,
 #mission-vision .text H2 SPAN { color: #FFFFFF; }
 
-#reports {
+#reports, #focus {
   background: #1275BB;
   color: #FFFFFF;
   font-weight: 400;
@@ -1227,31 +1227,39 @@ FOOTER #footnav UL LI A:after {
   padding: 58px 0 100px;
 }
 
-#reports #line {
+#reports .line,
+#focus .line { position: relative; margin-bottom: 3em; }
+
+#reports .line > DIV,
+#focus .line > DIV {
   position: absolute;
-  top: 66px;
+  top: 40%;
   left: 0;
+  -webkit-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
   width: 100%;
   height: 5px;
-  background-image: linear-gradient(to right, transparent 33%, #FFFFFF 33%);
+  background: #FFFFFF;
 }
 
-#reports H2 {
-  position: relative;
-  z-index: 2;
+#reports .line H2,
+#focus .line H2 {
   display: inline-block;
+  margin: 0;
+  padding-right: 1em;
   background: #1275BB;
-  padding-right: 1.25em;
-  margin: 0 0 1.8em;
   font-family: 'Geometos', sans-serif;
   font-weight: 400;
   font-size: 30px;
   line-height: 1em;
   letter-spacing: 0.15em;
-  text-transform: uppercase;
+  position: relative;
+  z-index: 3;
 }
 
-#reports .cycle-slide {
+#reports .cycle-slide,
+#focus .cycle-slide {
   vertical-align: top;
   white-space: normal;
   padding: 0 35px;
@@ -1259,6 +1267,7 @@ FOOTER #footnav UL LI A:after {
 }
 
 #reports .cycle-slide > DIV { display: flex; }
+#focus .cycle-slide > DIV { display: flex; justify-content: space-between; }
 
 #reports .cycle-slide IMG {
   margin-right: 1em;
@@ -1266,25 +1275,77 @@ FOOTER #footnav UL LI A:after {
   width: auto;
 }
 
+#focus .cycle-slide .image {
+  width: 42%;
+  background-repeat: no-repeat;
+  background-position: top left;
+  background-size: contain;
+}
+
+#focus .cycle-slide .image:before {
+  content: "";
+  display: block;
+  padding-top: 131.68%;
+}
+
 #reports .cycle-slide > DIV > DIV {
   position: relative;
   padding-bottom: 4em;
 }
 
-#reports .cycle-slide H3 {
+#focus .cycle-slide .text {
+  width: 55%;
+  position: relative;
+  padding-bottom: 0;
+}
+
+#focus .cycle-slide H4,
+#focus .cycle-slide H5 {
+  display: inline-block;
+  margin: 0 0 0.5em;
+  font-weight: 700;
+  font-size: 100%;
+  line-height: 1em;
+  text-transform: uppercase;
+}
+
+#focus .cycle-slide H5 { color: #1C305B; }
+
+#focus .cycle-slide H5:after {
+  content: "\2022";
+  color: #999999;
+  margin: 0 0.3em;
+}
+
+#reports .cycle-slide H3,
+#focus .cycle-slide H3 {
   margin: 0 0 0.2em;
   padding-top: 0.7em;
   font-family: 'Geometos', sans-serif;
   font-weight: 400;
   font-size: 150%;
   line-height: 1em;
-  text-transform: uppercase;
 }
 
-#reports .cycle-slide H3 SPAN { color: #1C305B; }
+#focus .cycle-slide H3 {
+  padding-top: 0;
+  font-size: 25px;
+  line-height: 1.1em;
+}
+
+#reports .cycle-slide H3 SPAN,
+#focus .cycle-slide H3 SPAN { color: #1C305B; }
+
+#focus .cycle-slide .buttons {
+  position: absolute;
+  bottom: 0.7em;
+  width: 100%;
+}
 
 #reports .cycle-slide A:link,
-#reports .cycle-slide A:visited {
+#reports .cycle-slide A:visited,
+#focus .cycle-slide A:link,
+#focus .cycle-slide A:visited {
   position: absolute;
   bottom: 0.8em;
   left: 0;
@@ -1295,14 +1356,31 @@ FOOTER #footnav UL LI A:after {
   font-weight: 400;
   font-size: 97.92%;
   line-height: 1em;
-  text-transform: uppercase;
   padding: 1em 1em 0.75em;
 }
 
+#focus .cycle-slide A:link,
+#focus .cycle-slide A:visited {
+  position: static;
+  background: #1C305B;
+  box-sizing: border-box;
+  width: 69%;
+  text-align: center;
+}
+
+#focus .cycle-slide A.pdf:link,
+#focus .cycle-slide A.pdf:visited { background: #24A9E0; margin-top: 0.5em; }
+
+#focus .cycle-slide A:hover,
+#focus .cycle-slide A:active { background: #24A9E0; }
+
+#focus .cycle-slide A.pdf:hover,
+#focus .cycle-slide A.pdf:active,
 #reports .cycle-slide A:hover,
 #reports .cycle-slide A:active { background: #1C305B; }
 
-#reports #prev, #reports #next {
+#reports #prev, #reports #next,
+#focus #prev, #focus #next {
   position: absolute;
   top: 50%;
   left: -6px;
@@ -1314,11 +1392,13 @@ FOOTER #footnav UL LI A:after {
   line-height: 1em;
 }
 
-#reports #next { left: auto; right: -6px; }
+#reports #next, #focus #next { left: auto; right: -6px; }
 
-#reports #prev:hover, #reports #next:hover { color: #24A9E0; }
+#reports #prev:hover, #reports #next:hover,
+#focus #prev:hover, #focus #next:hover { color: #24A9E0; }
 
-#reports #prev.disabled, #reports #next.disabled { display: none; }
+#reports #prev.disabled, #reports #next.disabled,
+#focus #prev.disabled, #focus #next.disabled { display: none; }
 
 
 /***************/
@@ -1978,14 +2058,6 @@ FOOTER #footnav UL LI A:after {
 
 #eventreg .nf-form-fields-required,
 #eventreg .ninja-forms-req-symbol { display: none; }
-
-/*#eventreg .nf-form-content {
-  display: flex;
-}
-
-#eventreg .nf-field-container {
-  width: 22.72%;
-}*/
 
 #eventreg LABEL { color: #24A9E0; }
 
@@ -3503,6 +3575,10 @@ A.research-index:nth-of-type(even) { margin-right: 0; }
   #reports .cycle-slide { font-size: 1.27vw; }
   #reports .cycle-slide IMG { height: 22vw; }
   #reports .cycle-slide H3 { font-size: 1.8vw; }
+  #focus .cycle-slide H3 { font-size: 2.1vw; }
+
+  #focus .cycle-slide A:link,
+  #focus .cycle-slide A:visited { width: 100%; }
 
   .featherlight .featherlight-content { width: 96%; }
   .modal .site-width { width: 100%; }
@@ -3511,7 +3587,9 @@ A.research-index:nth-of-type(even) { margin-right: 0; }
     width: 14%;
     margin-right: 3.2%;
   }
-
+  
+  #reports .line > DIV,
+  #focus .line > DIV,
   #board .line > DIV,
   #eventreg .line > DIV,
   #maps .line > DIV { width: 102% !important; }
@@ -3575,6 +3653,13 @@ A.research-index:nth-of-type(even) { margin-right: 0; }
 
   .event-body .event-sidebar .event-buttons .button:link,
   .event-body .event-sidebar .event-buttons .button:visited { margin-top: 1em; }
+  
+  #focus .cycle-slide .image { width: 30%; }
+  #focus .cycle-slide .image:before { padding-top: 180%; }
+
+  #focus .cycle-slide .text { width: 65%; }
+
+  #focus .cycle-slide .buttons { bottom: 0; }
 
   #focus-header-buttons { top: 50%; }
 
@@ -3646,6 +3731,8 @@ A.research-index:nth-of-type(even) { margin-right: 0; }
   .event-header .reg-text { width: 15%; }
 
   #tabs.contact > LABEL { white-space: normal; }
+
+  #focus .cycle-slide .image:before { padding-top: 200%; }
 }
 
 @media only screen and (max-width: 800px) {
@@ -3716,8 +3803,21 @@ A.research-index:nth-of-type(even) { margin-right: 0; }
 
   #research-buttons A .fas, #toggle-share + LABEL .fas { font-size: 130%; }
 
-  .event-header .reg-text { width: 17%; }
+  #focus .cycle-slide .image,
+  #focus .cycle-slide .buttons A SPAN { display: none; }
+  #focus .cycle-slide .text { width: 100%; padding-bottom: 50px; }
 
+  #focus .cycle-slide H3 { font-size: 3vw; }
+
+  #focus .cycle-slide .buttons { display: flex; justify-content: space-between; margin-top: 1em; position: static; }
+  #focus .cycle-slide A:link,
+  #focus .cycle-slide A:visited { width: 48%; font-size: 2vw; }
+
+  #focus .cycle-slide A.pdf:link,
+  #focus .cycle-slide A.pdf:visited { margin-top: 0; }
+
+  .event-header .reg-text { width: 17%; }
+  
   .event-body .event-sidebar .event-buttons #toggle-share + LABEL { font-size: 16px; width: 140px; }
   .event-body .event-sidebar .event-buttons #toggle-share + LABEL .fas { font-size: 187.5%; }
 
@@ -4118,6 +4218,16 @@ A.research-index:nth-of-type(even) { margin-right: 0; }
 
   #reports .cycle-slide A:link,
   #reports .cycle-slide A:visited { bottom: 0.3em; }
+
+  #focus .cycle-slide .image { display: inline; }
+  #focus .cycle-slide .image:before { padding-top: 131%; }
+  #focus .cycle-slide .text { width: 65%; padding-bottom: 0; }
+
+  #focus .cycle-slide H3 { font-size: 4vw; }
+
+  #focus .cycle-slide .buttons { margin-top: 0; position: absolute; width: 100%; }
+  #focus .cycle-slide A:link,
+  #focus .cycle-slide A:visited { font-size: 2.5vw; }
 
   .staff { width: 50%; }
   .staff .staff-content { font-size: 1.8vw; }
