@@ -3491,9 +3491,10 @@ A.research-index:nth-of-type(even) { margin-right: 0; }
 
 
 @media only screen and (max-width: 1400px) {
-  .bars.our-mission, .bars.insights-bars { position: relative; }
+  .bars.our-mission, .bars.insights-bars, .single-focus .bars { position: relative; }
   .bars.our-mission:before,
-  .bars.insights-bars:before {
+  .bars.insights-bars:before,
+  .single-focus .bars:before {
     content: "";
     position: absolute;
     top: 0;
@@ -3503,7 +3504,8 @@ A.research-index:nth-of-type(even) { margin-right: 0; }
     background: rgba(255,255,255,0.8);
   }
   .bars.our-mission .site-width,
-  .bars.insights-bars .site-width { position: relative; z-index: 2; }
+  .bars.insights-bars .site-width,
+  .single-focus .bars .site-width { position: relative; z-index: 2; }
 }
 
 @media only screen and (max-width: 1200px) {
