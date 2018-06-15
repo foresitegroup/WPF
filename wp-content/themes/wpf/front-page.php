@@ -154,7 +154,7 @@ endif;
 <div id="home-insights">
   <div class="site-width">
   	<?php
-  	$insights = new WP_Query(array('showposts' => 3));
+  	$insights = new WP_Query(array('showposts' => 3, 'cat' => -31));
 
   	if ($insights->have_posts()) {
   		while ($insights->have_posts() ) : $insights->the_post();

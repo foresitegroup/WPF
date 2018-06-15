@@ -42,9 +42,17 @@
 
             the_title('<h3>','</h3>');
 
-            echo fg_excerpt(50);
+            if ($post->insight_tab != "in-the-news") {
+              $text = fg_excerpt(50);
+              $link = get_permalink();
+            } else {
+              $text = $post->inthenews_source;
+              $link = $post->inthenews_link;
+            }
 
-            echo '<a href="'.get_permalink().'" class="button">Read More</a>';
+            echo $text;
+
+            echo '<a href="'.$link.'" class="button">Read More</a>';
           echo '</div>';
         endwhile;
         ?>

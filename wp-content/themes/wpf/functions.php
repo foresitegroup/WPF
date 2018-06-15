@@ -720,8 +720,7 @@ function fg_research() {
       'has_archive' => true,
       'exclude_from_search' => false,
       'publicly_queryable' => true,
-      'show_in_nav_menus' => true,
-      'show_ui' => true
+      'show_in_nav_menus' => true
   ));
 }
 
@@ -969,8 +968,7 @@ function focus() {
     'has_archive' => true,
     'exclude_from_search' => false,
     'publicly_queryable' => true,
-    'show_in_nav_menus' => true,
-    'show_ui' => true
+    'show_in_nav_menus' => true
   ));
 }
 
@@ -1051,5 +1049,75 @@ function custom_focus_column($column, $post_id) {
       echo get_post_meta($post_id, 'focus_volume', true);
       break;
   }
+}
+
+
+////////////////
+// IN THE NEWS
+////////////////
+add_action('add_meta_boxes', 'insight_mb');
+function insight_mb() {
+  add_meta_box('insight_mb_radio', 'Insight Tabs', 'insight_mb_content_radio', 'post', 'side', 'high');
+  add_meta_box('insight_mb_input', 'Source & Link', 'insight_mb_content_input', 'post', 'normal', 'high');
+}
+
+function insight_mb_content_radio($post) {
+  $insight_tab = $post->insight_tab;
+  if ($insight_tab == "") $insight_tab = "our-insights";
+  ?>
+  <label><input type="radio" name="insight_tab" value="our-insights" id="oi"<?php if ($insight_tab == "our-insights") echo " checked"; ?>> Our Insights</label><br>
+  <label><input type="radio" name="insight_tab" value="in-the-news" id="itn"<?php if ($insight_tab == "in-the-news") echo " checked"; ?>> In The News</label>
+
+  <script>
+    jQuery(function($) {
+      if ($('#oi').is(':checked')) {
+        $('#insight_mb_input').hide();
+        $('#wp-content-wrap, #post-status-info, #tagsdiv-post_tag, #postimagediv').show();
+      } else {
+        $('#insight_mb_input').show();
+        $('#wp-content-wrap, #post-status-info, #tagsdiv-post_tag, #postimagediv').hide();
+      }
+
+      $('input[type=radio]').change(function(){
+        if (this.value == 'our-insights') {
+          $('#insight_mb_input').hide();
+          $('#wp-content-wrap, #post-status-info, #tagsdiv-post_tag, #postimagediv').show();
+          $('#in-category-31').prop('checked', false);
+          $('#in-category-30').prop('checked', true);
+          $('#inthenews_source, #inthenews_link').val('');
+        } else {
+          $('#insight_mb_input').show();
+          $('#wp-content-wrap, #post-status-info, #tagsdiv-post_tag, #postimagediv').hide();
+          $('#in-category-31').prop('checked', true);
+          $('#in-category-30').prop('checked', false);
+        }
+      });
+    });
+  </script>
+  <?php
+}
+
+function insight_mb_content_input($post) {
+  ?>
+  <input type="text" name="inthenews_source" id="inthenews_source" placeholder="Source" value="<?php if ($post->inthenews_source != "") echo $post->inthenews_source; ?>">
+  <input type="text" name="inthenews_link" id="inthenews_link" placeholder="Link" value="<?php if ($post->inthenews_link != "") echo $post->inthenews_link; ?>">
+  <?php
+}
+
+add_action('admin_head', 'insight_css');
+function insight_css() {
+  if (get_post_type() == 'post') {
+    echo '<style>
+      #insight_mb_input INPUT[type="text"] { width: 100%; margin: 0.5em 0; padding: 0.32em 8px; box-sizing: border-box; }
+      #insight_mb_input LABEL { margin-right: 1em; }
+    </style>';
+  }
+}
+
+add_action('save_post', 'insight_save');
+function insight_save($post_id) {
+  update_post_meta($post_id, 'insight_tab', $_POST['insight_tab']);
+  update_post_meta($post_id, 'inthenews_source', $_POST['inthenews_source']);
+  update_post_meta($post_id, 'inthenews_link', $_POST['inthenews_link']);
 }
 ?>
