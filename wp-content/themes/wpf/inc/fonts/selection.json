@@ -1,0 +1,87 @@
+{
+  "IcoMoonType": "selection",
+  "icons": [
+    {
+      "icon": {
+        "paths": [
+          "M444.791 45.595l-60.793-45.595-383.998 512 383.998 512 60.793-45.595-349.802-466.405z"
+        ],
+        "attrs": [
+          {}
+        ],
+        "isMulticolor": false,
+        "isMulticolor2": false,
+        "grid": 0,
+        "tags": [
+          "arrow"
+        ],
+        "width": 448
+      },
+      "attrs": [
+        {}
+      ],
+      "properties": {
+        "order": 265,
+        "id": 0,
+        "name": "arrow",
+        "prevSize": 32,
+        "code": 59648
+      },
+      "setIdx": 0,
+      "setId": 13,
+      "iconIdx": 0
+    }
+  ],
+  "height": 1024,
+  "metadata": {
+    "name": "ForesiteSlider"
+  },
+  "preferences": {
+    "fontPref": {
+      "prefix": "fs-",
+      "metadata": {
+        "fontFamily": "ForesiteSlider",
+        "majorVersion": 0,
+        "minorVersion": 0
+      },
+      "showGlyphs": true,
+      "metrics": {
+        "emSize": 1024,
+        "baseline": 6.25,
+        "whitespace": 50
+      },
+      "resetPoint": 58880,
+      "showQuickUse": true,
+      "quickUsageToken": false,
+      "showMetrics": true,
+      "showMetadata": true,
+      "autoHost": true,
+      "embed": false,
+      "showVersion": false,
+      "showSelector": true,
+      "selector": "class",
+      "classSelector": ".fs"
+    },
+    "imagePref": {
+      "color": 0,
+      "height": 32,
+      "columns": 16,
+      "margin": 16,
+      "png": false,
+      "sprites": true
+    },
+    "historySize": 100,
+    "showCodes": true,
+    "gridSize": 16,
+    "showLiga": false,
+    "showGrid": true,
+    "showGlyphs": true,
+    "showQuickUse": true,
+    "quickUsageToken": {
+      "UntitledProject": "NTBjZTVlZWRhMjgwNWU2MGY5ZWMwMzFkNjVmMjRlOTkjMSMxNTAxMjUxOTA0IyMj"
+    },
+    "search": "",
+    "showQuickUse2": true,
+    "showSVGs": true
+  }
+}

@@ -1120,4 +1120,251 @@ function insight_save($post_id) {
   update_post_meta($post_id, 'inthenews_source', $_POST['inthenews_source']);
   update_post_meta($post_id, 'inthenews_link', $_POST['inthenews_link']);
 }
-?>
+
+
+/////////////
+// FG SLIDER
+/////////////
+add_action('init', 'fg_slider');
+function fg_slider() {
+  register_post_type('fg_slider', array(
+    'labels' => array(
+      'name' => 'Slider',
+      'singular_name' => 'Slider',
+      'add_new' => 'Add Slide',
+      'add_new_item' => 'Add New Slide',
+      'edit_item' => 'Edit Slide',
+      'new_item' => 'New Slide',
+      'search_items' => 'Search Slides',
+      'not_found' => 'No Slides found'
+    ),
+    'show_ui' => true,
+    'menu_position' => 30,
+    'menu_icon' => 'dashicons-slides',
+    'supports' => array('title','editor','thumbnail')
+  ));
+}
+
+add_action('add_meta_boxes', 'fg_slider_mb');
+function fg_slider_mb() {
+  add_meta_box('fg_slider_mb', 'Button', 'fg_slider_mb_content', 'fg_slider', 'normal', 'high');
+}
+
+function fg_slider_mb_content($post) {
+  ?>
+  <input type="text" name="fg_slider_button_text" placeholder="Button Text" value="<?php if ($post->fg_slider_button_text) echo $post->fg_slider_button_text; ?>">
+
+  <input type="text" name="fg_slider_button_link" placeholder="Button Link" id="fg_slider_button_link" class="with_button" value="<?php if ($post->fg_slider_button_link) echo $post->fg_slider_button_link; ?>">
+  <input type="button" id="fg_slider_button_link_button" class="button" value="Add/Edit Link">
+
+  <script>
+    jQuery(document).ready(function($){
+      'use strict';
+      var _link_sideload = false;
+
+      $('body').on('click', '#fg_slider_button_link_button', function(event) {
+        _addLinkListeners();
+
+        if ( typeof wpActiveEditor == 'undefined') {
+          window.wpActiveEditor = true;
+          _link_sideload = true;
+        }
+
+        wpLink.open();
+        wpLink.textarea = $('#fg_slider_button_link');
+      });
+
+      function _addLinkListeners() {
+        $('body').on('click', '#wp-link-submit', function(e) {
+          var linkAtts = wpLink.getAttrs();
+          $('#fg_slider_button_link').val(linkAtts.href);
+          _removeLinkListeners();
+          return false;
+        });
+
+        $('body').on('click', '#wp-link-cancel', function(e) {
+          _removeLinkListeners();
+          return false;
+        });
+      }
+
+      function _removeLinkListeners() {
+        if(_link_sideload){
+          if (typeof wpActiveEditor != 'undefined') wpActiveEditor = undefined;
+        }
+
+        wpLink.close();
+        wpLink.textarea = $('html');
+
+        $('body').off('click', '#wp-link-submit');
+        $('body').off('click', '#wp-link-cancel');
+      }
+    });
+  </script>
+  <?php
+}
+
+add_action('admin_head', 'fg_slider_css');
+function fg_slider_css() {
+  if (get_post_type() == 'fg_slider') {
+    echo '<style>
+      #fg_slider_mb INPUT[type="text"] { width: 100%; padding: 0.32em 8px; box-sizing: border-box; margin: 0.5em 0; }
+      #fg_slider_mb INPUT[type="text"].with_button { width: 87%; margin-right: 0.75em; }
+      #fg_slider_mb .button { margin: 0.5em 0; }
+    </style>';
+  }
+}
+
+add_action('save_post', 'fg_slider_save');
+function fg_slider_save($post_id) {
+  update_post_meta($post_id, 'fg_slider_button_text', $_POST['fg_slider_button_text']);
+  update_post_meta($post_id, 'fg_slider_button_link', $_POST['fg_slider_button_link']);
+}
+
+function fg_get_unique() {
+  static $unique = 0;
+  $unique++;
+
+  return $unique;
+}
+
+add_shortcode('fg-slider','get_fg_slider');
+function get_fg_slider($atts, $content = null) {          
+  extract(shortcode_atts(array(
+    "timeout"    => '5000',
+    "speed"      => '2000',
+    "transition" => 'fade',
+    "pause"      => 'true',
+    "dots"       => 'false',
+    "arrows"     => 'false'
+  ), $atts)); 
+
+  $timeout = (!empty($timeout)) ? $timeout : 5000;
+  $speed   = (!empty($speed)) ? $speed : 2000;
+
+  $slider_conf = ' data-cycle-timeout="' . $timeout . '"';
+  $slider_conf .= ' data-cycle-speed="' . $speed . '"';
+  if ($transition != "fade") $slider_conf .= ' data-cycle-fx="' . $transition . '"';
+  if ($pause == "true") $slider_conf .= ' data-cycle-pause-on-hover="true"';
+  if ($dots == "true") $slider_conf .= ' data-cycle-pager-template="<span></span>"';
+  
+  // wp_enqueue_style('fg-cycle-style', get_template_directory_uri().'/inc/cycle.css');
+  wp_enqueue_script('fg-cycle-jquery', get_template_directory_uri().'/inc/jquery.cycle2.min.js', array('jquery'), false, true);
+  
+  ob_start();
+  
+  global $post;
+  $unique = fg_get_unique();  
+
+  $query = new WP_Query(array('post_type' => 'fg_slider', 'orderby' => 'menu_order', 'order'  => 'ASC', 'posts_per_page' => -1));
+  
+  if ($query->have_posts()) :
+    ?>
+    <div class="cycle-slideshow slideshow-<?php echo $unique; ?>" data-cycle-slides="> div" data-cycle-auto-height="false"<?php echo $slider_conf; ?>>
+      <?php
+      if ($arrows == "true") echo "<a href=\"#\" class=\"fs fs-arrow cycle-prev\"></a><a href=\"#\" class=\"fs fs-arrow cycle-next\"></a>\n";
+      if ($dots == "true") echo "<span class=\"cycle-pager\"></span>\n";
+      
+      while ($query->have_posts() ) : $query->the_post();   
+      ?>
+        <div style="background-image: url(<?php echo get_the_post_thumbnail_url(); ?>);">
+          <div class="box">
+            <div class="site-width">
+              <div class="box-text">
+                <?php
+                the_title('<h1>','</h1>');
+                the_content();
+
+                if ($post->fg_slider_button_text != "" && $post->fg_slider_button_link != "")
+                  echo '<a href="'.$post->fg_slider_button_link.'" class="button">'.$post->fg_slider_button_text.'</a>';
+                ?>
+              </div>
+            </div>
+          </div>
+        </div>
+      <?php endwhile; ?>
+    </div>
+    <?php
+  endif; 
+
+  wp_reset_query();
+  return ob_get_clean();
+}
+
+add_action('admin_menu', 'register_fg_slider_instructions');
+function register_fg_slider_instructions() {
+  add_submenu_page('edit.php?post_type=fg_slider', 'How It Works', 'How It Works', 'manage_options', 'fg_slider_instructions_menu', 'fg_slider_instructions');
+}
+
+function fg_slider_instructions() { ?>
+  <div id="post-body-content" style="width: 98%;">
+    <div class="metabox-holder">
+      <div class="meta-box-sortables ui-sortable">
+        <div class="postbox">
+          
+          <h3 class="hndle">
+            <span>How It Works</span>
+          </h3>
+          
+          <div class="inside">
+            <h3>Getting Started</h3>
+
+            <strong>Add Slides</strong><br>
+            <ol>
+              <li>Go to "Slider > Add Slide".</li>
+              <li>Add a title; this will be the headline of the slide.</li>
+              <li>In the text box, add the content of the slide.</li>
+              <li>Set the featured image. This will be the background image of the slide.</li>
+              <li>Save the slide, then go to "Slider > Slider" to drag the slides in the order you would like them to appear.</li>
+            </ol><br>
+            <br>
+
+            <strong>Adding a Slider to a Page</strong><br>
+            <ol>
+              <li>Copy the shortcode <code>[fg-slider]</code> for a default slider. (See "Slider Parameters" below for other slider options.)</li>
+              <li>Edit the page you want the slider to appear on and paste in the shortcode.</li>
+              <li>Save the page.</li>
+            </ol>
+            <br>
+            You may also display a slider directly into a template using <code>&lt;?php echo do_shortcode('[fg-slider]'); ?&gt;</code><br>
+            <br>
+            <br>
+
+            <h3>Slider Parameters</h3>
+            You can add certain parameters to the shortcode to alter the default behavior of the slider. There is no need to add a parameter if you desire the default behavior. You may use multiple parameters, such as <code>[fg-slider pause="false" timeout="7000"]</code><br>
+            <br>
+
+<!--             <strong>Arrows</strong><br>
+            <code>[fg-slider arrows="true"]</code><br>
+            Display arrows to advance the slider manually. The default setting is "false".<br>
+            <br>
+
+            <strong>Dots</strong><br>
+            <code>[fg-slider dots="true"]</code><br>
+            Display dots to jump to a particular slide manually. The default setting is "false".<br>
+            <br> -->
+
+            <strong>Pause</strong><br>
+            <code>[fg-slider pause="false"]</code><br>
+            Pause the slideshow while the mouse is hovered over it. The default setting is "true".<br>
+            <br>
+
+            <strong>Timeout</strong><br>
+            <code>[fg-slider timeout="7000"]</code><br>
+            The amount of time in milliseconds that each slide will appear before automatically changing to the next slide. The default setting is "5000".<br>
+            <br>
+
+            <strong>Transition</strong><br>
+            <code>[fg-slider transition="scrollHorz"]</code><br>
+            The transition style of one one slide to the next. Transition styles include <code>fade</code>, <code>fadeout</code>, <code>none</code> and <code>scrollHorz</code>. The default setting is "fade".<br>
+            <br>
+
+            <strong>Transition Speed</strong><br>
+            <code>[fg-slider speed="1000"]</code><br>
+            The amount of time in milliseconds that it takes for one slide to change to the next. The default setting is "2000".
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+<?php } ?>

@@ -1,27 +1,10 @@
 <?php get_header(); ?>
 
-<?php
-if ( have_posts() ) :
-	while ( have_posts() ) : the_post();
-		?>
-		<div id="hero" style="background-image: url(<?php echo get_the_post_thumbnail_url(); ?>);">
-      <div class="box">
-        <div class="site-width">
-          <div class="box-text">
-          	<?php the_title('<h1>','</h1>'); ?>
-		        <?php the_content(); ?>
-		      </div>
-        </div>
-      </div>
-    </div>
-		<?php
-	endwhile;
-endif;
-?>
+<?php echo do_shortcode('[fg-slider]'); ?>
 
 <script type="text/javascript">
   jQuery(document).ready(function() {
-    jQuery('#hero H1').html(function(){
+    jQuery('.box-text H1').html(function(){
       var text = jQuery(this).text().trim().split(' ');
       var first = text.shift();
       var second = text.shift();
