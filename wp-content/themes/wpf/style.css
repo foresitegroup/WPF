@@ -294,26 +294,22 @@ FOOTER .left .footer-buttons A:visited {
   display: block;
 }
 
+#header-right A:link, #header-right A:visited { background: #1C305B; }
+#header-right .join A:link, #header-right .join A:visited { background: #1275BB; }
+#header-right .event A:link, #header-right .event A:visited { background: #24A9E0; }
+
 FOOTER .left .footer-buttons A:link,
 FOOTER .left .footer-buttons A:visited {
   font-size: 16px;
   line-height: 1em;
 }
 
-#header-right .join A:link,
-#header-right .join A:visited,
 FOOTER .left .footer-buttons UL LI.join A:link,
 FOOTER .left .footer-buttons UL LI.join A:visited { background: #FE7004; }
 
-#header-right .event A:link,
-#header-right .event A:visited { background: #1275BB; }
-
 #header-right A:hover, #header-right A:active,
 #header-right .join A:hover, #header-right .join A:active,
-#header-right .event A:hover, #header-right .event A:active {
-  background: #1C305B;
-}
-
+#header-right .event A:hover, #header-right .event A:active,
 FOOTER .left .footer-buttons A:hover, FOOTER .left .footer-buttons A:active,
 FOOTER .left .footer-buttons UL LI.join A:hover,
 FOOTER .left .footer-buttons UL LI.join A:active {
@@ -1692,9 +1688,17 @@ FOOTER #footnav UL LI A:after {
   line-height: 1em;
 }
 
-/**************/
-/* WHAT WE DO */
-/**************/
+/******************************/
+/* WHAT WE DO and SPONSORSHIP */
+/******************************/
+.sponsorship-after-title {
+  padding: 3em 0;
+  color: #1C305B;
+  font-weight: 800;
+  font-size: 18px;
+  line-height: 1.2em;
+}
+
 .wwd {
   position: relative;
   background: #1C305B;
@@ -1702,6 +1706,8 @@ FOOTER #footnav UL LI A:after {
   font-weight: 400;
   line-height: 1.8em;
 }
+
+.sponsorship { font-size: 12.48px; }
 
 .wwd .image {
   position: absolute;
@@ -1714,6 +1720,8 @@ FOOTER #footnav UL LI A:after {
   background-size: cover;
 }
 
+.wwd.sponsorship .image { width: 42%; }
+
 .wwd.right .image {
   right: auto;
   left: 0;
@@ -1725,11 +1733,15 @@ FOOTER #footnav UL LI A:after {
   padding: 5.5em 0;
 }
 
+.wwd.sponsorship .text { width: 55.45%; }
+
 .wwd.right .text {
   float: right;
   width: 39%;
   text-align: right;
 }
+
+.wwd.sponsorship.right .text { width: 52.72%; }
 
 .wwd H2 {
   margin: 0 0 0.3em;
@@ -1741,6 +1753,20 @@ FOOTER #footnav UL LI A:after {
   text-transform: uppercase;
 }
 
+.wwd.sponsorship H2 { color: #FFFFFF; }
+
+.sponsorship H3 {
+  margin: 1.5em 0 0.7em;
+  color: #24A9E0;
+  font-weight: 800;
+  font-size: 114.26%;
+  line-height: 1em;
+}
+
+.sponsorship .amount { font-weight: 700; }
+
+.sponsorship .amount SPAN { color: #24A9E0; }
+
 .wwd .button:link,
 .wwd .button:visited {
   margin-top: 0.75em;
@@ -1751,7 +1777,6 @@ FOOTER #footnav UL LI A:after {
   font-weight: 400;
   font-size: 97%;
   line-height: 1em;
-  text-transform: uppercase;
   padding: 1.25em 1.4em 1em;
 }
 
@@ -1760,6 +1785,43 @@ FOOTER #footnav UL LI A:after {
   background: #FFFFFF;
   color: #24A9E0;
 }
+
+.sponsorship-prefooter {
+  padding: 3.5em 0;
+  background: #24A9E0;
+  color: #FFFFFF;
+  font-weight: 800;
+  font-size: 24px;
+  line-height: 1.2em;
+}
+
+.sponsorship-prefooter H2 {
+  margin: 0 0 1em;
+  font-family: 'Geometos', sans-serif;
+  font-weight: 400;
+  font-size: 125%;
+  line-height: 1.1em;
+}
+
+.sponsorship-prefooter SPAN,
+.sponsorship-prefooter A { color: #1C305B; }
+
+#spontact {
+  padding-left: 9%;
+  position: relative;
+}
+
+#spontact:before {
+  content: "";
+  display: block;
+  width: 3000px;
+  height: 7px;
+  background: #FFFFFF;
+  position: absolute;
+  top: 45%;
+  right: 93%;
+}
+
 
 
 /**********/
@@ -4027,8 +4089,9 @@ A.research-index:nth-of-type(even) { margin-right: 0; }
   .staff-modal .sidebar { font-size: 1.1vw; }
   
   .wwd .site-width { width: 100%; }
-  .wwd .image { position: static; width: 100%; height: 400px; }
-  .wwd .text, .wwd.right .text {
+  .wwd .image, .wwd.sponsorship .image { position: static; width: 100%; height: 400px; }
+  .wwd .text, .wwd.right .text,
+  .wwd.sponsorship .text, .wwd.sponsorship.right .text {
     float: none;
     width: 96%;
     text-align: left;
@@ -4417,6 +4480,9 @@ A.research-index:nth-of-type(even) { margin-right: 0; }
   .event-header.single .details { width: 67%; }
 
   .event-body .event-sidebar .event-buttons #share-links { left: auto; right: -2em; }
+  
+  .title-banner.spon-title H1 { font-size: 10vw; }
+  .sponsorship-prefooter { font-size: 5vw; }
 }
 
 

@@ -422,7 +422,7 @@ function wwd_page_mb_content($post) {
   <h3>Section 1</h3>
   <input type="text" name="wwd_page_section1_title" placeholder="Section 1 Title" value="<?php if ($post->wwd_page_section1_title) echo $post->wwd_page_section1_title; ?>">
   <?php
-  wp_editor($post->wwd_page_section1_text, 'wwd_page_section1_text', array('textarea_rows' => 5));
+  wp_editor(html_entity_decode($post->wwd_page_section1_text, ENT_QUOTES), 'wwd_page_section1_text', array('textarea_rows' => 8));
   ?>
   <input type="text" name="wwd_page_section1_image" id="wwd_page_section1_image" class="wwd_page_image" value="<?php if ($post->wwd_page_section1_image) echo $post->wwd_page_section1_image; ?>">
   <input type="button" id="wwd_page_section1_image_button" class="button" value="Add/Edit Image">
@@ -432,7 +432,7 @@ function wwd_page_mb_content($post) {
   <h3>Section 2</h3>
   <input type="text" name="wwd_page_section2_title" placeholder="Section 2 Title" value="<?php if ($post->wwd_page_section2_title) echo $post->wwd_page_section2_title; ?>">
   <?php
-  wp_editor($post->wwd_page_section2_text, 'wwd_page_section2_text', array('textarea_rows' => 5));
+  wp_editor(html_entity_decode($post->wwd_page_section2_text, ENT_QUOTES), 'wwd_page_section2_text', array('textarea_rows' => 8));
   ?>
   <input type="text" name="wwd_page_section2_image" id="wwd_page_section2_image" class="wwd_page_image" value="<?php if ($post->wwd_page_section2_image) echo $post->wwd_page_section2_image; ?>">
   <input type="button" id="wwd_page_section2_image_button" class="button" value="Add/Edit Image">
@@ -442,10 +442,20 @@ function wwd_page_mb_content($post) {
   <h3>Section 3</h3>
   <input type="text" name="wwd_page_section3_title" placeholder="Section 3 Title" value="<?php if ($post->wwd_page_section3_title) echo $post->wwd_page_section3_title; ?>">
   <?php
-  wp_editor($post->wwd_page_section3_text, 'wwd_page_section3_text', array('textarea_rows' => 5));
+  wp_editor(html_entity_decode($post->wwd_page_section3_text, ENT_QUOTES), 'wwd_page_section3_text', array('textarea_rows' => 8));
   ?>
   <input type="text" name="wwd_page_section3_image" id="wwd_page_section3_image" class="wwd_page_image" value="<?php if ($post->wwd_page_section3_image) echo $post->wwd_page_section3_image; ?>">
   <input type="button" id="wwd_page_section3_image_button" class="button" value="Add/Edit Image">
+
+  <hr>
+
+  <h3>Section 4</h3>
+  <input type="text" name="wwd_page_section4_title" placeholder="Section 4 Title" value="<?php if ($post->wwd_page_section4_title) echo $post->wwd_page_section4_title; ?>">
+  <?php
+  wp_editor(html_entity_decode($post->wwd_page_section4_text, ENT_QUOTES), 'wwd_page_section4_text', array('textarea_rows' => 8));
+  ?>
+  <input type="text" name="wwd_page_section4_image" id="wwd_page_section4_image" class="wwd_page_image" value="<?php if ($post->wwd_page_section4_image) echo $post->wwd_page_section4_image; ?>">
+  <input type="button" id="wwd_page_section4_image_button" class="button" value="Add/Edit Image">
 
   <script>
     function WWDimage($image_id) {
@@ -461,6 +471,7 @@ function wwd_page_mb_content($post) {
     jQuery('#wwd_page_section1_image_button').click(function(){ WWDimage("#wwd_page_section1_image");});
     jQuery('#wwd_page_section2_image_button').click(function(){ WWDimage("#wwd_page_section2_image");});
     jQuery('#wwd_page_section3_image_button').click(function(){ WWDimage("#wwd_page_section3_image");});
+    jQuery('#wwd_page_section4_image_button').click(function(){ WWDimage("#wwd_page_section4_image");});
   </script>
   <?php
 }
@@ -481,26 +492,130 @@ function wwd_page_css() {
 
 add_action('save_post', 'wwd_page_save');
 function wwd_page_save($post_id) {
-  if (isset($_POST['wwd_page_section1_title']))
-    update_post_meta($post_id, 'wwd_page_section1_title', $_POST['wwd_page_section1_title']);
-  if (isset($_POST['wwd_page_section1_text']))
-    update_post_meta($post_id, 'wwd_page_section1_text', $_POST['wwd_page_section1_text']);
-  if (isset($_POST['wwd_page_section1_image']))
-    update_post_meta($post_id, 'wwd_page_section1_image', $_POST['wwd_page_section1_image']);
+  update_post_meta($post_id, 'wwd_page_section1_title', $_POST['wwd_page_section1_title']);
+  update_post_meta($post_id, 'wwd_page_section1_text', $_POST['wwd_page_section1_text']);
+  update_post_meta($post_id, 'wwd_page_section1_image', $_POST['wwd_page_section1_image']);
 
-  if (isset($_POST['wwd_page_section2_title']))
-    update_post_meta($post_id, 'wwd_page_section2_title', $_POST['wwd_page_section2_title']);
-  if (isset($_POST['wwd_page_section2_text']))
-    update_post_meta($post_id, 'wwd_page_section2_text', $_POST['wwd_page_section2_text']);
-  if (isset($_POST['wwd_page_section2_image']))
-    update_post_meta($post_id, 'wwd_page_section2_image', $_POST['wwd_page_section2_image']);
+  update_post_meta($post_id, 'wwd_page_section2_title', $_POST['wwd_page_section2_title']);
+  update_post_meta($post_id, 'wwd_page_section2_text', $_POST['wwd_page_section2_text']);
+  update_post_meta($post_id, 'wwd_page_section2_image', $_POST['wwd_page_section2_image']);
 
-  if (isset($_POST['wwd_page_section3_title']))
-    update_post_meta($post_id, 'wwd_page_section3_title', $_POST['wwd_page_section3_title']);
-  if (isset($_POST['wwd_page_section3_text']))
-    update_post_meta($post_id, 'wwd_page_section3_text', $_POST['wwd_page_section3_text']);
-  if (isset($_POST['wwd_page_section3_image']))
-    update_post_meta($post_id, 'wwd_page_section3_image', $_POST['wwd_page_section3_image']);
+  update_post_meta($post_id, 'wwd_page_section3_title', $_POST['wwd_page_section3_title']);
+  update_post_meta($post_id, 'wwd_page_section3_text', $_POST['wwd_page_section3_text']);
+  update_post_meta($post_id, 'wwd_page_section3_image', $_POST['wwd_page_section3_image']);
+
+  update_post_meta($post_id, 'wwd_page_section4_title', $_POST['wwd_page_section4_title']);
+  update_post_meta($post_id, 'wwd_page_section4_text', $_POST['wwd_page_section4_text']);
+  update_post_meta($post_id, 'wwd_page_section4_image', $_POST['wwd_page_section4_image']);
+}
+
+
+///////////////
+// SPONSORSHIP
+///////////////
+add_action('admin_init', 'sponsorship_page');
+function sponsorship_page() {
+  $post_id = $_GET['post'] ? $_GET['post'] : $_POST['post_ID'];
+  if ('template-sponsorship.php' == get_post_meta($post_id,
+  '_wp_page_template', true)) {
+    remove_post_type_support('page', 'editor');
+    remove_post_type_support('page', 'thumbnail');
+  }
+}
+
+add_action('add_meta_boxes', 'sponsorship_page_mb');
+function sponsorship_page_mb() {
+  global $post;
+  if ('template-sponsorship.php' == $post->_wp_page_template) {
+    add_meta_box('sponsorship_page_mb_after_title', 'After Title Text', 'sponsorship_page_mb_content_after_title', '', 'normal');
+    add_meta_box('sponsorship_page_mb', 'Sections', 'sponsorship_page_mb_content', '', 'normal');
+    add_meta_box('sponsorship_page_mb_prefooter', 'Prefooter', 'sponsorship_page_mb_content_prefooter', '', 'normal');
+  }
+}
+
+function sponsorship_page_mb_content_after_title($post) {
+  ?>
+  <input type="text" name="sponsorship_after_title" placeholder="After Title Text" value="<?php if ($post->sponsorship_after_title) echo $post->sponsorship_after_title; ?>">
+  <?php
+}
+
+function sponsorship_page_mb_content($post) {
+  ?>
+  <h3>Section 1</h3>
+  <input type="text" name="sponsorship_section1_title" placeholder="Section 1 Title" value="<?php if ($post->sponsorship_section1_title) echo $post->sponsorship_section1_title; ?>">
+  <?php
+  wp_editor(html_entity_decode($post->sponsorship_section1_text, ENT_QUOTES), 'sponsorship_section1_text', array('textarea_rows' => 8));
+  ?>
+  <input type="text" name="sponsorship_section1_image" id="sponsorship_section1_image" class="sponsorship_image" value="<?php if ($post->sponsorship_section1_image) echo $post->sponsorship_section1_image; ?>">
+  <input type="button" id="sponsorship_section1_image_button" class="button" value="Add/Edit Image">
+
+  <hr>
+
+  <h3>Section 2</h3>
+  <input type="text" name="sponsorship_section2_title" placeholder="Section 2 Title" value="<?php if ($post->sponsorship_section2_title) echo $post->sponsorship_section2_title; ?>">
+  <?php
+  wp_editor(html_entity_decode($post->sponsorship_section2_text, ENT_QUOTES), 'sponsorship_section2_text', array('textarea_rows' => 8));
+  ?>
+  <input type="text" name="sponsorship_section2_image" id="sponsorship_section2_image" class="sponsorship_image" value="<?php if ($post->sponsorship_section2_image) echo $post->sponsorship_section2_image; ?>">
+  <input type="button" id="sponsorship_section2_image_button" class="button" value="Add/Edit Image">
+
+  <script>
+    function SPONSORSHIPimage($image_id) {
+      var send_attachment_bkp = wp.media.editor.send.attachment;
+      wp.media.editor.send.attachment = function(props, attachment) {
+        jQuery($image_id).val(attachment.url);
+        wp.media.editor.send.attachment = send_attachment_bkp;
+      }
+      wp.media.editor.open();
+      return false;
+    }
+
+    jQuery('#sponsorship_section1_image_button').click(function(){ SPONSORSHIPimage("#sponsorship_section1_image");});
+    jQuery('#sponsorship_section2_image_button').click(function(){ SPONSORSHIPimage("#sponsorship_section2_image");});
+  </script>
+  <?php
+}
+
+function sponsorship_page_mb_content_prefooter($post) {
+  ?>
+  <input type="text" name="sponsorship_prefooter_title" placeholder="Prefooter Title" value="<?php if ($post->sponsorship_prefooter_title) echo $post->sponsorship_prefooter_title; ?>"><br><br>
+  <input type="text" name="sponsorship_prefooter_contact" placeholder="Prefooter contact" value="<?php if ($post->sponsorship_prefooter_contact) echo $post->sponsorship_prefooter_contact; ?>">
+  <?php
+}
+
+add_action('admin_head', 'sponsorship_page_css');
+function sponsorship_page_css() {
+  global $post;
+  if ('template-sponsorship.php' == get_post_meta($post->ID, '_wp_page_template', true)) {
+    echo '<style>
+      #sponsorship_page_mb_after_title { border: 0; background: transparent; box-shadow: none; }
+      #sponsorship_page_mb_after_title .handlediv, #sponsorship_page_mb_after_title H2 { display: none; }
+      #sponsorship_page_mb_after_title .inside { padding: 0 }
+      #sponsorship_page_mb_after_title INPUT { width: 100%; padding: 3px 8px; font-size: 1.4em; line-height: 1em; height: 1.7em; }
+      #sponsorship_page_mb H3 { margin: 0 0 0.5em; }
+      #sponsorship_page_mb .wp-editor-wrap { margin: 1em 0 2em; }
+      #sponsorship_page_mb INPUT[type="text"],
+      #sponsorship_page_mb_prefooter INPUT { width: 100%; padding: 0.32em 8px; box-sizing: border-box; }
+      #sponsorship_page_mb INPUT[type="text"].sponsorship_image { width: 85%; margin-right: 0.75em; }
+      #sponsorship_page_mb HR { margin: 3em 0 2.5em; border-top: 1px dashed #000000; }
+    </style>';
+  }
+}
+
+add_action('save_post', 'sponsorship_page_save');
+function sponsorship_page_save($post_id) {
+  update_post_meta($post_id, 'sponsorship_after_title', $_POST['sponsorship_after_title']);
+
+  update_post_meta($post_id, 'sponsorship_section1_title', $_POST['sponsorship_section1_title']);
+  update_post_meta($post_id, 'sponsorship_section1_text', $_POST['sponsorship_section1_text']);
+  update_post_meta($post_id, 'sponsorship_section1_image', $_POST['sponsorship_section1_image']);
+
+  update_post_meta($post_id, 'sponsorship_section2_title', $_POST['sponsorship_section2_title']);
+  update_post_meta($post_id, 'sponsorship_section2_text', $_POST['sponsorship_section2_text']);
+  update_post_meta($post_id, 'sponsorship_section2_image', $_POST['sponsorship_section2_image']);
+
+  update_post_meta($post_id, 'sponsorship_prefooter_title', $_POST['sponsorship_prefooter_title']);
+  update_post_meta($post_id, 'sponsorship_prefooter_contact', $_POST['sponsorship_prefooter_contact']);
 }
 
 

@@ -38,10 +38,10 @@ endif;
       <div id="join">
         <?php
         $join = get_post(101);
-        echo nl2br($join->post_content);
+        echo wpautop($join->post_content);
         ?>
+        <br>
 
-        <br><br><br><br>
         <div class="cf">
           <div id="join-form" class="join-form">
             <?php echo do_shortcode("[ninja_form id=5]"); ?>
@@ -73,10 +73,10 @@ endif;
       <div id="renew">
         <?php
         $renew = get_post(103);
-        echo nl2br($renew->post_content);
+        echo wpautop($renew->post_content);
         ?>
+        <br>
 
-        <br><br><br><br>
         <div class="cf">
           <div class="join-form">
             <?php echo do_shortcode("[ninja_form id=6]"); ?>
