@@ -71,8 +71,7 @@ endif;
         Milwaukee, WI 53203<br>
         <br>
 
-        <span>Phone:</span> 414.276.8240<br>
-        <span>Fax:</span> 414.276.8240
+        <span>Phone:</span> 414.276.8240
       </div>
 
       <div>

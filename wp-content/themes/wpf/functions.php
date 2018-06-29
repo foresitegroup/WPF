@@ -896,6 +896,9 @@ function fg_research_mb_content($post) {
   <input type="text" name="fg_research_full_report" placeholder="Full Report" id="fg_research_full_report" class="with_button" value="<?php if (isset($meta['fg_research_full_report'])) echo $meta['fg_research_full_report'][0]; ?>">
   <input type="button" id="fg_research_full_report_button" class="button" value="Add/Edit PDF">
 
+  <input type="text" name="fg_research_report_brief" placeholder="Report Brief" id="fg_research_report_brief" class="with_button" value="<?php if (isset($meta['fg_research_report_brief'])) echo $meta['fg_research_report_brief'][0]; ?>">
+  <input type="button" id="fg_research_report_brief_button" class="button" value="Add/Edit PDF">
+
   <input type="text" name="fg_research_executive_summary" placeholder="Executive Summary" id="fg_research_executive_summary" class="with_button" value="<?php if (isset($meta['fg_research_executive_summary'])) echo $meta['fg_research_executive_summary'][0]; ?>">
   <input type="button" id="fg_research_executive_summary_button" class="button" value="Add/Edit PDF">
 
@@ -918,6 +921,7 @@ function fg_research_mb_content($post) {
     }
 
     jQuery('#fg_research_full_report_button').click(function(){ WWDimage("#fg_research_full_report");});
+    jQuery('#fg_research_report_brief_button').click(function(){ WWDimage("#fg_research_report_brief");});
     jQuery('#fg_research_executive_summary_button').click(function(){ WWDimage("#fg_research_executive_summary");});
     jQuery('#fg_research_press_release_button').click(function(){ WWDimage("#fg_research_press_release");});
   </script>
@@ -990,6 +994,8 @@ function fg_research_save($post_id) {
 
   if (isset($_POST['fg_research_full_report']))
     update_post_meta($post_id, 'fg_research_full_report', $_POST['fg_research_full_report']);
+  if (isset($_POST['fg_research_report_brief']))
+    update_post_meta($post_id, 'fg_research_report_brief', $_POST['fg_research_report_brief']);
   if (isset($_POST['fg_research_executive_summary']))
     update_post_meta($post_id, 'fg_research_executive_summary', $_POST['fg_research_executive_summary']);
   if (isset($_POST['fg_research_blog']))
@@ -1178,9 +1184,9 @@ function insight_mb() {
 
 function insight_mb_content_radio($post) {
   $insight_tab = $post->insight_tab;
-  if ($insight_tab == "") $insight_tab = "our-insights";
+  if ($insight_tab == "") $insight_tab = "our-news";
   ?>
-  <label><input type="radio" name="insight_tab" value="our-insights" id="oi"<?php if ($insight_tab == "our-insights") echo " checked"; ?>> Our Insights</label><br>
+  <label><input type="radio" name="insight_tab" value="our-news" id="oi"<?php if ($insight_tab == "our-news") echo " checked"; ?>> Our News</label><br>
   <label><input type="radio" name="insight_tab" value="in-the-news" id="itn"<?php if ($insight_tab == "in-the-news") echo " checked"; ?>> In The News</label>
 
   <script>
@@ -1194,7 +1200,7 @@ function insight_mb_content_radio($post) {
       }
 
       $('input[type=radio]').change(function(){
-        if (this.value == 'our-insights') {
+        if (this.value == 'our-news') {
           $('#insight_mb_input').hide();
           $('#wp-content-wrap, #post-status-info, #tagsdiv-post_tag, #postimagediv').show();
           $('#in-category-31').prop('checked', false);

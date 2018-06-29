@@ -105,9 +105,10 @@
 
             the_date('F Y','<h4>','</h4>');
 
-            echo '<h5>Available Media:</h5>';
+            echo '<h5>Available Products:</h5>';
             echo '<div class="media">';
               if (get_post_meta(get_the_ID(), 'fg_research_full_report', true)) echo '<span>Full Report</span>';
+              if (get_post_meta(get_the_ID(), 'fg_research_report_brief', true)) echo '<span>Report Brief</span>';
               if (get_post_meta(get_the_ID(), 'fg_research_executive_summary', true)) echo '<span>Executive Summary</span>';
               if (get_post_meta(get_the_ID(), 'fg_research_blog', true)) echo '<span>Blog</span>';
               if (get_post_meta(get_the_ID(), 'fg_research_press_release', true)) echo '<span>Press Release</span>';
