@@ -1049,9 +1049,10 @@ function research_posts_per_page($query) {
 add_action('wp_head', 'insert_open_graph');
 function insert_open_graph($post) {
   if (is_single()) {
+    setup_postdata($post);
     ?>
     <meta property="og:title" content="<?php the_title(); ?>" />
-    <meta property="og:url" content="<?php the_permalink(); ?>" />
+    <meta property="og:url" content="<?php esc_url(the_permalink()); ?>" />
     <?php
     if(!has_post_thumbnail()) {
       $og_image = get_template_directory_uri().'/images/logo.png';
@@ -1062,7 +1063,7 @@ function insert_open_graph($post) {
     <meta property="og:image" content="<?php echo $og_image; ?>" />
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="<?php the_title(); ?>">
-    <meta name="twitter:description" content="<?php the_excerpt(); ?>">
+    <meta name="twitter:description" content="<?php echo fg_excerpt(40); ?>">
     <meta name="twitter:image" content="<?php echo $og_image; ?>">
     <?php
   }

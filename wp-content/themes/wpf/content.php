@@ -26,9 +26,14 @@ if (is_single()) : ?>
       <input type="checkbox" id="toggle-share" role="button">
       <label for="toggle-share">Share <i class="fas fa-share-alt"></i></label>
       <div id="share-links">
+        <?php
+        $sharesearch = array(' ', '|', '&#038;');
+        $treplace = array('+', '%7C', '%26');
+        $lreplace = array('+', '%20', '%26');
+        ?>
         <a href="http://www.facebook.com/sharer.php?u=<?php the_permalink(); if (has_post_thumbnail()) echo '&picture='.get_the_post_thumbnail_url(); ?>" target="new" class="facebook"></a>
-        <a href="http://www.twitter.com/share?url=<?php the_permalink(); ?>&text=<?php echo str_replace(' ', '+', the_title('','',false)); ?>" target="new" class="twitter"></a>
-        <a href="https://www.linkedin.com/shareArticle?mini=true&url=<?php the_permalink(); ?>&title=<?php echo str_replace(' ', '%20', the_title('','',false)); ?>" target="new" class="linkedin"></a>
+        <a href="http://www.twitter.com/share?url=<?php the_permalink(); ?>&text=<?php echo str_replace($sharesearch, $treplace, the_title('','',false)); ?>" target="new" class="twitter"></a>
+        <a href="https://www.linkedin.com/shareArticle?mini=true&url=<?php the_permalink(); ?>&title=<?php echo str_replace($sharesearch, $lreplace, the_title('','',false)); ?>" target="new" class="linkedin"></a>
       </div>
     </div>
   </div>
