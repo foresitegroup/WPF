@@ -479,7 +479,7 @@ function wwd_page_mb_content($post) {
 add_action('admin_head', 'wwd_page_css');
 function wwd_page_css() {
   global $post;
-  if ('template-what-we-do-page.php' == get_post_meta($post->ID, '_wp_page_template', true)) {
+  if ($post->_wp_page_template == 'template-what-we-do-page.php') {
     echo '<style>
       #wwd_page_mb H3 { margin: 0 0 0.5em; }
       #wwd_page_mb .wp-editor-wrap { margin: 1em 0 2em; }
@@ -492,6 +492,7 @@ function wwd_page_css() {
 
 add_action('save_post', 'wwd_page_save');
 function wwd_page_save($post_id) {
+  if ($post->_wp_page_template != 'template-what-we-do-page.php') return;
   update_post_meta($post_id, 'wwd_page_section1_title', $_POST['wwd_page_section1_title']);
   update_post_meta($post_id, 'wwd_page_section1_text', $_POST['wwd_page_section1_text']);
   update_post_meta($post_id, 'wwd_page_section1_image', $_POST['wwd_page_section1_image']);
@@ -586,7 +587,7 @@ function sponsorship_page_mb_content_prefooter($post) {
 add_action('admin_head', 'sponsorship_page_css');
 function sponsorship_page_css() {
   global $post;
-  if ('template-sponsorship.php' == get_post_meta($post->ID, '_wp_page_template', true)) {
+  if ($post->_wp_page_template == 'template-sponsorship.php') {
     echo '<style>
       #sponsorship_page_mb_after_title { border: 0; background: transparent; box-shadow: none; }
       #sponsorship_page_mb_after_title .handlediv, #sponsorship_page_mb_after_title H2 { display: none; }
@@ -604,6 +605,8 @@ function sponsorship_page_css() {
 
 add_action('save_post', 'sponsorship_page_save');
 function sponsorship_page_save($post_id) {
+  if ($post->_wp_page_template != 'template-sponsorship.php') return;
+
   update_post_meta($post_id, 'sponsorship_after_title', $_POST['sponsorship_after_title']);
 
   update_post_meta($post_id, 'sponsorship_section1_title', $_POST['sponsorship_section1_title']);
@@ -736,6 +739,7 @@ function events_custom_permalink($data) {
 
 add_action('save_post', 'events_save');
 function events_save($post_id) {
+  if (get_post_type() != 'events') return;
   update_post_meta($post_id, 'event_pin', $_POST['event_pin']);
   $edate = ($_POST['event_date'] != "") ? strtotime($_POST['event_date']) : "TBD";
   update_post_meta($post_id, 'event_date', $edate);
@@ -1144,6 +1148,7 @@ function cache_bust($mce_init) {
 
 add_action('save_post', 'focus_save');
 function focus_save($post_id) {
+  if (get_post_type() != 'focus') return;
   update_post_meta($post_id, 'focus_volume', $_POST['focus_volume']);
   update_post_meta($post_id, 'focus_pdf', $_POST['focus_pdf']);
 }
@@ -1238,9 +1243,11 @@ function insight_css() {
 
 add_action('save_post', 'insight_save');
 function insight_save($post_id) {
-  update_post_meta($post_id, 'insight_tab', $_POST['insight_tab']);
-  update_post_meta($post_id, 'inthenews_source', $_POST['inthenews_source']);
-  update_post_meta($post_id, 'inthenews_link', $_POST['inthenews_link']);
+  if (get_post_type() == 'post') {
+    update_post_meta($post_id, 'insight_tab', $_POST['insight_tab']);
+    update_post_meta($post_id, 'inthenews_source', $_POST['inthenews_source']);
+    update_post_meta($post_id, 'inthenews_link', $_POST['inthenews_link']);
+  }
 }
 
 
@@ -1339,6 +1346,7 @@ function fg_slider_css() {
 
 add_action('save_post', 'fg_slider_save');
 function fg_slider_save($post_id) {
+  if (get_post_type() != 'fg_slider') return;
   update_post_meta($post_id, 'fg_slider_button_text', $_POST['fg_slider_button_text']);
   update_post_meta($post_id, 'fg_slider_button_link', $_POST['fg_slider_button_link']);
 }
