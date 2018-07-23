@@ -15,7 +15,7 @@
 
 <div id="eventreg">
   <div class="site-width">
-    <?php echo do_shortcode("[ninja_form id=".$post->event_registration_form."]"); ?>
+    <?php if ($post->event_registration_form != "Select a registration form...") echo do_shortcode("[ninja_form id=".$post->event_registration_form."]"); ?>
   </div>
 </div>
 
