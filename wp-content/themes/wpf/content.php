@@ -55,11 +55,11 @@ if (is_single()) : ?>
         <?php } ?>
 
         <div id="single-search">
-          Search Insights Archive
+          Search News Archive
           <form role="search" method="get" id="search" action="<?php echo esc_url(home_url('/')); ?>">
             <div>
               <input type="search" id="search-field" name="s" autocomplete="off"><button type="submit" id="search-button"><i class="fas fa-search"></i></button>
-              <input type="radio" name="cat" value="30" id="ro"<?php if ($category[0]->category_parent == 30) echo " checked"; ?>> <label for="ro">Our Insights</label>
+              <input type="radio" name="cat" value="30" id="ro"<?php if ($category[0]->category_parent == 30) echo " checked"; ?>> <label for="ro">Our News</label>
               <input type="radio" name="cat" value="31" id="ri"<?php if ($category[0]->category_parent == 31) echo " checked"; ?>> <label for="ri">In The News</label>
             </div>
           </form>
