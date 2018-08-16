@@ -129,6 +129,11 @@
       
       <a href="<?php echo home_url(); ?>/contact-us" class="button">Contact Us</a>
       <?php if (is_single()) echo "</div>\n"; ?>
+
+      <?php
+      if ($post->event_sidebar_text != "")
+        echo '<div class="event-sidebar-text">'.wpautop($post->event_sidebar_text)."</div>\n";
+      ?>
     </div> <!-- /.event-sidebar -->
 
     <div class="event-text">

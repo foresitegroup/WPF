@@ -13,10 +13,23 @@
   });
 </script>
 
+<?php
+$fp_args = array('post_type' => 'focus', 'posts_per_page' => 1, 'meta_query' => array(array('key' => 'focus_featured', 'value' => '', 'compare' => '!=')));
+$fp = new WP_Query($fp_args);
+
+if ($fp->have_posts()) {
+  $args = $fp_args;
+  $fp_name = "Publication";
+} else {
+  $args = array('post_type' => 'research', 'posts_per_page' => 1);
+  $fp_name = "Research";
+}
+?>
+
 <div id="ep-header">
   <div class="site-width">
     <h1 class="left"><span>Upcoming</span> Events</h1>
-    <h1 class="right"><span>Featured</span> Research</h1>
+    <h1 class="right"><span>Featured</span> <?php echo $fp_name; ?></h1>
   </div>
 </div>
 
@@ -87,11 +100,11 @@
     </script>
   </div>
 
-  <div id="publication-header"><span>Featured</span> Research</div>
+  <div id="publication-header"><span>Featured</span> <?php echo $fp_name; ?></div>
 
   <div id="publication">
     <?php
-    $homepub = new WP_Query(array('post_type' => 'research', 'posts_per_page' => 1));
+    $homepub = new WP_Query($args);
 
     if ($homepub->have_posts()) :
       while ($homepub->have_posts()) : $homepub->the_post();
@@ -101,10 +114,12 @@
           echo "<div>";
             the_title('<h2>','</h2>');
 
-            if (get_post_meta(get_the_ID(), 'fg_research_subtitle', true))
-              echo "<h3>".get_post_meta(get_the_ID(), 'fg_research_subtitle', true)."</h3>";
-
-            the_date('F Y','<h4>','</h4>');
+            if ($post->fg_research_subtitle != "") echo "<h3>".$post->fg_research_subtitle."</h3>";
+            
+            echo "<h4>";
+              if ($post->focus_volume != "") echo "Focus #".$post->focus_volume." &bull; ";
+              the_date('F Y');
+            echo "</h4>\n";
 
             if (has_term('', 'research-tag')) {
               echo '<div id="tags">';
@@ -114,12 +129,16 @@
             }
           echo "</div>";
         echo "</div>";
-
-        the_content();
+        
+        if (isset($post->focus_featured)) {
+          echo home_focus_excerpt();
+        } else {
+          the_content();
+        }
 
         echo '<a href="';
         the_permalink();
-        echo '" class="button">View Research</a>';
+        echo '" class="button">View '.$fp_name.'</a>';
       endwhile;
       wp_reset_postdata();
     endif;
@@ -137,7 +156,7 @@
 <div id="home-insights">
   <div class="site-width">
   	<?php
-  	$insights = new WP_Query(array('showposts' => 3, 'cat' => -31));
+  	$insights = new WP_Query(array('showposts' => 3));
 
   	if ($insights->have_posts()) {
   		while ($insights->have_posts() ) : $insights->the_post();
@@ -156,8 +175,10 @@
   			  the_title("<h1>","</h1>");
 
   			  echo fg_excerpt(50);
+          
+          $TheLink = ($category[0]->slug == "in-the-news") ? $post->inthenews_link : get_permalink();
 
-          echo '<a href="'.get_permalink().'">Read More</a>';
+          echo '<a href="'.$TheLink.'">Read More</a>';
   			echo '</div>';
   		endwhile;
   	}

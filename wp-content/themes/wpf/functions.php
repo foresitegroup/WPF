@@ -48,8 +48,20 @@ add_action( 'after_setup_theme', 'themename_setup' );
 
 
 // Custom excerpt
+function my_excerpt_length($length) { return 1000; }
+add_filter('excerpt_length', 'my_excerpt_length');
+
 function fg_excerpt($limit, $more = '') {
   return wp_trim_words(get_the_excerpt(), $limit, $more);
+}
+
+function home_focus_excerpt(){
+  $text = wpautop(get_the_content());
+  $limit = 1100;
+  if (strlen($text) < $limit+10) return $text;
+  $break_pos = strpos($text, ' ', $limit);
+  $visible = substr($text, 0, $break_pos);
+  return balanceTags($visible) . "...<br>";
 }
 
 
@@ -705,7 +717,11 @@ function events_mb_content($post) {
   <input type="text" name="event_pricing_corporate" placeholder="Corporate" value="<?php if ($post->event_pricing_corporate != "") echo $post->event_pricing_corporate; ?>">
   <input type="text" name="event_pricing_friends" placeholder="Friends" value="<?php if ($post->event_pricing_friends != "") echo $post->event_pricing_friends; ?>">
   <input type="text" name="event_pricing_government" placeholder="Government" value="<?php if ($post->event_pricing_government != "") echo $post->event_pricing_government; ?>">
+  
+  <br><br><br>
+  <strong>SIDEBAR TEXT</strong><br>
   <?php
+  wp_editor(html_entity_decode($post->event_sidebar_text, ENT_QUOTES), 'event_sidebar_text', array('textarea_rows' => 10));
 }
 
 function events_mb_content_side($post) {
@@ -755,6 +771,7 @@ function events_save($post_id) {
   update_post_meta($post_id, 'event_pricing_corporate', $_POST['event_pricing_corporate']);
   update_post_meta($post_id, 'event_pricing_friends', $_POST['event_pricing_friends']);
   update_post_meta($post_id, 'event_pricing_government', $_POST['event_pricing_government']);
+  update_post_meta($post_id, 'event_sidebar_text', $_POST['event_sidebar_text']);
   update_post_meta($post_id, 'event_video', $_POST['event_video']);
 }
 
@@ -1052,6 +1069,19 @@ function research_posts_per_page($query) {
 
 add_action('wp_head', 'insert_open_graph');
 function insert_open_graph($post) {
+  if (is_front_page()) {
+    setup_postdata($post);
+    ?>
+    <meta property="og:title" content="Wisconsin Policy Forum" />
+    <meta property="og:url" content="https://wispolicyforum.org" />
+    <meta property="og:image" content="<?php echo get_template_directory_uri(); ?>/images/apple-touch-icon.png" />
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Wisconsin Policy Forum">
+    <meta name="twitter:description" content="">
+    <meta name="twitter:image" content="<?php echo get_template_directory_uri(); ?>/images/apple-touch-icon.png">
+    <?php
+  }
+
   if (is_single()) {
     setup_postdata($post);
     ?>
@@ -1122,6 +1152,10 @@ function focus_mb_content_side($post) {
 
     jQuery('#focus_pdf_button').click(function(){ WWDimage("#focus_pdf");});
   </script>
+  
+  <br><br><br>
+  <input type="checkbox" name="focus_featured"<?php if ($post->focus_featured != "") echo " checked"; ?>> <strong>Featured Publication</strong><br>
+  Checking this will force this issue of Focus to display on the home page instead of the most recent research. It will remain that way until unchecked.
   <?php
 }
 
@@ -1130,7 +1164,7 @@ function focus_css() {
   if (get_post_type() == 'focus') {
     echo '<style>
       #focus_mb_side INPUT[type="text"] { width: 100%; margin: 0.5em 0; padding: 0.32em 8px; box-sizing: border-box; }
-      TH#focus_pdf, TH#focus_volume { width: 10%; }
+      TH#focus_pdf, TH#focus_volume, TH#focus_featured { width: 10%; }
     </style>';
   }
 }
@@ -1151,6 +1185,7 @@ function focus_save($post_id) {
   if (get_post_type() != 'focus') return;
   update_post_meta($post_id, 'focus_volume', $_POST['focus_volume']);
   update_post_meta($post_id, 'focus_pdf', $_POST['focus_pdf']);
+  update_post_meta($post_id, 'focus_featured', $_POST['focus_featured']);
 }
 
 add_filter('manage_focus_posts_columns', 'set_custom_edit_focus_columns');
@@ -1159,6 +1194,7 @@ function set_custom_edit_focus_columns($columns) {
   
   $columns['focus_pdf'] = "PDF";
   $columns['focus_volume'] = "Volume";
+  $columns['focus_featured'] = "Featured";
 
   $columns['date'] = "Date";
 
@@ -1174,6 +1210,10 @@ function custom_focus_column($column, $post_id) {
 
     case 'focus_volume':
       echo get_post_meta($post_id, 'focus_volume', true);
+      break;
+
+    case 'focus_featured':
+      if (get_post_meta($post_id, 'focus_featured', true) != "") echo "Yes";
       break;
   }
 }

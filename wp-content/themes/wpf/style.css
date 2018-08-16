@@ -2075,6 +2075,9 @@ FOOTER #footnav UL LI A:after {
   padding: 1.25em 2em 0.95em;
 }
 
+.event-body .event-sidebar .event-sidebar-text { padding-top: 2em; }
+.event-body .event-sidebar .event-sidebar-text P:last-of-type { margin: 0; }
+
 .event-body .event-sidebar .button:hover,
 .event-body .event-sidebar .button:active {
   background: #1C305B;
@@ -4256,6 +4259,8 @@ A.research-index:nth-of-type(even) { margin-right: 0; }
   }
   .cycle-slide .box-text { width: 75%; }
 
+  #tags { font-size: 14px; }
+
   #mission-mission,
   #mission-vision { padding: 0 0 4em; }
 
@@ -4427,6 +4432,8 @@ A.research-index:nth-of-type(even) { margin-right: 0; }
   #ep #events, #ep #publication { font-size: 2.6vw; }
   #ep #events .event .details { width: 70%; }
   #ep #events .button, #ep #publication .button { font-size: 4vw; }
+
+  #tags { font-size: 3vw; }
 
   #home-join:before { padding-top: 70%; }
   #home-join > DIV { width: 62%; padding-top: 1.5em; font-size: 3vw; }
