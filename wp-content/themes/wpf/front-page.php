@@ -174,7 +174,7 @@ if ($fp->have_posts()) {
 
   			  the_title("<h1>","</h1>");
 
-  			  echo fg_excerpt(50);
+          echo ($category[0]->slug == "in-the-news") ? $post->inthenews_source : fg_excerpt(50);
           
           $TheLink = ($category[0]->slug == "in-the-news") ? $post->inthenews_link : get_permalink();
 
