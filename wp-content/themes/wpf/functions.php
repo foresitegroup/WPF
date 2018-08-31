@@ -1131,6 +1131,7 @@ function focus() {
 add_action('add_meta_boxes', 'focus_mb');
 function focus_mb() {
   add_meta_box('focus_mb_side', 'Volume # & PDF', 'focus_mb_content_side', 'focus', 'side', 'high');
+  add_meta_box('focus_mb_media', 'Media Coverage', 'focus_mb_media_content', 'focus', 'normal');
 }
 
 function focus_mb_content_side($post) {
@@ -1159,12 +1160,49 @@ function focus_mb_content_side($post) {
   <?php
 }
 
+function focus_mb_media_content($post) {
+  $meta = get_post_meta($post->ID);
+  ?>
+  <div class="focus_mb_media_fields_wrap">
+    <?php
+    for ($i = 1; $i <= 20; $i++) {
+      if (array_key_exists('focus_media_title_'.$i, $meta) || array_key_exists('focus_media_link_'.$i, $meta) || array_key_exists('focus_media_source_'.$i, $meta)) {
+        if ($i > 1) echo '<hr>';
+        ?>
+        <div class="focus_mb_media_fields">
+          <input type="text" name="focus_media_title_<?php echo $i; ?>" placeholder="Title <?php echo $i; ?>" value="<?php if (isset($meta['focus_media_title_'.$i])) echo $meta['focus_media_title_'.$i][0]; ?>">
+          <input type="text" name="focus_media_link_<?php echo $i; ?>" placeholder="Link <?php echo $i; ?>" value="<?php if (isset($meta['focus_media_link_'.$i])) echo $meta['focus_media_link_'.$i][0]; ?>">
+          <input type="text" name="focus_media_source_<?php echo $i; ?>" placeholder="Source <?php echo $i; ?>" value="<?php if (isset($meta['focus_media_source_'.$i])) echo $meta['focus_media_source_'.$i][0]; ?>">
+        </div>
+        <?php
+      }
+    }
+    ?>
+  </div>
+
+  <input type="button" class="button add-another" value="Add Media">
+
+  <script>
+    var i = $('.focus_mb_media_fields_wrap .focus_mb_media_fields').size() + 1;
+
+    $(".add-another").click(function(e){
+      e.preventDefault();
+      if (i > 1) $(".focus_mb_media_fields_wrap").append('<hr>');
+      $(".focus_mb_media_fields_wrap").append('<div class="focus_mb_media_fields"><input type="text" name="focus_media_title_'+i+'" placeholder="Title '+i+'"><input type="text" name="focus_media_link_'+i+'" placeholder="Link '+i+'"><input type="text" name="focus_media_source_'+i+'" placeholder="Source '+i+'"></div>');
+      i++;
+    });
+  </script>
+  <?php
+}
+
 add_action('admin_head', 'focus_css');
 function focus_css() {
   if (get_post_type() == 'focus') {
     echo '<style>
-      #focus_mb_side INPUT[type="text"] { width: 100%; margin: 0.5em 0; padding: 0.32em 8px; box-sizing: border-box; }
+      #focus_mb_side INPUT[type="text"], #focus_mb_media INPUT[type="text"] { width: 100%; margin: 0.5em 0; padding: 0.32em 8px; box-sizing: border-box; }
       TH#focus_pdf, TH#focus_volume, TH#focus_featured { width: 10%; }
+      #focus_mb_media HR { border-top: 1px dotted #000000; }
+      #focus_mb_media .add-another { margin-top: 1em; }
     </style>';
   }
 }
@@ -1186,6 +1224,15 @@ function focus_save($post_id) {
   update_post_meta($post_id, 'focus_volume', $_POST['focus_volume']);
   update_post_meta($post_id, 'focus_pdf', $_POST['focus_pdf']);
   update_post_meta($post_id, 'focus_featured', $_POST['focus_featured']);
+
+  for ($i = 1; $i <= 20; $i++) {
+    if (isset($_POST['focus_media_title_'.$i]))
+      update_post_meta($post_id, 'focus_media_title_'.$i, $_POST['focus_media_title_'.$i]);
+    if (isset($_POST['focus_media_link_'.$i]))
+      update_post_meta($post_id, 'focus_media_link_'.$i, $_POST['focus_media_link_'.$i]);
+    if (isset($_POST['focus_media_source_'.$i]))
+      update_post_meta($post_id, 'focus_media_source_'.$i, $_POST['focus_media_source_'.$i]);
+  }
 }
 
 add_filter('manage_focus_posts_columns', 'set_custom_edit_focus_columns');

@@ -37,4 +37,33 @@
   </div> <!-- /.site-width -->
 </div> <!-- /.bars -->
 
+<?php
+$meta = get_post_meta(get_the_ID());
+if (count(preg_grep('/^focus_media_/', array_keys($meta))) !== 0) {
+  $medialinks = '<strong>Links:</strong>';
+  ?>
+  <div id="media-without-video">
+    <div class="site-width">
+      <div id="media-coverage">
+        <h4>Media Coverage</h4>
+
+        <?php
+        for ($i = 1; $i <= 20; $i++) {
+          if (isset($meta['focus_media_link_'.$i])) echo '<a href="'.$meta['focus_media_link_'.$i][0].'">';
+
+          if (isset($meta['focus_media_title_'.$i])) echo '"'.$meta['focus_media_title_'.$i][0].'"';
+
+          if (isset($meta['focus_media_link_'.$i])) {
+            echo ' <span class="print">['.$i.']</span></a>';
+            $medialinks .= '<br>['.$i.'] '.$meta['focus_media_link_'.$i][0];
+          }
+
+          if (isset($meta['focus_media_source_'.$i])) echo '<em>'.$meta['focus_media_source_'.$i][0].'</em>';
+        }
+        ?>
+      </div>
+    </div>
+  </div>
+<?php } ?>
+
 <?php get_footer(); ?>
