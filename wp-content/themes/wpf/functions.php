@@ -504,7 +504,7 @@ function wwd_page_css() {
 
 add_action('save_post', 'wwd_page_save');
 function wwd_page_save($post_id) {
-  if ($post->_wp_page_template != 'template-what-we-do-page.php') return;
+  if ($post_id != 95) return;
   update_post_meta($post_id, 'wwd_page_section1_title', $_POST['wwd_page_section1_title']);
   update_post_meta($post_id, 'wwd_page_section1_text', $_POST['wwd_page_section1_text']);
   update_post_meta($post_id, 'wwd_page_section1_image', $_POST['wwd_page_section1_image']);
