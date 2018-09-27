@@ -30,6 +30,8 @@ if(have_posts()) : while(have_posts()) : the_post();
       	<?php
       	if (get_post_meta(get_the_ID(), 'fg_research_full_report', true))
           echo '<a href="'.get_post_meta(get_the_ID(), 'fg_research_full_report', true).'">Full Report</a>';
+        if (get_post_meta(get_the_ID(), 'fg_research_report_brief', true))
+          echo '<a href="'.get_post_meta(get_the_ID(), 'fg_research_report_brief', true).'">Full Report</a>';
         if (get_post_meta(get_the_ID(), 'fg_research_executive_summary', true))
           echo '<a href="'.get_post_meta(get_the_ID(), 'fg_research_executive_summary', true).'">Executive Summary</a>';
         if (get_post_meta(get_the_ID(), 'fg_research_blog', true))
