@@ -95,9 +95,13 @@
         echo '<a href="';
         the_permalink();
         echo '" class="research-index">';
-          if (has_post_thumbnail()) echo '<img src="'.get_the_post_thumbnail_url().'" alt="">';
+          // if (has_post_thumbnail()) echo '<img src="'.get_the_post_thumbnail_url().'" alt="">';
+          $Rimg = (has_post_thumbnail()) ? get_the_post_thumbnail_url() : get_template_directory_uri().'/images/footer-logo.png';
+          echo '<img src="'.$Rimg.'" alt="">';
           
-          echo '<div class="text">';
+          echo '<div class="text';
+          // if (!has_post_thumbnail()) echo ' noimg';
+          echo '">';
             the_title('<h2>','</h2>');
             
             if (get_post_meta(get_the_ID(), 'fg_research_subtitle', true))

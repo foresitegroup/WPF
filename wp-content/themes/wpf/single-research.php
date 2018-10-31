@@ -63,7 +63,7 @@ if(have_posts()) : while(have_posts()) : the_post();
   </div>
 </div>
 
-<div class="bars research-single">
+<div class="bars research-single<?php if (!has_post_thumbnail()) echo ' noimg'; ?>">
   <?php if (get_post_meta(get_the_ID(), 'fg_research_video', true)) { ?>
   	<div id="with-video">
   		<div class="site-width">

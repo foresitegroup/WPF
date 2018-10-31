@@ -130,11 +130,11 @@ if ($fp->have_posts()) {
           echo "</div>";
         echo "</div>";
         
-        if (isset($post->focus_featured)) {
+        // if (isset($post->focus_featured)) {
           echo home_focus_excerpt();
-        } else {
-          the_content();
-        }
+        // } else {
+        //   the_content();
+        // }
 
         echo '<a href="';
         the_permalink();
