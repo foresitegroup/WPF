@@ -14,34 +14,35 @@ if(have_posts()) : while(have_posts()) : the_post();
           the_terms(get_the_ID(), 'research-category', '', '');
           ?>
         </div>
-      <?php } ?>
+      <?php
+      }
 
-    	<?php
     	the_title('<h1>','</h1>');
 
-    	if (get_post_meta(get_the_ID(), 'fg_research_subtitle', true))
-        echo "<h2>".get_post_meta(get_the_ID(), 'fg_research_subtitle', true)."</h2>";
+    	if ($post->fg_research_subtitl) echo "<h2>".$post->fg_research_subtitl."</h2>";
 
       the_date('F Y','<h3>','</h3>');
-    	?>
 
-      <div class="view">
-      	View: 
-      	<?php
-      	if (get_post_meta(get_the_ID(), 'fg_research_full_report', true))
-          echo '<a href="'.get_post_meta(get_the_ID(), 'fg_research_full_report', true).'">Full Report</a>';
-        if (get_post_meta(get_the_ID(), 'fg_research_report_brief', true))
-          echo '<a href="'.get_post_meta(get_the_ID(), 'fg_research_report_brief', true).'">Full Report</a>';
-        if (get_post_meta(get_the_ID(), 'fg_research_executive_summary', true))
-          echo '<a href="'.get_post_meta(get_the_ID(), 'fg_research_executive_summary', true).'">Executive Summary</a>';
-        if (get_post_meta(get_the_ID(), 'fg_research_blog', true))
-          echo '<a href="'.get_post_meta(get_the_ID(), 'fg_research_blog', true).'">Blog</a>';
-        if (get_post_meta(get_the_ID(), 'fg_research_press_release', true))
-          echo '<a href="'.get_post_meta(get_the_ID(), 'fg_research_press_release', true).'">Press Release</a>';
-        if (get_post_meta(get_the_ID(), 'fg_research_video', true))
-          echo '<a href="'.get_post_meta(get_the_ID(), 'fg_research_video', true).'">Video Summary</a>';
-        ?>
-      </div>
+      if ($post->fg_research_full_report || $post->fg_research_report_brief || $post->fg_research_executive_summary || $post->fg_research_blog || $post->fg_research_press_release || $post->fg_research_video || $post->fg_research_interactive_data) {
+        echo '<div class="view">';
+          echo "View:\n";
+          if ($post->fg_research_full_report)
+            echo '<a href="'.$post->fg_research_full_report.'">Full Report</a>';
+          if ($post->fg_research_report_brief)
+            echo '<a href="'.$post->fg_research_report_brief.'">Full Report</a>';
+          if ($post->fg_research_executive_summary)
+            echo '<a href="'.$post->fg_research_executive_summary.'">Executive Summary</a>';
+          if ($post->fg_research_blog)
+            echo '<a href="'.$post->fg_research_blog.'">Blog</a>';
+          if ($post->fg_research_press_release)
+            echo '<a href="'.$post->fg_research_press_release.'">Press Release</a>';
+          if ($post->fg_research_video)
+            echo '<a href="'.$post->fg_research_video.'">Video Summary</a>';
+          if ($post->fg_research_interactive_data)
+            echo '<a href="'.$post->fg_research_interactive_data.'">Interactive Data</a>';
+        echo "</div>\n";
+      }
+    	?>
     </div>
     
     <div id="research-buttons">
@@ -64,7 +65,7 @@ if(have_posts()) : while(have_posts()) : the_post();
 </div>
 
 <div class="bars research-single<?php if (!has_post_thumbnail()) echo ' noimg'; ?>">
-  <?php if (get_post_meta(get_the_ID(), 'fg_research_video', true)) { ?>
+  <?php if ($post->fg_research_video) { ?>
   	<div id="with-video">
   		<div class="site-width">
   			<div id="cover">
@@ -78,7 +79,7 @@ if(have_posts()) : while(have_posts()) : the_post();
       		  <h4>Video Summary</h4>
 
       		  <div class="video">
-      		  	<?php echo wp_oembed_get(get_post_meta(get_the_ID(), 'fg_research_video', true)); ?>
+      		  	<?php echo wp_oembed_get($post->fg_research_video); ?>
       		  </div>
       		</div>
       	</div>

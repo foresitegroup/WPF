@@ -929,6 +929,8 @@ function fg_research_mb_content($post) {
   <input type="button" id="fg_research_press_release_button" class="button" value="Add/Edit PDF">
 
   <input type="text" name="fg_research_video" placeholder="Video Summary (URL to YouTube, Vimeo or Facebook page)" value="<?php if (isset($meta['fg_research_video'])) echo $meta['fg_research_video'][0]; ?>">
+
+  <input type="text" name="fg_research_interactive_data" placeholder="Interactive Data (Full URL to page)" value="<?php if (isset($meta['fg_research_interactive_data'])) echo $meta['fg_research_interactive_data'][0]; ?>">
   
   <script>
     function WWDimage($image_id) {
@@ -1025,6 +1027,8 @@ function fg_research_save($post_id) {
     update_post_meta($post_id, 'fg_research_press_release', $_POST['fg_research_press_release']);
   if (isset($_POST['fg_research_video']))
     update_post_meta($post_id, 'fg_research_video', $_POST['fg_research_video']);
+  if (isset($_POST['fg_research_interactive_data']))
+    update_post_meta($post_id, 'fg_research_interactive_data', $_POST['fg_research_interactive_data']);
 
   for ($i = 1; $i <= 20; $i++) {
     if (isset($_POST['fg_research_media_title_'.$i]))

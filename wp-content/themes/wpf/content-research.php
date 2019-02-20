@@ -84,7 +84,7 @@
 
     if(have_posts()) :
       echo '<div class="research-pagination">';
-        $paginate_args = array('show_all' => true, 'prev_text' => '<', 'next_text' => '>');
+        $paginate_args = array('prev_text' => '<', 'next_text' => '>');
         if (isset($_REQUEST['year'])) {
           $paginate_args['add_args'] = array('year' => $_REQUEST['year']);
         }
@@ -95,28 +95,28 @@
         echo '<a href="';
         the_permalink();
         echo '" class="research-index">';
-          // if (has_post_thumbnail()) echo '<img src="'.get_the_post_thumbnail_url().'" alt="">';
           $Rimg = (has_post_thumbnail()) ? get_the_post_thumbnail_url() : get_template_directory_uri().'/images/footer-logo.png';
           echo '<img src="'.$Rimg.'" alt="">';
           
           echo '<div class="text';
-          // if (!has_post_thumbnail()) echo ' noimg';
+          
           echo '">';
             the_title('<h2>','</h2>');
             
-            if (get_post_meta(get_the_ID(), 'fg_research_subtitle', true))
-              echo "<h3>".get_post_meta(get_the_ID(), 'fg_research_subtitle', true)."</h3>";
+            if ($post->fg_research_subtitle) echo "<h3>".$post->fg_research_subtitle."</h3>";
 
             the_date('F Y','<h4>','</h4>');
-
-            echo '<h5>Available Products:</h5>';
+            
+            if ($post->fg_research_full_report || $post->fg_research_report_brief || $post->fg_research_executive_summary || $post->fg_research_blog || $post->fg_research_press_release || $post->fg_research_video || $post->fg_research_interactive_data)
+              echo '<h5>Available Products:</h5>';
             echo '<div class="media">';
-              if (get_post_meta(get_the_ID(), 'fg_research_full_report', true)) echo '<span>Full Report</span>';
-              if (get_post_meta(get_the_ID(), 'fg_research_report_brief', true)) echo '<span>Report Brief</span>';
-              if (get_post_meta(get_the_ID(), 'fg_research_executive_summary', true)) echo '<span>Executive Summary</span>';
-              if (get_post_meta(get_the_ID(), 'fg_research_blog', true)) echo '<span>Blog</span>';
-              if (get_post_meta(get_the_ID(), 'fg_research_press_release', true)) echo '<span>Press Release</span>';
-              if (get_post_meta(get_the_ID(), 'fg_research_video', true)) echo '<span>Video Summary</span>';
+              if ($post->fg_research_full_report) echo '<span>Full Report</span>';
+              if ($post->fg_research_report_brief) echo '<span>Report Brief</span>';
+              if ($post->fg_research_executive_summary) echo '<span>Executive Summary</span>';
+              if ($post->fg_research_blog) echo '<span>Blog</span>';
+              if ($post->fg_research_press_release) echo '<span>Press Release</span>';
+              if ($post->fg_research_video) echo '<span>Video Summary</span>';
+              if ($post->fg_research_interactive_data) echo '<span>Interactive Data</span>';
             echo '</div>';
 
             if (has_term('', 'research-tag')) {
