@@ -15,7 +15,7 @@
 
       <div class="pagination">
         <?php
-        $paginate_args = array('show_all' => true, 'prev_text' => '<', 'next_text' => '>');
+        $paginate_args = array('prev_text' => '<', 'next_text' => '>');
         echo paginate_links($paginate_args);
         ?>
       </div> <!-- /.pagination -->
