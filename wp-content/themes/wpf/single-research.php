@@ -19,7 +19,7 @@ if(have_posts()) : while(have_posts()) : the_post();
 
     	the_title('<h1>','</h1>');
 
-    	if ($post->fg_research_subtitl) echo "<h2>".$post->fg_research_subtitl."</h2>";
+    	if ($post->fg_research_subtitle) echo "<h2>".$post->fg_research_subtitle."</h2>";
 
       the_date('F Y','<h3>','</h3>');
 
