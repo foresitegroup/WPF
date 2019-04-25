@@ -64,12 +64,12 @@ if(have_posts()) : while(have_posts()) : the_post();
   </div>
 </div>
 
-<div class="bars research-single<?php if (!has_post_thumbnail()) echo ' noimg'; ?>">
+<div class="bars research-single<?php if (!has_post_thumbnail() || $post->featured_image_page_display != "") echo ' noimg'; ?>">
   <?php if ($post->fg_research_video) { ?>
   	<div id="with-video">
   		<div class="site-width">
   			<div id="cover">
-  				<?php if (has_post_thumbnail()) echo '<img src="'.get_the_post_thumbnail_url().'" alt="">'; ?>
+  				<?php if (has_post_thumbnail() && $post->featured_image_page_display == "") echo '<img src="'.get_the_post_thumbnail_url().'" alt="">'; ?>
   			</div>
   		</div>
       
@@ -142,7 +142,7 @@ if(have_posts()) : while(have_posts()) : the_post();
 
     <div class="site-width">
       <div id="cover">
-        <?php if (has_post_thumbnail()) echo '<img src="'.get_the_post_thumbnail_url().'" alt="">'; ?>
+        <?php if (has_post_thumbnail() && $post->featured_image_page_display == "") echo '<img src="'.get_the_post_thumbnail_url().'" alt="">'; ?>
       </div>
 
       <div id="content">

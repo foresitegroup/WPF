@@ -1001,6 +1001,27 @@ function fg_research_css() {
   }
 }
 
+// Add checkbox to Featured Image
+add_filter('admin_post_thumbnail_html', 'add_featured_image_display_settings', 10, 2 );
+function add_featured_image_display_settings($content, $post) {
+  $fipd = get_post_meta($post, "featured_image_page_display", true);
+
+  $fi_page_display = '<label><input type="checkbox" name="featured_image_page_display"';
+  if ($fipd != "") $fi_page_display .= ' checked';
+  $fi_page_display .= '> Do NOT show image on page</label>';
+
+  return $content .= $fi_page_display;
+}
+
+add_action('save_post', 'save_featured_image_display_settings', 10, 3);
+function save_featured_image_display_settings($post_id, $post, $update) {
+  if (!empty($_POST['featured_image_page_display'])) {
+    update_post_meta($post_id, 'featured_image_page_display', $_POST['featured_image_page_display']);
+  } else {
+    delete_post_meta($post_id, 'featured_image_page_display');
+  }
+}
+
 add_filter('wp_insert_post_data', 'fg_research_custom_permalink');
 function fg_research_custom_permalink($data) {
   if ($data['post_type'] == 'research') {
