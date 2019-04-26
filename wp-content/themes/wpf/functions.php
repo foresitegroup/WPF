@@ -61,9 +61,13 @@ function home_focus_excerpt(){
   if (strlen($text) < $limit+10) return $text;
   $break_pos = strpos($text, ' ', $limit);
   $visible = substr($text, 0, $break_pos);
-  return balanceTags($visible) . "...<br>";
-}
 
+  $tidy = new Tidy();
+  $tidy->parseString($visible, array('show-body-only' => true, 'wrap' => 0));
+  $tidy->cleanRepair();
+
+  return $tidy . "...<br>";
+}
 
 // Remove visual editor on certain pages
 add_filter('user_can_richedit', 'fg_remove_visual_editor');
