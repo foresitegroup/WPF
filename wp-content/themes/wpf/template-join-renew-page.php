@@ -124,7 +124,7 @@ endif;
 <script type="text/javascript">
   jQuery(document).ready(function() {
     jQuery('#sponsor-slideshow IMG').each(function() {
-      jQuery(this).wrap('<a href="<?php echo home_url(); ?>/current-members/" style="background-image: linear-gradient(rgba(36,169,224,0.5), rgba(36,169,224,0.5)), url('+jQuery(this).attr('src')+');"></a>');
+      jQuery(this).wrap('<a href="<?php echo home_url(); ?>/current-members/"><div style="background-image: linear-gradient(rgba(36,169,224,0.5), rgba(36,169,224,0.5)), url('+jQuery(this).attr('src')+');"></div></a>');
     });
 
     function buildCarousel() {
