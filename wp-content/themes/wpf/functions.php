@@ -1482,17 +1482,19 @@ function get_fg_slider($atts, $content = null) {
     "transition" => 'fade',
     "pause"      => 'true',
     "dots"       => 'false',
-    "arrows"     => 'false'
+    "arrows"     => 'false',
+    "random"     => 'false'
   ), $atts)); 
 
-  $timeout = (!empty($timeout)) ? $timeout : 5000;
-  $speed   = (!empty($speed)) ? $speed : 2000;
+  $timeout = ($timeout != "5000") ? $timeout : 5000;
+  $speed = ($timeout != "2000") ? $speed : 2000;
 
   $slider_conf = ' data-cycle-timeout="' . $timeout . '"';
   $slider_conf .= ' data-cycle-speed="' . $speed . '"';
   if ($transition != "fade") $slider_conf .= ' data-cycle-fx="' . $transition . '"';
   if ($pause == "true") $slider_conf .= ' data-cycle-pause-on-hover="true"';
   if ($dots == "true") $slider_conf .= ' data-cycle-pager-template="<span></span>"';
+  if ($random == "true") $slider_conf .= ' data-cycle-random="true"';
   
   // wp_enqueue_style('fg-cycle-style', get_template_directory_uri().'/inc/cycle.css');
   wp_enqueue_script('fg-cycle-jquery', get_template_directory_uri().'/inc/jquery.cycle2.min.js', array('jquery'), false, true);
@@ -1595,9 +1597,14 @@ function fg_slider_instructions() { ?>
             Pause the slideshow while the mouse is hovered over it. The default setting is "true".<br>
             <br>
 
+            <strong>Random</strong><br>
+            <code>[fg-slider random="true"]</code><br>
+            Start the slideshow on a random slide instead of the set first slide. The default setting is "false".<br>
+            <br>
+
             <strong>Timeout</strong><br>
             <code>[fg-slider timeout="7000"]</code><br>
-            The amount of time in milliseconds that each slide will appear before automatically changing to the next slide. The default setting is "5000".<br>
+            The amount of time in milliseconds that each slide will appear before automatically changing to the next slide. Setting this to "0" will pause the slideshow indefinitely. The default setting is "5000".<br>
             <br>
 
             <strong>Transition</strong><br>
