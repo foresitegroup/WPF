@@ -923,6 +923,7 @@ FOOTER #footnav UL LI A:after {
 
 #ep #publication #publication-info {
   display: flex;
+  justify-content: space-between;
   align-items: center;
   font-family: 'Geometos', sans-serif;
   font-weight: 400;
@@ -930,10 +931,11 @@ FOOTER #footnav UL LI A:after {
   margin-bottom: 2em;
 }
 
+#ep #publication #publication-info #publication-title { margin-left: 5%; }
+
 #ep #publication #publication-info IMG {
   width: 210px;
   height: auto;
-  margin-right: 5%;
   box-shadow: 0px 0px 49px 0px rgba(0,0,0,0.2);
 }
 
@@ -1015,6 +1017,8 @@ FOOTER #footnav UL LI A:after {
   width: 1.4em;
   margin-left: -1.4em;
 }
+
+#ep #publication .more-link { color: inherit; pointer-events: none; }
 
 #ep #publication .button:hover,
 #ep #publication .button:active {
@@ -2529,7 +2533,7 @@ A.research-index:nth-of-type(even) { margin-right: 0; }
 }
 
 #research-single-banner H3 {
-  margin: 0 0 0.25em;
+  margin: 0 0 0.1em;
   color: #1C305B;
   font-weight: 400;
   font-size: 100%;
@@ -2538,17 +2542,21 @@ A.research-index:nth-of-type(even) { margin-right: 0; }
 
 #research-single-banner .view A:link,
 #research-single-banner .view A:visited {
-  color: #1C305B;
-  text-decoration: underline;
+  display: inline-block;
+  background: #1275BB;
+  color: #FFFFFF;
+  margin: 0.75em 0.75em 0 0;
+  padding: 0.75em 1.25em 0.5em;
+  /*text-decoration: underline;*/
 }
 
 #research-single-banner .view A:hover,
 #research-single-banner .view A:active {
-  color: #24A9E0;
-  text-decoration: underline;
+  background: #24A9E0;
+  /*text-decoration: underline;*/
 }
 
-#research-single-banner .view A:before {
+/*#research-single-banner .view A:before {
   content: "";
   display: inline-block;
   position: relative;
@@ -2563,7 +2571,7 @@ A.research-index:nth-of-type(even) { margin-right: 0; }
   width: 0.5em;
   margin-left: 0;
   border-left: 0;
-}
+}*/
 
 #research-buttons {
   float: right;
@@ -2702,6 +2710,13 @@ A.research-index:nth-of-type(even) { margin-right: 0; }
   box-shadow: 0 0 40px 0 rgba(0,0,0,0.5);
 }
 
+.research-single #cover-float {
+  float: left;
+  width: 29.81%;
+  height: auto;
+  margin: 0 7.47% 2em 0;
+}
+
 #video-box {
   position: absolute;
   top: 0;
@@ -2816,14 +2831,15 @@ A.research-index:nth-of-type(even) { margin-right: 0; }
 }
 
 .research-single #content {
-  float: right;
-  width: 62.72%;
   position: relative;
   z-index: 10;
   color: #555555;
-  line-height: 1.6em;
+  font-size: 16px;
+  line-height: 1.8em;
   margin-bottom: 4em;
 }
+
+.research-single #content-with-video #content { float: right; width: 62.72%; }
 
 .research-single.noimg #content { width: 100%; }
 
@@ -2849,10 +2865,9 @@ A.research-index:nth-of-type(even) { margin-right: 0; }
   margin: 0.75em 0 1.5em 0.7em;
   padding: 0 0 0 0.7em;
   list-style-type: none;
-  line-height: 1.4em;
 }
 
-.research-single #content UL LI { padding: 0.5em 0; }
+.research-single #content UL LI { padding: 0.75em 0; }
 
 .research-single #content UL LI:before {
   content: "\2022";
@@ -3154,6 +3169,8 @@ A.research-index:nth-of-type(even) { margin-right: 0; }
   font-size: 185.71%;
   line-height: 1.2em;
 }
+
+.insights-posts .insights-post .more-link { color: inherit; pointer-events: none; }
 
 .insights-posts .insights-post A.button:link,
 .insights-posts .insights-post A.button:visited {
@@ -4136,9 +4153,12 @@ A.research-index:nth-of-type(even) { margin-right: 0; }
   #video-box { position: static; margin-top: 2em; }
   #video-box .site-width { width: 100%; }
   #video-box .site-width #video-wrap { width: 100%; padding: 2em 1em 2em 5em; }
+  
+  #content-with-video .site-width { width: 100%; }
+  #content-with-video .site-width #content { padding: 0 2%; box-sizing: border-box; }
 
   #content-with-video #media { position: static; background: #EBEBEB; }
-  #content-with-video #media-coverage { width: 100%; padding-right: 0; }
+  #content-with-video #media-coverage { width: 100%; padding: 3em 2%; box-sizing: border-box; }
   #media-without-video #media-coverage { width: 100%; padding: 3em 2%; }
   #media-coverage #columns {
     -webkit-column-count: 1;
@@ -4147,7 +4167,7 @@ A.research-index:nth-of-type(even) { margin-right: 0; }
   }
   #media-coverage #columns DIV { padding-right: 0; }
 
-  .research-single #content { width: 100%; }
+  .research-single #content-with-video #content { width: 100%; }
 
   #dues { font-size: 1.88vw; }
   #dues .columns {
