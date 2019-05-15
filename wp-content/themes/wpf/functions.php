@@ -66,7 +66,7 @@ function home_focus_excerpt(){
   $tidy->parseString($visible, array('show-body-only' => true, 'wrap' => 0));
   $tidy->cleanRepair();
 
-  return $tidy . "...<br>";
+  return $tidy . "<br>";
 }
 
 // Remove visual editor on certain pages
