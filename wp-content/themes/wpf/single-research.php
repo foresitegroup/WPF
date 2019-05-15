@@ -25,7 +25,7 @@ if(have_posts()) : while(have_posts()) : the_post();
 
       if ($post->fg_research_full_report || $post->fg_research_report_brief || $post->fg_research_executive_summary || $post->fg_research_blog || $post->fg_research_press_release || $post->fg_research_video || $post->fg_research_interactive_data) {
         echo '<div class="view">';
-          echo "View:\n";
+          // echo "View:\n";
           if ($post->fg_research_full_report)
             echo '<a href="'.$post->fg_research_full_report.'">Full Report</a>';
           if ($post->fg_research_report_brief)
@@ -141,11 +141,9 @@ if(have_posts()) : while(have_posts()) : the_post();
   <?php } else { ?>
 
     <div class="site-width">
-      <div id="cover">
-        <?php if (has_post_thumbnail() && $post->featured_image_page_display == "") echo '<img src="'.get_the_post_thumbnail_url().'" alt="">'; ?>
-      </div>
-
       <div id="content">
+        <?php if (has_post_thumbnail() && $post->featured_image_page_display == "") echo '<img src="'.get_the_post_thumbnail_url().'" alt="" id="cover-float">'; ?>
+
         <?php the_content(); ?>
 
         <?php if (has_term('', 'research-tag')) { ?>
