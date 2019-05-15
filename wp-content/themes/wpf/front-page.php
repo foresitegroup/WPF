@@ -1,6 +1,6 @@
 <?php get_header(); ?>
 
-<?php echo do_shortcode('[fg-slider]'); ?>
+<?php echo do_shortcode('[fg-slider timeout="0" random="true"]'); ?>
 
 <script type="text/javascript">
   jQuery(document).ready(function() {
@@ -109,12 +109,14 @@ if ($fp->have_posts()) {
     if ($homepub->have_posts()) :
       while ($homepub->have_posts()) : $homepub->the_post();
         echo '<div id="publication-info">';
-          if (has_post_thumbnail()) echo '<img src="'.get_the_post_thumbnail_url().'" alt="">';
+          if (has_post_thumbnail()) echo '<a href="'.get_the_permalink().'"><img src="'.get_the_post_thumbnail_url().'" alt=""></a>';
 
-          echo "<div>";
-            the_title('<h2>','</h2>');
-
-            if ($post->fg_research_subtitle != "") echo "<h3>".$post->fg_research_subtitle."</h3>";
+          echo '<div id="publication-title">';
+            echo '<a href="'.get_the_permalink().'">';
+              the_title('<h2>','</h2>');
+            
+              if ($post->fg_research_subtitle != "") echo "<h3>".$post->fg_research_subtitle."</h3>";
+            echo "</a>\n";
             
             echo "<h4>";
               if ($post->focus_volume != "") echo "Focus #".$post->focus_volume." &bull; ";
@@ -130,15 +132,13 @@ if ($fp->have_posts()) {
           echo "</div>";
         echo "</div>";
         
-        // if (isset($post->focus_featured)) {
+        if (strpos($post->post_content, '<!--more-->')) {
+          the_content('');
+        } else {
           echo home_focus_excerpt();
-        // } else {
-        //   the_content();
-        // }
+        }
 
-        echo '<a href="';
-        the_permalink();
-        echo '" class="button">View '.$fp_name.'</a>';
+        echo '<a href="'.get_the_permalink().'" class="button">View '.$fp_name.'</a>';
       endwhile;
       wp_reset_postdata();
     endif;
