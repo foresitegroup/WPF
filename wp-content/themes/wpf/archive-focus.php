@@ -27,8 +27,12 @@
 
           the_title('<h3>','</h3>');
 
-          echo fg_excerpt(40);
-
+          if (strpos($post->post_content, '<!--more-->')) {
+            echo wp_strip_all_tags(get_the_content('...'));
+          } else {
+            echo fg_excerpt(40, '...');
+          }
+          
           echo '<a href="'.get_permalink().'" class="button">Read More</a>';
         echo "</div>\n";
       endwhile;

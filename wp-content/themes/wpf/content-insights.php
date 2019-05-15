@@ -43,7 +43,12 @@
             the_title('<h3>','</h3>');
 
             if ($post->insight_tab != "in-the-news") {
-              $text = fg_excerpt(50);
+              if (strpos($post->post_content, '<!--more-->')) {
+                $text = wp_strip_all_tags(get_the_content('...'));
+              } else {
+                $text = fg_excerpt(50, '...');
+              }
+
               $link = get_permalink();
             } else {
               $text = $post->inthenews_source;
@@ -68,7 +73,6 @@
     <div class="insights-header bottom cf">
       <div class="pagination">
         <?php
-        $paginate_args = array('show_all' => true, 'prev_text' => '<', 'next_text' => '>');
         echo paginate_links($paginate_args);
         ?>
       </div> <!-- /.pagination -->
