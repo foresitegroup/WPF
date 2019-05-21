@@ -2276,8 +2276,18 @@ FOOTER #footnav UL LI A:after {
 
 .modal-members .sidebar H2 SPAN { color: #1C305B; }
 
+.modal-members .sidebar H2 DIV { color: #1C305B; font-size: 50%; line-height: 1em; margin-top: 0.25em; }
+
 .modal-members .content {
   padding: 30px 82px 30px 52px;
+}
+
+.modal-members .content.logos IMG {
+  margin: 25px 0;
+  max-width: 75%;
+  height: auto;
+  max-height: 130px;
+  width: auto;
 }
 
 

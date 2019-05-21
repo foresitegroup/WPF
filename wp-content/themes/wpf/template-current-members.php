@@ -23,7 +23,33 @@ endif;
       <?php echo $post->post_content; ?>
     </div>
 
-    <?php $corporate = get_post(793); ?>
+    <?php $sentinels = get_page_by_path('current-members/sentinels-of-civil-conduct'); ?>
+    <div id="sentinels" class="modal modal-members">
+      <div class="site-width">
+        <div class="sidebar">
+          <h2><span>WPF's</span> <?php echo $sentinels->post_title; ?><div>$10,000 Donors</div></h2>
+        </div>
+
+        <div class="content logos">
+          <?php echo nl2br($sentinels->post_content); ?>
+        </div>
+      </div> <!-- /.site-width-->
+    </div> <!-- /#sentinels -->
+
+    <?php $pillars = get_page_by_path('current-members/pillars-of-public-policy'); ?>
+    <div id="pillars" class="modal modal-members">
+      <div class="site-width">
+        <div class="sidebar">
+          <h2><span>WPF's</span> <?php echo $pillars->post_title; ?><div>$15,000 Donors</div></h2>
+        </div>
+
+        <div class="content logos">
+          <?php echo nl2br($pillars->post_content); ?>
+        </div>
+      </div> <!-- /.site-width-->
+    </div> <!-- /#pillars -->
+    
+    <?php $corporate = get_page_by_path('current-members/corporate-members'); ?>
     <div id="corporate" class="modal modal-members">
       <div class="site-width">
         <div class="sidebar">
@@ -36,7 +62,7 @@ endif;
       </div> <!-- /.site-width-->
     </div> <!-- /#corporate -->
 
-    <?php $government = get_post(795); ?>
+    <?php $government = get_page_by_path('current-members/government-members'); ?>
     <div id="government" class="modal modal-members">
       <div class="site-width">
         <div class="sidebar">
@@ -49,7 +75,7 @@ endif;
       </div> <!-- /.site-width-->
     </div> <!-- /#government -->
 
-    <?php $education = get_post(797); ?>
+    <?php $education = get_page_by_path('current-members/education-members'); ?>
     <div id="education" class="modal modal-members">
       <div class="site-width">
         <div class="sidebar">
@@ -62,7 +88,7 @@ endif;
       </div> <!-- /.site-width-->
     </div> <!-- /#education -->
 
-    <?php $nonprofit = get_post(799); ?>
+    <?php $nonprofit = get_page_by_path('current-members/nonprofit-members'); ?>
     <div id="nonprofit" class="modal modal-members">
       <div class="site-width">
         <div class="sidebar">
@@ -75,7 +101,7 @@ endif;
       </div> <!-- /.site-width-->
     </div> <!-- /#nonprofit -->
 
-    <?php $individual = get_post(801); ?>
+    <?php $individual = get_page_by_path('current-members/individual-members'); ?>
     <div id="individual" class="modal modal-members">
       <div class="site-width">
         <div class="sidebar">
