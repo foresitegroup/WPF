@@ -75,12 +75,24 @@ function fg_remove_visual_editor($can) {
   global $post;
 
   if ($post->ID == 55) return false; // Home Join
+  if ($post->ID == 107) return false; // Sponsor Prefooter Banner
   if ($post->ID == 542) return false; // Join Sidebar
   if ($post->ID == 544) return false; // Renew Sidebar
   if ($post->ID == 105) return false; // Join/Renew Dues Structure
   if ($post->ID == 765) return false; // Current Members
 
   return $can;
+}
+
+
+/////////////////////////////
+// SPONSOR PREFOOTER BANNER - add note after title
+/////////////////////////////
+add_action('edit_form_after_title', 'sponsor_after_title');
+function sponsor_after_title($post) {
+  if ($post->ID == 107) {
+    echo "<br><strong>Please make sure there is only ONE IMAGE PER LINE and not wrapped in A or P tags (or any other tags). Also, no blank lines. Failure to do so will make the slideshow display incorrectly.</strong>";
+  }
 }
 
 
