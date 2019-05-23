@@ -101,7 +101,7 @@ endif;
       </div> <!-- /.site-width-->
     </div> <!-- /#nonprofit -->
 
-    <?php $individual = get_page_by_path('current-members/individual-members'); ?>
+    <?php $individual = get_page_by_path('current-members/chairmans-club'); ?>
     <div id="individual" class="modal modal-members">
       <div class="site-width">
         <div class="sidebar">
