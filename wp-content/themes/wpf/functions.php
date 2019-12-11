@@ -990,12 +990,12 @@ function fg_research_mb_media_content($post) {
   <input type="button" class="button add-another" value="Add Media">
 
   <script>
-    var i = $('.fg_research_mb_media_fields_wrap .fg_research_mb_media_fields').size() + 1;
+    var i = jQuery('.fg_research_mb_media_fields_wrap .fg_research_mb_media_fields').size() + 1;
 
-    $(".add-another").click(function(e){
+    jQuery(".add-another").click(function(e){
       e.preventDefault();
-      if (i > 1) $(".fg_research_mb_media_fields_wrap").append('<hr>');
-      $(".fg_research_mb_media_fields_wrap").append('<div class="fg_research_mb_media_fields"><input type="text" name="fg_research_media_title_'+i+'" placeholder="Title '+i+'"><input type="text" name="fg_research_media_link_'+i+'" placeholder="Link '+i+'"><input type="text" name="fg_research_media_source_'+i+'" placeholder="Source '+i+'"></div>');
+      if (i > 1) jQuery(".fg_research_mb_media_fields_wrap").append('<hr>');
+      jQuery(".fg_research_mb_media_fields_wrap").append('<div class="fg_research_mb_media_fields"><input type="text" name="fg_research_media_title_'+i+'" placeholder="Title '+i+'"><input type="text" name="fg_research_media_link_'+i+'" placeholder="Link '+i+'"><input type="text" name="fg_research_media_source_'+i+'" placeholder="Source '+i+'"></div>');
       i++;
     });
   </script>
