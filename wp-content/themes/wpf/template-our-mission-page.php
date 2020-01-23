@@ -59,7 +59,7 @@ endif;
   <div class="site-width">
     <div class="line">
       <div></div>
-      <h2>Annual Reports</h2>
+      <h2>Organizational Documents</h2>
     </div>
 
     <div id="reports-slideshow">

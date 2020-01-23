@@ -29,11 +29,11 @@ if(have_posts()) : while(have_posts()) : the_post();
           if ($post->fg_research_full_report)
             echo '<a href="'.$post->fg_research_full_report.'">Full Report</a>';
           if ($post->fg_research_report_brief)
-            echo '<a href="'.$post->fg_research_report_brief.'">Full Report</a>';
+            echo '<a href="'.$post->fg_research_report_brief.'"Report Brief</a>';
           if ($post->fg_research_executive_summary)
             echo '<a href="'.$post->fg_research_executive_summary.'">Executive Summary</a>';
           if ($post->fg_research_blog)
-            echo '<a href="'.$post->fg_research_blog.'">Blog</a>';
+            echo '<a href="'.$post->fg_research_blog.'">Presentation</a>';
           if ($post->fg_research_press_release)
             echo '<a href="'.$post->fg_research_press_release.'">Press Release</a>';
           if ($post->fg_research_video)
