@@ -328,6 +328,7 @@ function fg_board_mb_content($post) {
       <option value="Secretary"<?php if (isset($fg_board_officer_title) && $fg_board_officer_title == "Secretary") echo ' selected'; ?>>Secretary</option>
       <option value="Treasurer"<?php if (isset($fg_board_officer_title) && $fg_board_officer_title == "Treasurer") echo ' selected'; ?>>Treasurer</option>
       <option value="President"<?php if (isset($fg_board_officer_title) && $fg_board_officer_title == "President") echo ' selected'; ?>>President</option>
+      <option value="Member"<?php if (isset($fg_board_officer_title) && $fg_board_officer_title == "Member") echo ' selected'; ?>>Member</option>
     </select>
   </div>
   
@@ -1224,12 +1225,12 @@ function focus_mb_media_content($post) {
   <input type="button" class="button add-another" value="Add Media">
 
   <script>
-    var i = $('.focus_mb_media_fields_wrap .focus_mb_media_fields').size() + 1;
+    var i = jQuery('.focus_mb_media_fields_wrap .focus_mb_media_fields').size() + 1;
 
-    $(".add-another").click(function(e){
+    jQuery(".add-another").click(function(e){
       e.preventDefault();
-      if (i > 1) $(".focus_mb_media_fields_wrap").append('<hr>');
-      $(".focus_mb_media_fields_wrap").append('<div class="focus_mb_media_fields"><input type="text" name="focus_media_title_'+i+'" placeholder="Title '+i+'"><input type="text" name="focus_media_link_'+i+'" placeholder="Link '+i+'"><input type="text" name="focus_media_source_'+i+'" placeholder="Source '+i+'"></div>');
+      if (i > 1) jQuery(".focus_mb_media_fields_wrap").append('<hr>');
+      jQuery(".focus_mb_media_fields_wrap").append('<div class="focus_mb_media_fields"><input type="text" name="focus_media_title_'+i+'" placeholder="Title '+i+'"><input type="text" name="focus_media_link_'+i+'" placeholder="Link '+i+'"><input type="text" name="focus_media_source_'+i+'" placeholder="Source '+i+'"></div>');
       i++;
     });
   </script>

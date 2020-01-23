@@ -98,7 +98,7 @@ endif;
 
       <div id="board">
         <div id="officers" class="cf">
-          <h2>Board Officers</h2>
+          <h2>Executive Committee</h2>
           <?php
           $bo_chair = new WP_Query(array('post_type' => 'fg_board', 'showposts' => -1, 'meta_query' => array(array('key'=> 'fg_board_officer_title','value'=> 'Board Chair'), array('key' => 'fg_board_lastname')), 'orderby' => array('fg_board_lastname' => 'DESC')));
 
@@ -163,6 +163,20 @@ endif;
             <div class="officer">
               <div class="image"<?php if (has_post_thumbnail()) echo ' style="background-image: url('.get_the_post_thumbnail_url().')"'; ?>></div>
               <h3>President</h3>
+              <?php
+              the_title('<h4>','</h4>');
+              if (get_post_meta(get_the_ID(), 'fg_board_company', true))
+                echo "<h5>".get_post_meta(get_the_ID(), 'fg_board_company', true)."</h5>";
+            echo "</div>";
+          endwhile;
+
+          $bo_member = new WP_Query(array('post_type' => 'fg_board', 'showposts' => -1, 'meta_query' => array(array('key'=> 'fg_board_officer_title','value'=> 'Member'), array('key' => 'fg_board_lastname')), 'orderby' => array('fg_board_lastname' => 'DESC')));
+
+          while($bo_member->have_posts()) : $bo_member->the_post();
+            ?>
+            <div class="officer">
+              <div class="image"<?php if (has_post_thumbnail()) echo ' style="background-image: url('.get_the_post_thumbnail_url().')"'; ?>></div>
+              <h3>Member</h3>
               <?php
               the_title('<h4>','</h4>');
               if (get_post_meta(get_the_ID(), 'fg_board_company', true))
