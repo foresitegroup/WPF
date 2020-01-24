@@ -97,94 +97,35 @@ endif;
       </div>
 
       <div id="board">
-        <div id="officers" class="cf">
+        <div id="officers">
           <h2>Executive Committee</h2>
-          <?php
-          $bo_chair = new WP_Query(array('post_type' => 'fg_board', 'showposts' => -1, 'meta_query' => array(array('key'=> 'fg_board_officer_title','value'=> 'Board Chair'), array('key' => 'fg_board_lastname')), 'orderby' => array('fg_board_lastname' => 'DESC')));
+          <div class="flex">
+            <?php
+            function ListOfficers($option) {
+              $officer = new WP_Query(array('post_type' => 'fg_board', 'showposts' => -1, 'meta_query' => array(array('key' => 'fg_board_officer_title', 'value' => $option), 'sort_clause' => array('key' => 'fg_board_lastname')), 'orderby' => array('sort_clause' => 'ASC')));
 
-          while($bo_chair->have_posts()) : $bo_chair->the_post();
+              while($officer->have_posts()) : $officer->the_post();
+                echo '<div class="officer">'."\n";
+                  echo '<div class="image"';
+                  if (has_post_thumbnail()) echo ' style="background-image: url('.get_the_post_thumbnail_url().')"';
+                  echo "></div>\n";
+                  echo "<h3>".$option."</h3>\n";
+                  the_title("<h4>","</h4>\n");
+                  if (get_post_meta(get_the_ID(), 'fg_board_company', true))
+                    echo "<h5>".get_post_meta(get_the_ID(), 'fg_board_company', true)."</h5>\n";
+                echo "</div> <!-- /.officer -->\n\n";
+              endwhile;
+            }
+            
+            ListOfficers('Board Chair');
+            ListOfficers('Vice Chair');
+            ListOfficers('Secretary');
+            ListOfficers('Treasurer');
+            ListOfficers('President');
+            ListOfficers('Member');
             ?>
-            <div class="officer">
-              <div class="image"<?php if (has_post_thumbnail()) echo ' style="background-image: url('.get_the_post_thumbnail_url().')"'; ?>></div>
-              <h3>Board Chair</h3>
-              <?php
-              the_title('<h4>','</h4>');
-              if (get_post_meta(get_the_ID(), 'fg_board_company', true))
-                echo "<h5>".get_post_meta(get_the_ID(), 'fg_board_company', true)."</h5>";
-            echo "</div>";
-          endwhile;
-
-          $bo_vice = new WP_Query(array('post_type' => 'fg_board', 'showposts' => -1, 'meta_query' => array(array('key'=> 'fg_board_officer_title','value'=> 'Vice Chair'), array('key' => 'fg_board_lastname')), 'orderby' => array('fg_board_lastname' => 'DESC')));
-
-          while($bo_vice->have_posts()) : $bo_vice->the_post();
-            ?>
-            <div class="officer">
-              <div class="image"<?php if (has_post_thumbnail()) echo ' style="background-image: url('.get_the_post_thumbnail_url().')"'; ?>></div>
-              <h3>Vice Chair</h3>
-              <?php
-              the_title('<h4>','</h4>');
-              if (get_post_meta(get_the_ID(), 'fg_board_company', true))
-                echo "<h5>".get_post_meta(get_the_ID(), 'fg_board_company', true)."</h5>";
-            echo "</div>";
-          endwhile;
-
-          $bo_secretary = new WP_Query(array('post_type' => 'fg_board', 'showposts' => -1, 'meta_query' => array(array('key'=> 'fg_board_officer_title','value'=> 'Secretary'), array('key' => 'fg_board_lastname')), 'orderby' => array('fg_board_lastname' => 'DESC')));
-
-          while($bo_secretary->have_posts()) : $bo_secretary->the_post();
-            ?>
-            <div class="officer">
-              <div class="image"<?php if (has_post_thumbnail()) echo ' style="background-image: url('.get_the_post_thumbnail_url().')"'; ?>></div>
-              <h3>Secretary</h3>
-              <?php
-              the_title('<h4>','</h4>');
-              if (get_post_meta(get_the_ID(), 'fg_board_company', true))
-                echo "<h5>".get_post_meta(get_the_ID(), 'fg_board_company', true)."</h5>";
-            echo "</div>";
-          endwhile;
-
-          $bo_treasurer = new WP_Query(array('post_type' => 'fg_board', 'showposts' => -1, 'meta_query' => array(array('key'=> 'fg_board_officer_title','value'=> 'Treasurer'), array('key' => 'fg_board_lastname')), 'orderby' => array('fg_board_lastname' => 'DESC')));
-
-          while($bo_treasurer->have_posts()) : $bo_treasurer->the_post();
-            ?>
-            <div class="officer">
-              <div class="image"<?php if (has_post_thumbnail()) echo ' style="background-image: url('.get_the_post_thumbnail_url().')"'; ?>></div>
-              <h3>Treasurer</h3>
-              <?php
-              the_title('<h4>','</h4>');
-              if (get_post_meta(get_the_ID(), 'fg_board_company', true))
-                echo "<h5>".get_post_meta(get_the_ID(), 'fg_board_company', true)."</h5>";
-            echo "</div>";
-          endwhile;
-
-          $bo_president = new WP_Query(array('post_type' => 'fg_board', 'showposts' => -1, 'meta_query' => array(array('key'=> 'fg_board_officer_title','value'=> 'President'), array('key' => 'fg_board_lastname')), 'orderby' => array('fg_board_lastname' => 'DESC')));
-
-          while($bo_president->have_posts()) : $bo_president->the_post();
-            ?>
-            <div class="officer">
-              <div class="image"<?php if (has_post_thumbnail()) echo ' style="background-image: url('.get_the_post_thumbnail_url().')"'; ?>></div>
-              <h3>President</h3>
-              <?php
-              the_title('<h4>','</h4>');
-              if (get_post_meta(get_the_ID(), 'fg_board_company', true))
-                echo "<h5>".get_post_meta(get_the_ID(), 'fg_board_company', true)."</h5>";
-            echo "</div>";
-          endwhile;
-
-          $bo_member = new WP_Query(array('post_type' => 'fg_board', 'showposts' => -1, 'meta_query' => array(array('key'=> 'fg_board_officer_title','value'=> 'Member'), array('key' => 'fg_board_lastname')), 'orderby' => array('fg_board_lastname' => 'DESC')));
-
-          while($bo_member->have_posts()) : $bo_member->the_post();
-            ?>
-            <div class="officer">
-              <div class="image"<?php if (has_post_thumbnail()) echo ' style="background-image: url('.get_the_post_thumbnail_url().')"'; ?>></div>
-              <h3>Member</h3>
-              <?php
-              the_title('<h4>','</h4>');
-              if (get_post_meta(get_the_ID(), 'fg_board_company', true))
-                echo "<h5>".get_post_meta(get_the_ID(), 'fg_board_company', true)."</h5>";
-            echo "</div>";
-          endwhile;
-          ?>
-        </div>
+          </div> <!-- /.flex -->
+        </div> <!-- /#officers -->
         
         <div class="line">
           <div></div>
