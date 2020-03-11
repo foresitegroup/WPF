@@ -21,7 +21,10 @@ if(have_posts()) : while(have_posts()) : the_post();
 
     	if ($post->fg_research_subtitle) echo "<h2>".$post->fg_research_subtitle."</h2>";
 
-      the_date('F Y','<h3>','</h3>');
+      echo "<h3>";
+      if ($post->focus_volume) echo "Focus #" . $post->focus_volume . " &bull; ";
+      the_date('F Y');
+      echo "</h3>\n";
 
       if ($post->fg_research_full_report || $post->fg_research_report_brief || $post->fg_research_executive_summary || $post->fg_research_blog || $post->fg_research_press_release || $post->fg_research_video || $post->fg_research_interactive_data) {
         echo '<div class="view">';
@@ -46,7 +49,12 @@ if(have_posts()) : while(have_posts()) : the_post();
     </div>
     
     <div id="research-buttons">
-      <a href="javascript:window.print()" id="print-page">Print <i class="fas fa-print"></i></a>
+      <?php
+      $printlink = "javascript:window.print()";
+      if ($post->focus_volume) $printlink = $post->focus_pdf;
+      if ($post->fg_research_full_report) $printlink = $post->fg_research_full_report;
+      ?>
+      <a href="<?php echo $printlink; ?>" id="print-page">Print <i class="fas fa-print"></i></a>
 
       <input type="checkbox" id="toggle-share" role="button">
       <label for="toggle-share">Share <i class="fas fa-share-alt"></i></label>
@@ -59,12 +67,13 @@ if(have_posts()) : while(have_posts()) : the_post();
         <a href="http://www.facebook.com/sharer.php?u=<?php the_permalink(); if (has_post_thumbnail()) echo '&picture='.get_the_post_thumbnail_url(); ?>" target="new" class="facebook"></a>
         <a href="http://www.twitter.com/share?url=<?php the_permalink(); ?>&text=<?php echo str_replace($sharesearch, $treplace, the_title('','',false)); ?>" target="new" class="twitter"></a>
         <a href="https://www.linkedin.com/shareArticle?mini=true&url=<?php the_permalink(); ?>&title=<?php echo str_replace($sharesearch, $lreplace, the_title('','',false)); ?>" target="new" class="linkedin"></a>
+        <a href="mailto:?subject=<?php echo the_title('','',false); ?>&amp;body=%0ACheck out this article from Wisconsin Policy Forum: %0A<?php the_permalink(); ?>" target="new" class="email"></a>
       </div>
     </div>
   </div>
 </div>
 
-<div class="bars research-single<?php if (!has_post_thumbnail() || $post->featured_image_page_display != "") echo ' noimg'; ?>">
+<div class="bars research-single<?php if (!has_post_thumbnail() || $post->featured_image_page_display != "") echo ' noimg'; if (has_term('datatool', 'research-category')) echo ' datatool'; ?>">
   <?php if ($post->fg_research_video) { ?>
   	<div id="with-video">
   		<div class="site-width">
