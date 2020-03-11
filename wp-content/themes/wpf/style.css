@@ -816,6 +816,7 @@ FOOTER #footnav UL LI A:after {
   padding: 25px 50px;
   display: flex;
   justify-content: space-between;
+  color: #D6D6D6;
 }
 
 #ep #events .event:first-of-type { padding-top: 40px; }
@@ -2305,7 +2306,7 @@ FOOTER #footnav UL LI A:after {
 .filter-topic A:link,
 .filter-topic A:visited {
   color: #FFFFFF;
-  margin: 0.25em 0 0.25em 2em;
+  margin: 0.25em 0 0.25em 1.5em;
   display: inline-block;
 }
 
@@ -2683,6 +2684,7 @@ A.research-index:nth-of-type(even) { margin-right: 0; }
 #share-links A.facebook:before { content: "\f39e"; }
 #share-links A.twitter:before { content: "\f099"; }
 #share-links A.linkedin:before { content: "\f0e1"; }
+#share-links A.email:before { font-family: "Font Awesome 5 Free"; font-weight: 900; content: "\f0e0"; }
 
 #share-links A:hover,
 #share-links A:active {
@@ -3417,17 +3419,20 @@ A.research-index:nth-of-type(even) { margin-right: 0; }
 }
 
 #insights-single-text IMG,
-#focus-text IMG { max-width: 100%; height: auto; }
+#focus-text IMG,
+.research-single #content IMG { max-width: 100%; height: auto; }
 
 #insights-single-text IMG.alignleft,
-#focus-text IMG.alignleft {
+#focus-text IMG.alignleft,
+.research-single #content IMG.alignleft {
   float: left;
   margin: 0 2em 1em 0;
   max-width: 40%;
 }
 
 #insights-single-text IMG.alignright,
-#focus-text IMG.alignright {
+#focus-text IMG.alignright,
+.research-single #content IMG.alignright {
   float: right;
   margin: 0 0 1em 2em;
   max-width: 40%;
@@ -3438,7 +3443,9 @@ A.research-index:nth-of-type(even) { margin-right: 0; }
 #insights-single-text IMG.aligncenter,
 #insights-single-text IMG.alignnone,
 #focus-text IMG.aligncenter,
-#focus-text IMG.alignnone { display: block; margin: 2em auto; }
+#focus-text IMG.alignnone,
+.research-single #content IMG.aligncenter,
+.research-single #content IMG.alignnone { display: block; margin: 2em auto; }
 
 #focus-text H1, #focus-text H2, #focus-text H3,
 #focus-text H4, #focus-text H5, #focus-text H6 {
@@ -3455,6 +3462,7 @@ A.research-index:nth-of-type(even) { margin-right: 0; }
 #focus-text H4 { font-size: 107.14%; line-height: 1em; }
 #focus-text H5 { font-size: 100%; line-height: 1em; }
 
+.research-single.datatool #content H6,
 #focus-text H6 {
   clear: both;
   margin-top: 1em;
