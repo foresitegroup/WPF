@@ -50,7 +50,7 @@ if ($fp->have_posts()) {
     if ($hevents->have_posts()) :
       while ($hevents->have_posts()) : $hevents->the_post();
         ?>
-        <div class="event<?php if ($post->event_pin == "on") echo " pinned"; ?>">
+        <a href="<?php the_permalink(); ?>" class="event<?php if ($post->event_pin == "on") echo " pinned"; ?>">
           <div class="date-col">
             <div class="date">
               <div>
@@ -84,7 +84,7 @@ if ($fp->have_posts()) {
             if ($post->event_location_name != "" || $post->event_location_address != "") echo "</div>\n";
             ?>
           </div>
-        </div>
+        </a>
         <?php
       endwhile;
       wp_reset_postdata();
