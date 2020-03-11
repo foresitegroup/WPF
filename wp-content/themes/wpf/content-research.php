@@ -105,6 +105,8 @@
             
             if ($post->fg_research_subtitle) echo "<h3>".$post->fg_research_subtitle."</h3>";
 
+            if ($post->focus_volume) echo "<h4>Focus #" . $post->focus_volume . "</h4>\n";
+
             the_date('F Y','<h4>','</h4>');
             
             if ($post->fg_research_full_report || $post->fg_research_report_brief || $post->fg_research_executive_summary || $post->fg_research_blog || $post->fg_research_press_release || $post->fg_research_video || $post->fg_research_interactive_data)
