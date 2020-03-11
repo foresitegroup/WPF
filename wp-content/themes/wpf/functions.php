@@ -699,7 +699,7 @@ function events_mb_content($post) {
   <input type="checkbox" name="event_pin"<?php if ($post->event_pin != "") echo " checked"; ?>> Pin event to top of Home Page list<br>
   <br>
 
-  <input type="text" name="event_date" placeholder="Event Date" value="<?php if ($post->event_date != "TBD") echo date("m/d/Y", $post->event_date); ?>" id="event_date">
+  <input type="text" name="event_date" placeholder="Event Date" value="<?php if ($post->event_date != "TBD" && $post->event_date != "") echo date("m/d/Y", $post->event_date); ?>" id="event_date">
   If not set, "TBD" will be displayed as the event date.<br>
 
   <input type="text" name="event_start_time" placeholder="Start Time" value="<?php if ($post->event_start_time != "") echo $post->event_start_time; ?>" id="event_start_time">
@@ -892,6 +892,7 @@ add_action('add_meta_boxes', 'fg_research_mb');
 function fg_research_mb() {
   add_meta_box('fg_research_mb', 'Links', 'fg_research_mb_content', 'research', 'normal');
   add_meta_box('fg_research_mb_media', 'Media Coverage', 'fg_research_mb_media_content', 'research', 'normal');
+  add_meta_box('fg_research_focus', 'Focus Volume # & PDF', 'fg_research_focus_content', 'research', 'side', 'high');
 }
 
 function get_current_post_type() {
@@ -1003,13 +1004,35 @@ function fg_research_mb_media_content($post) {
   <?php
 }
 
+function fg_research_focus_content($post) {
+  ?>
+  <input type="text" name="focus_volume" placeholder="Volume #" value="<?php if ($post->focus_volume != "") echo $post->focus_volume; ?>">
+  <input type="text" name="focus_pdf" placeholder="PDF" id="focus_pdf" class="with_button" value="<?php if ($post->focus_pdf) echo $post->focus_pdf; ?>">
+  <input type="button" id="focus_pdf_button" class="button" value="Add/Edit PDF">
+
+  <script>
+    function WWDimage($image_id) {
+      var send_attachment_bkp = wp.media.editor.send.attachment;
+      wp.media.editor.send.attachment = function(props, attachment) {
+        jQuery($image_id).val(attachment.url);
+        wp.media.editor.send.attachment = send_attachment_bkp;
+      }
+      wp.media.editor.open();
+      return false;
+    }
+
+    jQuery('#focus_pdf_button').click(function(){ WWDimage("#focus_pdf");});
+  </script>
+  <?php
+}
+
 add_action('admin_head', 'fg_research_css');
 function fg_research_css() {
   if (get_post_type() == 'research') {
     echo '<style>
       #edit-slug-box { display: none; }
       #fg_research_subtitle { padding: 3px 8px; font-size: 1.7em; line-height: 100%; height: 1.7em; width: 100%; outline: 0; }
-      #fg_research_mb INPUT[type="text"], #fg_research_mb_media INPUT[type="text"] { width: 100%; padding: 0.32em 8px; box-sizing: border-box; margin: 0.5em 0; }
+      #fg_research_mb INPUT[type="text"], #fg_research_mb_media INPUT[type="text"], #fg_research_focus INPUT[type="text"] { width: 100%; padding: 0.32em 8px; box-sizing: border-box; margin: 0.5em 0; }
       #fg_research_mb INPUT[type="text"].with_button { width: 87%; margin-right: 0.75em; }
       #fg_research_mb .button { margin: 0.5em 0; }
       #fg_research_mb_media HR { border-top: 1px dotted #000000; }
@@ -1075,6 +1098,17 @@ function fg_research_save($post_id) {
       update_post_meta($post_id, 'fg_research_media_link_'.$i, $_POST['fg_research_media_link_'.$i]);
     if (isset($_POST['fg_research_media_source_'.$i]))
       update_post_meta($post_id, 'fg_research_media_source_'.$i, $_POST['fg_research_media_source_'.$i]);
+  }
+
+  if (!empty($_POST['focus_volume'])) {
+    update_post_meta($post_id, 'focus_volume', $_POST['focus_volume']);
+  } else {
+    delete_post_meta($post_id, 'focus_volume');
+  }
+  if (!empty($_POST['focus_pdf'])) {
+    update_post_meta($post_id, 'focus_pdf', $_POST['focus_pdf']);
+  } else {
+    delete_post_meta($post_id, 'focus_pdf');
   }
 }
 
@@ -1148,7 +1182,7 @@ function insert_open_graph($post) {
 //////////
 // FOCUS
 //////////
-add_action('init', 'focus');
+// add_action('init', 'focus');
 function focus() {
   register_post_type('focus', array(
     'labels' => array(
