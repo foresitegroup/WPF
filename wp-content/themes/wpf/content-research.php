@@ -109,17 +109,17 @@
 
             the_date('F Y','<h4>','</h4>');
             
-            if ($post->fg_research_full_report || $post->fg_research_report_brief || $post->fg_research_executive_summary || $post->fg_research_blog || $post->fg_research_press_release || $post->fg_research_video || $post->fg_research_interactive_data)
-              echo '<h5>Available Products:</h5>';
-            echo '<div class="media">';
-              if ($post->fg_research_full_report) echo '<span>Full Report</span>';
-              if ($post->fg_research_report_brief) echo '<span>Report Brief</span>';
-              if ($post->fg_research_executive_summary) echo '<span>Executive Summary</span>';
-              if ($post->fg_research_blog) echo '<span>Blog</span>';
-              if ($post->fg_research_press_release) echo '<span>Press Release</span>';
-              if ($post->fg_research_video) echo '<span>Video Summary</span>';
-              if ($post->fg_research_interactive_data) echo '<span>Interactive Data</span>';
-            echo '</div>';
+            // if ($post->fg_research_full_report || $post->fg_research_report_brief || $post->fg_research_executive_summary || $post->fg_research_blog || $post->fg_research_press_release || $post->fg_research_video || $post->fg_research_interactive_data)
+            //   echo '<h5>Available Products:</h5>';
+            // echo '<div class="media">';
+            //   if ($post->fg_research_full_report) echo '<span>Full Report</span>';
+            //   if ($post->fg_research_report_brief) echo '<span>Report Brief</span>';
+            //   if ($post->fg_research_executive_summary) echo '<span>Executive Summary</span>';
+            //   if ($post->fg_research_blog) echo '<span>Blog</span>';
+            //   if ($post->fg_research_press_release) echo '<span>Press Release</span>';
+            //   if ($post->fg_research_video) echo '<span>Video Summary</span>';
+            //   if ($post->fg_research_interactive_data) echo '<span>Interactive Data</span>';
+            // echo '</div>';
 
             if (has_term('', 'research-tag')) {
               echo '<div class="tags">';
