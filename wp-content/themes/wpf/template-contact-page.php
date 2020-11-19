@@ -75,20 +75,13 @@ endif;
       </div>
 
       <div>
-        <div class="map">
-          <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2913.018577457234!2d-89.34730078451997!3d43.10412447914389!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x880654726c9a52b3%3A0xeb1f4aaad3e03b67!2s401+N+Lawn+Ave%2C+Madison%2C+WI+53704!5e0!3m2!1sen!2sus!4v1526052869301" width="600" height="600" frameborder="0" style="border:0" allowfullscreen></iframe>
-        </div>
-      </div>
-
-      <div>
         <h3>Madison</h3>
         Wisconsin Policy Forum<br>
-        401 N. Lawn Ave.<br>
-        Madison, WI 53704-5033<br>
+        PO Box 259403<br>
+        Madison, WI 53725<br>
         <br>
 
-        <span>Phone:</span> 608.241.9789<br>
-        <span>Fax:</span> 608.241.5807
+        <span>Phone:</span> 608.241.9789
       </div>
     </div>
   </div>

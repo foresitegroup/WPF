@@ -3563,10 +3563,11 @@ A.research-index:nth-of-type(even) { margin-right: 0; }
 }
 
 #maps-content > DIV { width: 22.18%; }
+#maps-content > DIV:first-of-type { width: 44.36%; }
 
 #maps-content > DIV .map {
   overflow: hidden;
-  padding-top: 100%;
+  padding-top: 50%;
   position: relative;
 }
 
@@ -3946,6 +3947,8 @@ A.research-index:nth-of-type(even) { margin-right: 0; }
     font-size: 2.4vw;
     line-height: 1.4em;
   }
+
+  #maps-content > DIV:first-of-type { width: 100%; }
 }
 
 @media only screen and (max-width: 750px) {
