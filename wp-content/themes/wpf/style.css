@@ -1593,7 +1593,7 @@ FOOTER #footnav UL LI A:after {
 
 #officers .flex { display: flex; flex-wrap: wrap; }
 
-#officers .officer { width: 13.46%; margin: 0 0 30px 2.74%; }
+#officers .officer { width: 11.15%; margin: 0 0 30px 2.74%; }
 
 #officers .officer .image {
   background: url(images/no-headshot.jpg) no-repeat center top;
