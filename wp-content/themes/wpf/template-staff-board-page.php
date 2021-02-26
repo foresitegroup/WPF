@@ -21,7 +21,7 @@ endif;
 <div id="tabs">
   <input id="tab1" type="radio" name="tabs" checked>
   <label for="tab1">Staff</label>
-  <input id="tab2" type="radio" name="tabs">
+  <input id="tab2" type="radio" name="tabs"<?php if ($_SERVER['QUERY_STRING'] == "board") echo ' checked'; ?>>
   <label for="tab2">Board</label>
 
   <div class="bars">
