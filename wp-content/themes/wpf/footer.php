@@ -12,7 +12,11 @@
   </div>
 </footer>
 
-<div id="copyright">&copy; <?php echo date("Y"); ?> Wisconsin Policy Forum</div>
+<div id="copyright">
+  &copy; <?php echo date("Y"); ?> Wisconsin Policy Forum<br>
+  <br>
+  <a href="https://foresitegrp.com" style="font-size: 0.6875rem; color: #B5B5B5; letter-spacing: 0;">WEBSITE BY FORESITE</a>
+</div>
 
 <?php wp_footer(); ?>
 
