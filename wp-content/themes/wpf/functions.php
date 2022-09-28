@@ -1,4 +1,9 @@
 <?php
+// I don't need to be notified about every automatic update
+add_filter( 'auto_plugin_update_send_email', '__return_false' );
+add_filter( 'auto_theme_update_send_email', '__return_false' );
+
+
 // We want Featured Images on Pages and Posts
 add_theme_support( 'post-thumbnails' );
 
@@ -62,11 +67,11 @@ function home_focus_excerpt(){
   $break_pos = strpos($text, ' ', $limit);
   $visible = substr($text, 0, $break_pos);
 
-  $tidy = new Tidy();
-  $tidy->parseString($visible, array('show-body-only' => true, 'wrap' => 0));
-  $tidy->cleanRepair();
+  // $tidy = new Tidy();
+  // $tidy->parseString($visible, array('show-body-only' => true, 'wrap' => 0));
+  // $tidy->cleanRepair();
 
-  return $tidy . "<br>";
+  return $visible . "...<br>";
 }
 
 // Remove visual editor on certain pages
@@ -618,9 +623,6 @@ function sponsorship_page_css() {
   global $post;
   if ($post->_wp_page_template == 'template-sponsorship.php') {
     echo '<style>
-      #sponsorship_page_mb_after_title { border: 0; background: transparent; box-shadow: none; }
-      #sponsorship_page_mb_after_title .handlediv, #sponsorship_page_mb_after_title H2 { display: none; }
-      #sponsorship_page_mb_after_title .inside { padding: 0 }
       #sponsorship_page_mb_after_title INPUT { width: 100%; padding: 3px 8px; font-size: 1.4em; line-height: 1em; height: 1.7em; }
       #sponsorship_page_mb H3 { margin: 0 0 0.5em; }
       #sponsorship_page_mb .wp-editor-wrap { margin: 1em 0 2em; }
@@ -634,7 +636,7 @@ function sponsorship_page_css() {
 
 add_action('save_post', 'sponsorship_page_save');
 function sponsorship_page_save($post_id) {
-  if ($post->_wp_page_template != 'template-sponsorship.php') return;
+  if (get_page_template_slug($post->ID) != 'template-sponsorship.php') return;
 
   update_post_meta($post_id, 'sponsorship_after_title', $_POST['sponsorship_after_title']);
 
@@ -1527,7 +1529,7 @@ function get_fg_slider($atts, $content = null) {
     "timeout"    => '5000',
     "speed"      => '2000',
     "transition" => 'fade',
-    "pause"      => 'true',
+    "pause"      => 'false',
     "dots"       => 'false',
     "arrows"     => 'false',
     "random"     => 'false'
