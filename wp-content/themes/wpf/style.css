@@ -2086,6 +2086,27 @@ FOOTER #footnav UL LI A:after {
   background: #1C305B;
 }
 
+.addcal INPUT[type="submit"] {
+  margin: 1em 0 0;
+  outline: 0;
+  border: 0;
+  border-radius: 0;
+  box-sizing: border-box;
+  background: #FE7004;
+  color: #FFFFFF;
+  font-family: 'Geometos', sans-serif;
+  font-weight: 400;
+  font-size: 114.28%;
+  line-height: 1em;
+  padding: 1.25em 1.5em 0.95em;
+  text-transform: uppercase;
+  cursor: pointer;
+  appearance: none;
+  transition: all 0.2s;
+}
+
+.addcal INPUT[type="submit"]:hover { background: #1C305B; }
+
 .event-body .event-text { width: 52.81%; }
 
 .event-body .event-text P:last-of-type { margin-bottom: 0; }

@@ -125,10 +125,49 @@
           <a href="http://www.twitter.com/share?url=<?php the_permalink(); ?>&text=<?php echo str_replace($sharesearch, $treplace, the_title('','',false)); ?>" target="new" class="twitter"></a>
           <a href="https://www.linkedin.com/shareArticle?mini=true&url=<?php the_permalink(); ?>&title=<?php echo str_replace($sharesearch, $lreplace, the_title('','',false)); ?>" target="new" class="linkedin"></a>
         </div>
-        <?php } ?>
+      <?php } ?>
       
       <a href="<?php echo home_url(); ?>/contact-us" class="button">Contact Us</a>
       <?php if (is_single()) echo "</div>\n"; ?>
+      
+      <?php if ($post->event_date != "TBD") { ?>
+        <form method="post" action="<?php echo get_template_directory_uri(); ?>/add-to-cal.php" class="addcal">
+          <?php
+          $allday = "";
+
+          $startdate = date("Y-n-j", $post->event_date);
+          if ($post->event_start_time == "") {
+            $allday = "yes";
+          } else {
+            $startdate .= " ".$post->event_start_time;
+          }
+
+          $enddate = date("Y-n-j", $post->event_date);
+
+          $endtime = "";
+          if ($post->event_end_time != "") $endtime = $post->event_end_time;
+          if ($post->event_start_time != "" && $post->event_end_time == "") $endtime = $post->event_start_time." + 1 hour";
+
+          $enddate .= " ".$endtime;
+
+          if ($allday == "") {
+            $sdate = new DateTime($startdate, new DateTimeZone('America/Chicago'));
+            $dts = date("Ymd\THis\Z", $sdate->format('U'));
+            $edate = new DateTime($enddate, new DateTimeZone('America/Chicago'));
+            $dte = date("Ymd\THis\Z", $edate->format('U'));
+          } else {
+            $dts = date("Ymd", $post->event_date);
+            $dte = date("Ymd", $post->event_date+86400);
+          }
+          ?>
+          <input type="hidden" name="date_start" value="<?php echo $dts; ?>">
+          <input type="hidden" name="date_end" value="<?php echo $dte; ?>">
+          <input type="hidden" name="summary" value="<?php the_title(); ?>">
+          <input type="hidden" name="description" value="For details, go to <?php the_permalink(); ?>">
+          <input type="hidden" name="location" value="<?php if ($post->event_location_address != "") echo $post->event_location_address ?>">
+          <input type="submit" value="Add to Calendar">
+        </form>
+      <?php } ?>
 
       <?php
       if ($post->event_sidebar_text != "")
