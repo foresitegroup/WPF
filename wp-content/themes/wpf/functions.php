@@ -1098,7 +1098,7 @@ function fg_research_save($post_id) {
   if (isset($_POST['fg_research_interactive_data']))
     update_post_meta($post_id, 'fg_research_interactive_data', $_POST['fg_research_interactive_data']);
 
-  for ($i = 1; $i <= 20; $i++) {
+  for ($i = 1; $i <= 40; $i++) {
     if (isset($_POST['fg_research_media_title_'.$i]))
       update_post_meta($post_id, 'fg_research_media_title_'.$i, $_POST['fg_research_media_title_'.$i]);
     if (isset($_POST['fg_research_media_link_'.$i]))
