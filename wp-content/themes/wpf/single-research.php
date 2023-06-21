@@ -36,7 +36,7 @@ if(have_posts()) : while(have_posts()) : the_post();
           if ($post->fg_research_executive_summary)
             echo '<a href="'.$post->fg_research_executive_summary.'">Executive Summary</a>';
           if ($post->fg_research_blog)
-            echo '<a href="'.$post->fg_research_blog.'">Presentation</a>';
+            echo '<a href="'.$post->fg_research_blog.'">Blog</a>';
           if ($post->fg_research_press_release)
             echo '<a href="'.$post->fg_research_press_release.'">Press Release</a>';
           if ($post->fg_research_video)
@@ -122,17 +122,17 @@ if(have_posts()) : while(have_posts()) : the_post();
               <h4>Media Coverage</h4>
 
               <?php
-              for ($i = 1; $i <= 20; $i++) {
-                if (isset($meta['fg_research_media_link_'.$i])) echo '<a href="'.$meta['fg_research_media_link_'.$i][0].'">';
+              for ($i = 1; $i <= 40; $i++) {
+                if (isset($meta['fg_research_media_link_'.$i]) && $meta['fg_research_media_link_'.$i][0] != "") echo '<a href="'.$meta['fg_research_media_link_'.$i][0].'">';
 
-                if (isset($meta['fg_research_media_title_'.$i])) echo '"'.$meta['fg_research_media_title_'.$i][0].'"';
+                if (isset($meta['fg_research_media_title_'.$i]) && $meta['fg_research_media_title_'.$i][0] != "") echo '"'.$meta['fg_research_media_title_'.$i][0].'"';
 
-                if (isset($meta['fg_research_media_link_'.$i])) {
+                if (isset($meta['fg_research_media_link_'.$i]) && $meta['fg_research_media_link_'.$i][0] != "") {
                   echo ' <span class="print">['.$i.']</span></a>';
                   $medialinks .= '<br>['.$i.'] '.$meta['fg_research_media_link_'.$i][0];
                 }
 
-                if (isset($meta['fg_research_media_source_'.$i])) echo '<em>'.$meta['fg_research_media_source_'.$i][0].'</em>';
+                if (isset($meta['fg_research_media_source_'.$i]) && $meta['fg_research_media_source_'.$i][0] != "") echo '<em>'.$meta['fg_research_media_source_'.$i][0].'</em>';
               }
               ?>
             </div>
@@ -177,19 +177,19 @@ if(have_posts()) : while(have_posts()) : the_post();
           
           <div id="columns">
             <?php
-            for ($i = 1; $i <= 20; $i++) {
+            for ($i = 1; $i <= 40; $i++) {
               if (array_key_exists('fg_research_media_title_'.$i, $meta) || array_key_exists('fg_research_media_link_'.$i, $meta) || array_key_exists('fg_research_media_source_'.$i, $meta)) echo '<div>';
 
-              if (isset($meta['fg_research_media_link_'.$i])) echo '<a href="'.$meta['fg_research_media_link_'.$i][0].'">';
+              if (isset($meta['fg_research_media_link_'.$i]) && $meta['fg_research_media_link_'.$i][0] != "") echo '<a href="'.$meta['fg_research_media_link_'.$i][0].'">';
 
-              if (isset($meta['fg_research_media_title_'.$i])) echo '"'.$meta['fg_research_media_title_'.$i][0].'"';
+              if (isset($meta['fg_research_media_title_'.$i]) && $meta['fg_research_media_title_'.$i][0] != "") echo '"'.$meta['fg_research_media_title_'.$i][0].'"';
 
-              if (isset($meta['fg_research_media_link_'.$i])) {
+              if (isset($meta['fg_research_media_link_'.$i]) && $meta['fg_research_media_link_'.$i][0] != "") {
                 echo ' <span class="print">['.$i.']</span></a>';
                 $medialinks .= '<br>['.$i.'] '.$meta['fg_research_media_link_'.$i][0];
               }
 
-              if (isset($meta['fg_research_media_source_'.$i])) echo '<em>'.$meta['fg_research_media_source_'.$i][0].'</em>';
+              if (isset($meta['fg_research_media_source_'.$i]) && $meta['fg_research_media_source_'.$i][0] != "") echo '<em>'.$meta['fg_research_media_source_'.$i][0].'</em>';
 
               if (array_key_exists('fg_research_media_title_'.$i, $meta) || array_key_exists('fg_research_media_link_'.$i, $meta) || array_key_exists('fg_research_media_source_'.$i, $meta)) echo '</div>';
             }

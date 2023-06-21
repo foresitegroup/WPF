@@ -981,7 +981,7 @@ function fg_research_mb_media_content($post) {
   ?>
   <div class="fg_research_mb_media_fields_wrap">
     <?php
-    for ($i = 1; $i <= 20; $i++) {
+    for ($i = 1; $i <= 40; $i++) {
       if (array_key_exists('fg_research_media_title_'.$i, $meta) || array_key_exists('fg_research_media_link_'.$i, $meta) || array_key_exists('fg_research_media_source_'.$i, $meta)) {
         if ($i > 1) echo '<hr>';
         ?>
