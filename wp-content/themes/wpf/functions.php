@@ -439,12 +439,14 @@ function fg_board_custom_orderby($query) {
 ///////////////
 // WHAT WE DO
 ///////////////
-add_action('admin_init', 'wwd_page');
+add_action('init', 'wwd_page');
 function wwd_page() {
-  $post_id = $_GET['post'] ? $_GET['post'] : $_POST['post_ID'];
-  if ($post_id == 95) {
-    remove_post_type_support('page', 'editor');
-    remove_post_type_support('page', 'thumbnail');
+  if (isset($_GET['post'])) {
+    $template = get_post_meta($_GET['post'], '_wp_page_template', true);
+    if ($template == "template-what-we-do-page.php") {
+      remove_post_type_support('page', 'editor');
+      remove_post_type_support('page', 'thumbnail');
+    }
   }
 }
 
@@ -513,20 +515,13 @@ function wwd_page_mb_content($post) {
     jQuery('#wwd_page_section4_image_button').click(function(){ WWDimage("#wwd_page_section4_image");});
   </script>
   <?php
-}
-
-add_action('admin_head', 'wwd_page_css');
-function wwd_page_css() {
-  global $post;
-  if ($post->_wp_page_template == 'template-what-we-do-page.php') {
-    echo '<style>
-      #wwd_page_mb H3 { margin: 0 0 0.5em; }
-      #wwd_page_mb .wp-editor-wrap { margin: 1em 0 2em; }
-      #wwd_page_mb INPUT[type="text"] { width: 100%; padding: 0.32em 8px; box-sizing: border-box; }
-      #wwd_page_mb INPUT[type="text"].wwd_page_image { width: 85%; margin-right: 0.75em; }
-      #wwd_page_mb HR { margin: 3em 0 2.5em; border-top: 1px dashed #000000; }
-    </style>';
-  }
+  echo '<style>
+    #wwd_page_mb H3 { margin: 0 0 0.5em; }
+    #wwd_page_mb .wp-editor-wrap { margin: 1em 0 2em; }
+    #wwd_page_mb INPUT[type="text"] { width: 100%; padding: 0.32em 8px; box-sizing: border-box; }
+    #wwd_page_mb INPUT[type="text"].wwd_page_image { width: 85%; margin-right: 0.75em; }
+    #wwd_page_mb HR { margin: 3em 0 2.5em; border-top: 1px dashed #000000; }
+  </style>';
 }
 
 add_action('save_post', 'wwd_page_save');
@@ -555,11 +550,12 @@ function wwd_page_save($post_id) {
 ///////////////
 add_action('admin_init', 'sponsorship_page');
 function sponsorship_page() {
-  $post_id = $_GET['post'] ? $_GET['post'] : $_POST['post_ID'];
-  if ('template-sponsorship.php' == get_post_meta($post_id,
-  '_wp_page_template', true)) {
-    remove_post_type_support('page', 'editor');
-    remove_post_type_support('page', 'thumbnail');
+  if (isset($_GET['post'])) {
+    $template = get_post_meta($_GET['post'], '_wp_page_template', true);
+    if ($template == "template-sponsorship.php") {
+      remove_post_type_support('page', 'editor');
+      remove_post_type_support('page', 'thumbnail');
+    }
   }
 }
 
@@ -614,6 +610,15 @@ function sponsorship_page_mb_content($post) {
     jQuery('#sponsorship_section2_image_button').click(function(){ SPONSORSHIPimage("#sponsorship_section2_image");});
   </script>
   <?php
+  echo '<style>
+    #sponsorship_page_mb_after_title INPUT { width: 100%; padding: 3px 8px; font-size: 1.4em; line-height: 1em; height: 1.7em; }
+    #sponsorship_page_mb H3 { margin: 0 0 0.5em; }
+    #sponsorship_page_mb .wp-editor-wrap { margin: 1em 0 2em; }
+    #sponsorship_page_mb INPUT[type="text"],
+    #sponsorship_page_mb_prefooter INPUT { width: 100%; padding: 0.32em 8px; box-sizing: border-box; }
+    #sponsorship_page_mb INPUT[type="text"].sponsorship_image { width: 85%; margin-right: 0.75em; }
+    #sponsorship_page_mb HR { margin: 3em 0 2.5em; border-top: 1px dashed #000000; }
+  </style>';
 }
 
 function sponsorship_page_mb_content_prefooter($post) {
@@ -621,22 +626,6 @@ function sponsorship_page_mb_content_prefooter($post) {
   <input type="text" name="sponsorship_prefooter_title" placeholder="Prefooter Title" value="<?php if ($post->sponsorship_prefooter_title) echo $post->sponsorship_prefooter_title; ?>"><br><br>
   <input type="text" name="sponsorship_prefooter_contact" placeholder="Prefooter contact" value="<?php if ($post->sponsorship_prefooter_contact) echo $post->sponsorship_prefooter_contact; ?>">
   <?php
-}
-
-add_action('admin_head', 'sponsorship_page_css');
-function sponsorship_page_css() {
-  global $post;
-  if ($post->_wp_page_template == 'template-sponsorship.php') {
-    echo '<style>
-      #sponsorship_page_mb_after_title INPUT { width: 100%; padding: 3px 8px; font-size: 1.4em; line-height: 1em; height: 1.7em; }
-      #sponsorship_page_mb H3 { margin: 0 0 0.5em; }
-      #sponsorship_page_mb .wp-editor-wrap { margin: 1em 0 2em; }
-      #sponsorship_page_mb INPUT[type="text"],
-      #sponsorship_page_mb_prefooter INPUT { width: 100%; padding: 0.32em 8px; box-sizing: border-box; }
-      #sponsorship_page_mb INPUT[type="text"].sponsorship_image { width: 85%; margin-right: 0.75em; }
-      #sponsorship_page_mb HR { margin: 3em 0 2.5em; border-top: 1px dashed #000000; }
-    </style>';
-  }
 }
 
 add_action('save_post', 'sponsorship_page_save');
