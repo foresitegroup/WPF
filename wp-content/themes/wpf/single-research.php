@@ -2,7 +2,8 @@
 get_header();
 
 if(have_posts()) : while(have_posts()) : the_post();
-?>
+  $medialinks = '';
+  ?>
 
 <div id="research-single-banner">
   <div class="site-width">
@@ -113,7 +114,6 @@ if(have_posts()) : while(have_posts()) : the_post();
   		</div>
 
       <?php
-      $medialinks = '';
       $meta = get_post_meta(get_the_ID());
       if (count(preg_grep('/^fg_research_media_/', array_keys($meta))) !== 0) {
         $medialinks = '<strong>Links:</strong>';
