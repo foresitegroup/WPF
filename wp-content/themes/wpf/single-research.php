@@ -26,7 +26,7 @@ if(have_posts()) : while(have_posts()) : the_post();
       the_date('F Y');
       echo "</h3>\n";
 
-      if ($post->fg_research_full_report || $post->fg_research_report_brief || $post->fg_research_executive_summary || $post->fg_research_blog || $post->fg_research_press_release || $post->fg_research_video || $post->fg_research_interactive_data) {
+      if ($post->fg_research_full_report || $post->fg_research_report_brief || $post->fg_research_executive_summary || $post->fg_research_blog || $post->fg_research_press_release || $post->fg_research_video || $post->fg_research_interactive_data){
         echo '<div class="view">';
           // echo "View:\n";
           if ($post->fg_research_full_report)
@@ -36,14 +36,15 @@ if(have_posts()) : while(have_posts()) : the_post();
           if ($post->fg_research_executive_summary)
             echo '<a href="'.$post->fg_research_executive_summary.'">Executive Summary</a>';
           if ($post->fg_research_blog)
-            echo '<a href="'.$post->fg_research_blog.'">Blog</a>';
+            echo '<a href="'.$post->fg_research_blog.'">CJC Statement</a>';
           if ($post->fg_research_press_release)
             echo '<a href="'.$post->fg_research_press_release.'">Press Release</a>';
           if ($post->fg_research_video)
-            echo '<a href="'.$post->fg_research_video.'">Video Summary</a>';
+            echo '<a href="'.$post->fg_research_video.'">Video Preview</a>';
           if ($post->fg_research_interactive_data)
             echo '<a href="'.$post->fg_research_interactive_data.'">Interactive Data</a>';
         echo "</div>\n";
+		 
       }
     	?>
     </div>
@@ -85,7 +86,7 @@ if(have_posts()) : while(have_posts()) : the_post();
       <div id="video-box">
       	<div class="site-width">
       		<div id="video-wrap">
-      		  <h4>Video Summary</h4>
+      		  <h4>Video Preview</h4>
 
       		  <div class="video">
       		  	<?php echo wp_oembed_get($post->fg_research_video); ?>
@@ -112,6 +113,7 @@ if(have_posts()) : while(have_posts()) : the_post();
   		</div>
 
       <?php
+      $medialinks = '';
       $meta = get_post_meta(get_the_ID());
       if (count(preg_grep('/^fg_research_media_/', array_keys($meta))) !== 0) {
         $medialinks = '<strong>Links:</strong>';
