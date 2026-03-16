@@ -24,15 +24,6 @@
     });
   </script>
 
-  <!-- Global site tag (gtag.js) - Google Analytics - THIS WILL STOP WORKING JULY 1, 2023 -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-121729697-1"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'UA-121729697-1');
-  </script>
-
   <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-WGRD3LR79D"></script>
   <script>
@@ -47,8 +38,8 @@
 
   <header class="site-width">
     <a href="<?php echo home_url(); ?>" id="logo">
-      <img src="<?php echo get_template_directory_uri(); ?>/images/logo.png" alt="Wisconsin Policy Forum">
-      <img src="<?php echo get_template_directory_uri(); ?>/images/logo-black.png" alt="" class="print">
+      <img src="<?php echo get_template_directory_uri(); ?>/images/logo.png" alt="Wisconsin Policy Forum" width="800" height="104">
+      <img src="<?php echo get_template_directory_uri(); ?>/images/logo-black.png" alt="" width="800" height="104" class="print">
     </a>
 
     <?php wp_nav_menu(array('theme_location'=>'top-menu','container'=>'div','container_id'=>'header-right')); ?>

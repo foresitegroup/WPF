@@ -1,6 +1,6 @@
 <?php get_header(); ?>
 
-<?php echo do_shortcode('[fg-slider timeout="0" random="true"]'); ?>
+<?php echo do_shortcode('[fg-slider timeout="10000" random="true"]'); ?>
 
 <script type="text/javascript">
   jQuery(document).ready(function() {
@@ -109,7 +109,7 @@ if ($fp->have_posts()) {
     if ($homepub->have_posts()) :
       while ($homepub->have_posts()) : $homepub->the_post();
         echo '<div id="publication-info">';
-          if (has_post_thumbnail()) echo '<a href="'.get_the_permalink().'"><img src="'.get_the_post_thumbnail_url().'" alt=""></a>';
+        if (has_post_thumbnail()) echo '<a href="'.get_the_permalink().'">'.get_the_post_thumbnail($post->ID, 'medium', array('alt' => 'Read '.get_the_title())).'</a>';
 
           echo '<div id="publication-title">';
             echo '<a href="'.get_the_permalink().'">';
@@ -131,7 +131,7 @@ if ($fp->have_posts()) {
             }
           echo "</div>";
         echo "</div>";
-        
+
         if (strpos($post->post_content, '<!--more-->')) {
           the_content('');
         } else {
@@ -143,7 +143,7 @@ if ($fp->have_posts()) {
       wp_reset_postdata();
     endif;
     ?>
-  </div>
+  </div> <!-- #publication -->
 </div>
 
 <?php $join = get_post(55); ?>
@@ -178,7 +178,7 @@ if ($fp->have_posts()) {
           
           $TheLink = ($category[0]->slug == "in-the-news") ? $post->inthenews_link : get_permalink();
 
-          echo '<a href="'.$TheLink.'">Read More</a>';
+          echo '<a href="'.$TheLink.'" aria-label="Read more about '.get_the_title().'">Read More</a>';
   			echo '</div>';
   		endwhile;
   	}

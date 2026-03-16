@@ -28,6 +28,7 @@ font-family: 'Geometos', sans-serif;
       url('inc/fonts/Geometos.ttf.eot?#iefix') format('embedded-opentype'); 
   font-weight: normal;
   font-style: normal;
+  font-display: swap;
 }
 
 BODY {
