@@ -64,7 +64,7 @@ endif;
 
     <div id="reports-slideshow">
       <?php
-      $reports = new WP_Query(array('post_type'=>'annual_reports', 'orderby'=>'title', 'showposts' => -1));
+      $reports = new WP_Query(array('post_type'=>'annual_reports', 'orderby'=>'menu_order', 'showposts' => -1));
 
       while($reports->have_posts()) : $reports->the_post();
         echo "<div>";
