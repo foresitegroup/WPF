@@ -8,6 +8,15 @@ function stop_update_emails($send, $type, $core_update, $result) {
 add_filter('auto_plugin_update_send_email', '__return_false');
 add_filter('auto_theme_update_send_email', '__return_false');
 
+// Remove annoying persistent cache suggestion
+add_filter('site_status_should_suggest_persistent_object_cache', '__return_false');
+
+/* Lowers the metabox priority to 'low' for Yoast SEO's metabox. */
+add_filter('wpseo_metabox_prio', 'lower_yoast_metabox_priority');
+function lower_yoast_metabox_priority($priority) {
+  return 'low';
+}
+
 
 // We want Featured Images on Pages and Posts
 add_theme_support( 'post-thumbnails' );
@@ -1139,7 +1148,50 @@ function research_posts_per_page($query) {
   }
 }
 
-add_action('wp_head', 'insert_open_graph');
+if (!class_exists('WPSEO_Options')) {
+  add_action('wp_head', 'meta_og', 5);
+  function meta_og() {
+    global $post;
+
+    if (is_404() || is_search()) return;
+
+    $ogimg = get_template_directory_uri()."/images/logo-og.png";
+
+    if ($post) {
+      if(has_post_thumbnail($post->ID)) {
+        $img_src = wp_get_attachment_image_src(get_post_thumbnail_id($post->ID), 'full');
+        if ($img_src[0] !="") $ogimg = $img_src[0];
+      }
+
+      $excerpt = strip_tags($post->post_content);
+      $excerpt_more = '';
+      if (strlen($excerpt ) > 155) {
+        $excerpt = substr($excerpt,0,155);
+        $excerpt_more = ' ...';
+      }
+      $excerpt = str_replace('"', '', $excerpt);
+      $excerpt = str_replace("'", '', $excerpt);
+      $excerptwords = preg_split('/[\n\r\t ]+/', $excerpt, -1, PREG_SPLIT_NO_EMPTY);
+      array_pop($excerptwords);
+      $excerpt = implode(' ', $excerptwords) . $excerpt_more;
+    } else {
+      $excerpt = '';
+    }
+    ?>
+
+    <meta name="author" content="<?php bloginfo('name'); ?>">
+    <meta name="description" content="<?php echo $excerpt; ?>">
+    <meta property="og:title" content="<?php bloginfo('name'); wp_title('|', true, 'left'); ?>">
+    <meta property="og:description" content="<?php echo $excerpt; ?>">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="<?php echo the_permalink(); ?>">
+    <meta property="og:site_name" content="<?php bloginfo('name'); ?>">
+    <meta property="og:image" content="<?php echo $ogimg; ?>">
+    <?php
+  }
+}
+
+//add_action('wp_head', 'insert_open_graph');
 function insert_open_graph($post) {
   if (is_front_page()) {
     setup_postdata($post);
