@@ -639,7 +639,7 @@ function sponsorship_page_mb_content_prefooter($post) {
 
 add_action('save_post', 'sponsorship_page_save');
 function sponsorship_page_save($post_id) {
-  if (get_page_template_slug($post->ID) != 'template-sponsorship.php') return;
+  if (get_page_template_slug($post_id) != 'template-sponsorship.php') return;
 
   update_post_meta($post_id, 'sponsorship_after_title', $_POST['sponsorship_after_title']);
 
@@ -1136,7 +1136,7 @@ function custom_research_column($column, $post_id) {
       echo get_post_meta($post_id, 'fg_research_subtitle', true);
       break;
     case 'research_category':
-      the_terms($post->ID, 'research-category');
+      the_terms($post_id, 'research-category');
       break;
   }
 }

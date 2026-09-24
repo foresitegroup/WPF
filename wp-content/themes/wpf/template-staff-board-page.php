@@ -87,7 +87,7 @@ endif;
 
               <div class="content">
                 <h4>BIO</h4>
-                <?php nl2br(the_content()); ?>
+                <?php if (get_the_content()) the_content(); ?>
               </div>
             </div>
           </div>
