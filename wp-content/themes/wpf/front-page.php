@@ -1,19 +1,26 @@
-<?php get_header(); ?>
-
-<?php echo do_shortcode('[fg-slider timeout="10000" random="true"]'); ?>
-
-<script type="text/javascript">
-  jQuery(document).ready(function() {
-    jQuery('.box-text H1').html(function(){
-      var text = jQuery(this).text().trim().split(' ');
-      var first = text.shift();
-      var second = text.shift();
-      return '<span>'+first+' '+second+'</span>'+' '+text.join(' ');
-    });
-  });
-</script>
-
 <?php
+get_header();
+
+$hero = new WP_Query(array('post_type' => 'fg_slider', 'orderby' => 'menu_order', 'order'  => 'ASC', 'posts_per_page' => -1));
+
+if ($hero->have_posts()) :
+  echo '<section id="hero">'."\n";
+    while ($hero->have_posts()) : $hero->the_post();
+      echo '<div class="f-carousel__slide" style="background-image: url('.get_the_post_thumbnail_url().');">'."\n";
+        echo '<div class="text">'."\n";
+          the_title('<h1>','</h1>');
+          the_content();
+          if ($post->fg_slider_button_text != "" && $post->fg_slider_button_link != "") echo '<a href="'.$post->fg_slider_button_link.'" class="button">'.$post->fg_slider_button_text.'</a>';
+        echo "</div>\n";
+      echo "</div>\n";
+    endwhile;
+  echo "</section>\n";
+endif;
+
+wp_reset_postdata();
+
+// echo do_shortcode('[fg-slider timeout="10000" random="true"]');
+
 $fp_args = array('post_type' => 'focus', 'posts_per_page' => 1, 'meta_query' => array(array('key' => 'focus_featured', 'value' => '', 'compare' => '!=')));
 $fp = new WP_Query($fp_args);
 
@@ -92,12 +99,6 @@ if ($fp->have_posts()) {
     ?>
 
     <a href="<?php echo home_url(); ?>/events/" class="button">View Event Calendar</a>
-
-    <script type="text/javascript">
-      jQuery(document).ready(function($) {
-        $("#ep #events .pinned:last").addClass("pinnedlast");
-      });
-    </script>
   </div>
 
   <div id="publication-header"><span>Featured</span> <?php echo $fp_name; ?></div>
@@ -185,5 +186,28 @@ if ($fp->have_posts()) {
   	?>
   </div>
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@6.0/dist/carousel/carousel.umd.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@6.0/dist/carousel/carousel.css">
+<script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@6.0/dist/carousel/carousel.autoplay.umd.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@6.0/dist/carousel/carousel.autoplay.css">
+
+<script type="text/javascript">
+  Carousel(document.getElementById('hero'), {
+    style: { "--f-transition-duration" : "2s" }, gestures: false,
+    Autoplay: { timeout: 10000, showProgressbar: false },
+  }, { Autoplay } ).init();
+
+  document.querySelectorAll('#hero H1').forEach(header => {
+    const words = header.innerText.split(' ');
+    if (words.length >= 2) {
+      const firstTwo = `<span>${words[0]} ${words[1]}</span>`;
+      const rest = words.slice(2).join(' ');
+      header.innerHTML = `${firstTwo} ${rest}`;
+    }
+  });
+
+  document.querySelector("#ep #events .pinned:last-child")?.classList.add("pinnedlast");
+</script>
 
 <?php get_footer(); ?>

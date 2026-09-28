@@ -1,3 +1,5 @@
+  </main>
+
 <footer>
   <div class="site-width">
     <div class="left">
@@ -18,7 +20,16 @@
   <a href="https://foresitegrp.com" style="font-size: 0.6875rem; color: #B5B5B5; letter-spacing: 0;">WEBSITE BY FORESITE</a>
 </div>
 
-<?php wp_footer(); ?>
+  <script type="text/javascript">
+    // Open external links and PDFs in new tab
+    [...document.links].forEach(link => {
+      if (link.hostname != window.location.hostname || link.href.split('.').pop() == "pdf") {
+        link.target = '_blank'; link.rel = 'noopener';
+      }
+    });
+  </script>
+
+  <?php wp_footer(); ?>
 
 </body>
 </html>

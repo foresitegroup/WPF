@@ -17,24 +17,75 @@ function lower_yoast_metabox_priority($priority) {
   return 'low';
 }
 
+// Remove emojis (and other crud)
+add_action('init', 'disable_wp_emojicons');
+function disable_wp_emojicons() {
+  remove_action('admin_print_styles', 'print_emoji_styles');
+  remove_action('wp_head', 'print_emoji_detection_script', 7);
+  remove_action('admin_print_scripts', 'print_emoji_detection_script');
+  remove_action('wp_print_styles', 'print_emoji_styles');
+  remove_filter('wp_mail', 'wp_staticize_emoji_for_email');
+  remove_filter('the_content_feed', 'wp_staticize_emoji');
+  remove_filter('comment_text_rss', 'wp_staticize_emoji');
+  add_filter('emoji_svg_url', '__return_false');
+  add_filter('tiny_mce_plugins', 'disable_emojicons_tinymce');
+
+  remove_action('wp_head', 'rsd_link');
+  remove_action('wp_head', 'wlwmanifest_link');
+  remove_action('wp_head', 'wp_generator');
+  remove_action('wp_head', 'start_post_rel_link');
+  remove_action('wp_head', 'index_rel_link');
+  remove_action('wp_head', 'adjacent_posts_rel_link');
+}
+
+function disable_emojicons_tinymce($plugins) {
+  if (is_array($plugins)) {
+    return array_diff($plugins, array('wpemoji'));
+  } else {
+    return array();
+  }
+}
+
+/* Disable WordPress Admin Bar for all users */
+add_filter('show_admin_bar', '__return_false');
+
+// Disable Gutenberg editor.
+add_filter('use_block_editor_for_post_type', '__return_false', 10);
+
+// Enqueue scripts and styles
+add_action('wp_enqueue_scripts', 'my_styles');
+function my_styles() {
+  global $post;
+
+  // Remove Gutenberg Block Library CSS
+  wp_dequeue_style('wp-block-library');
+  wp_dequeue_style('wp-block-library-theme');
+  wp_dequeue_style('global-styles'); // Remove inline block CSS
+  wp_dequeue_style('classic-theme-styles');
+
+  wp_enqueue_style('style', get_template_directory_uri().'/style.css', array(), filemtime(get_template_directory().'/style.css'));
+}
+
+// Show site styles in visual editor
+add_action('after_setup_theme', 'themename_setup');
+function themename_setup() {
+  add_editor_style();
+}
 
 // We want Featured Images on Pages and Posts
-add_theme_support( 'post-thumbnails' );
-
+add_theme_support('post-thumbnails');
 
 // Don't resize Featured Images
+add_action('after_setup_theme', 'my_thumbnail_size', 11);
 function my_thumbnail_size() {
   set_post_thumbnail_size();
 }
-add_action('after_setup_theme', 'my_thumbnail_size', 11);
-
 
 // Don't wrap images in P tags
 add_filter('the_content', 'filter_ptags_on_images');
 function filter_ptags_on_images($content){
   return preg_replace('/<p>\s*(<a .*>)?\s*(<img .* \/>)\s*(<\/a>)?\s*<\/p>/iU', '\1\2\3', $content);
 }
-
 
 // Wrap video embed code in DIV for responsive goodness
 add_filter('embed_oembed_html', 'my_oembed_filter', 10, 4);
@@ -43,8 +94,62 @@ function my_oembed_filter($html, $url, $attr, $post_ID) {
   return $return;
 }
 
+/* Customizer */
+add_action('customize_register', 'fg_customize_register', 50);
+remove_action('customize_register', 'shiftnav_register_customizers');
+function fg_customize_register($wp_customize) {
+  $wp_customize->remove_section('title_tagline');
+  $wp_customize->remove_section('static_front_page');
+  $wp_customize->remove_section('custom_css');
+  $wp_customize->get_panel('nav_menus')->active_callback = '__return_false';
+
+  $wp_customize->add_section('fg_general', array(
+    'title'    => 'General',
+    'priority' => 111
+  ));
+
+  $wp_customize->add_setting('fg_site_logo');
+  $wp_customize->add_control(new WP_Customize_Media_Control($wp_customize, 'fg_site_logo', array(
+    'section' => 'fg_general', 'mime_type' => 'image',
+    'button_labels' => array('select' => __('Add Site Logo'), 'change' => __('Change Site Logo'))
+  )));
+
+  $wp_customize->add_section('fg_social', array(
+    'title'    => 'Social Media',
+    'priority' => 112
+  ));
+
+  $wp_customize->add_setting('fg_facebook', array('sanitize_callback' => 'sanitize_text_field'));
+  $wp_customize->add_control('fg_facebook', array(
+    'label'   => 'Facebook',
+    'section' => 'fg_social',
+    'type'    => 'text'
+  ));
+
+  $wp_customize->add_setting('fg_twitter', array('sanitize_callback' => 'sanitize_text_field'));
+  $wp_customize->add_control('fg_twitter', array(
+    'label'   => 'Twitter',
+    'section' => 'fg_social',
+    'type'    => 'text'
+  ));
+
+  $wp_customize->add_setting('fg_linkedin', array('sanitize_callback' => 'sanitize_text_field'));
+  $wp_customize->add_control('fg_linkedin', array(
+    'label'   => 'LinkedIn',
+    'section' => 'fg_social',
+    'type'    => 'text'
+  ));
+}
+
+if (is_customize_preview() && !current_theme_supports('widgets')) add_theme_support('widgets');
+
+add_action('admin_init', 'remove_menus_appearance_patterns');
+function remove_menus_appearance_patterns() {
+  remove_submenu_page('themes.php', 'site-editor.php?p=/pattern');
+}
 
 // Define menus
+add_action('init', 'register_my_menus');
 function register_my_menus() {
   register_nav_menus(
     array(
@@ -56,19 +161,10 @@ function register_my_menus() {
     )
   );
 }
-add_action( 'init', 'register_my_menus' );
-
-
-// Show site styles in visual editor
-function themename_setup() {
-  add_editor_style();
-}
-add_action( 'after_setup_theme', 'themename_setup' );
-
 
 // Custom excerpt
-function my_excerpt_length($length) { return 1000; }
 add_filter('excerpt_length', 'my_excerpt_length');
+function my_excerpt_length($length) { return 1000; }
 
 function fg_excerpt($limit, $more = '') {
   return wp_trim_words(get_the_excerpt(), $limit, $more);
@@ -1634,7 +1730,7 @@ function get_fg_slider($atts, $content = null) {
   return ob_get_clean();
 }
 
-add_action('admin_menu', 'register_fg_slider_instructions');
+//add_action('admin_menu', 'register_fg_slider_instructions');
 function register_fg_slider_instructions() {
   add_submenu_page('edit.php?post_type=fg_slider', 'How It Works', 'How It Works', 'manage_options', 'fg_slider_instructions_menu', 'fg_slider_instructions');
 }
