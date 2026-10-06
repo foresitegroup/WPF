@@ -1,24 +1,32 @@
   </main>
 
-<footer>
-  <div class="site-width">
-    <div class="left">
-      <img src="<?php echo get_template_directory_uri(); ?>/images/footer-logo.png" alt="Wisconsin Policy Forum" width="800" height="104">
+  <footer>
+    <section class="site-width">
+      <div class="left">
+        <?php
+        if (get_theme_mod('fg_site_logo')) echo wp_get_attachment_image(get_theme_mod('fg_site_logo'), "full", '', array("class" => "footer-logo"))."\n";
 
-      <?php wp_nav_menu(array('theme_location' => 'footer-buttons', 'container_class' => 'footer-buttons')); ?>
+        wp_nav_menu(array('theme_location' => 'footer-buttons','container'=>'nav','container_id' => 'footer-buttons'));
+        ?>
 
-      <?php wp_nav_menu(array('theme_location'=>'social','container'=>'div','container_class'=>'social')); ?>
-    </div>
+        <div class="social">
+          <?php
+          if (get_theme_mod('fg_facebook')) echo '<a href="'.get_theme_mod('fg_facebook').'" aria-label="Facebook" class="facebook"></a>'."\n";
+          if (get_theme_mod('fg_twitter')) echo '<a href="'.get_theme_mod('fg_twitter').'" aria-label="Twitter" class="twitter"></a>'."\n";
+          if (get_theme_mod('fg_linkedin')) echo '<a href="'.get_theme_mod('fg_linkedin').'" aria-label="LinkedIn" class="linkedin"></a>'."\n";
+          ?>
+        </div>
+      </div>
 
-    <?php wp_nav_menu(array('theme_location'=>'footer-menu','container'=>'nav','container_id'=>'footnav')); ?>
-  </div>
-</footer>
+      <?php wp_nav_menu(array('theme_location'=>'footer-menu','container'=>'nav','container_id'=>'footnav')); ?>
+    </section>
 
-<div id="copyright">
-  &copy; <?php echo date("Y"); ?> Wisconsin Policy Forum<br>
-  <br>
-  <a href="https://foresitegrp.com" style="font-size: 0.6875rem; color: #B5B5B5; letter-spacing: 0;">WEBSITE BY FORESITE</a>
-</div>
+    <section id="copyright">
+      &copy; <?php echo date("Y"); ?> Wisconsin Policy Forum<br>
+      <br>
+      <a href="https://foresitegrp.com">WEBSITE BY FORESITE</a>
+    </section>
+  </footer>
 
   <script type="text/javascript">
     // Open external links and PDFs in new tab

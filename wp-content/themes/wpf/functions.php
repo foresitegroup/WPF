@@ -156,7 +156,6 @@ function register_my_menus() {
       'top-menu' => __('Top Menu'),
       'main-menu' => __('Main Menu'),
       'footer-buttons' => __('Footer Buttons'),
-      'social' => __('Footer Social'),
       'footer-menu' => __('Footer Menu')
     )
   );
