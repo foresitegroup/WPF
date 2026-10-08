@@ -198,6 +198,141 @@ function fg_remove_visual_editor($can) {
   return $can;
 }
 
+/* ABOUT */
+add_action('edit_form_after_editor', 'about_sections');
+function about_sections() {
+  global $post;
+  $template = get_post_meta($post->ID, '_wp_page_template', true);
+
+  if ($template == "template-about.php") {
+    ?>
+    <style>
+      .add_image {
+        width: 50%; border: 1px dashed #C3C4C7; box-sizing: border-box;
+        padding: 12px 0; background-color: #F0F0F1; cursor: pointer;
+
+        &:hover { background-color: #FFFFFF; }
+
+        &:before { content: attr(data-text); }
+
+        &.has-image {
+          padding: 0; aspect-ratio: 1 / 0.5; background-repeat: no-repeat;
+          background-position: center; background-size: cover;
+          background-color: #FFFFFF;
+
+          &:before { display: none; }
+
+          &:hover { border-color: #2271B1; }
+        }
+      }
+
+      .actions {
+        display: none;
+
+        &.has-image { display: block; padding: 4px 0; }
+
+        P { margin-top: 0; }
+
+        INPUT { width: 100%; margin-bottom: 1.5em; }
+      }
+    </style>
+
+    <?php
+    echo '<h2 style="margin-top: 2em; padding: 0;">Our Mission</h2>'."\n";
+    wp_editor(html_entity_decode($post->about_mission, ENT_QUOTES), "about_mission", array('textarea_name' => 'about_mission', 'textarea_rows' => 10));
+    echo "<br>\n";
+
+    echo '<input type="hidden" name="about_mission_image" class="image_input" value="'.$post->about_mission_image.'">'."\n";
+    echo '<button type="button" class="add_image" data-add="about_mission_image" data-text="Set Our Mission image"></button>'."\n";
+    echo '<div class="actions">'."\n";
+      echo "<p>Click the image to edit or update</p>\n";
+      echo '<button type="button" class="remove_image button" data-remove="about_mission_image">Remove</button>'."\n";
+    echo "</div>\n";
+
+    echo '<h2 style="margin-top: 2em; padding: 0;">Our Purpose</h2>'."\n";
+    wp_editor(html_entity_decode($post->about_purpose, ENT_QUOTES), "about_purpose", array('textarea_name' => 'about_purpose', 'textarea_rows' => 10));
+    echo "<br>\n";
+    
+    echo '<input type="hidden" name="about_purpose_image" class="image_input" value="'.$post->about_purpose_image.'">'."\n";
+    echo '<button type="button" class="add_image" data-add="about_purpose_image" data-text="Set Our Purpose image"></button>'."\n";
+    echo '<div class="actions">'."\n";
+      echo "<p>Click the image to edit or update</p>\n";
+      echo '<button type="button" class="remove_image button" data-remove="about_purpose_image">Remove</button>'."\n";
+    echo "</div>\n";
+    ?>
+
+    <script type="text/javascript">
+      window.addEventListener('load', function() {
+        document.querySelectorAll('.image_input').forEach(element => {
+          if (element.value != "") {
+            var el_button = document.querySelector('[data-add="'+element.name+'"]');
+            el_button.setAttribute('style', 'background-image: url('+element.value+')');
+            el_button.classList.add('has-image');
+            el_button.nextElementSibling.classList.add('has-image');
+          }
+        });
+      });
+      
+      document.querySelectorAll('.add_image').forEach(element => {
+        element.addEventListener('click', function(event) {
+          var this_a = this;
+
+          var image_view = wp.media.frames.file_frame = wp.media({});
+
+          image_view.on('select', function() {
+            var attachment = image_view.state().get('selection').first().toJSON();
+            this_a.setAttribute('style', 'background-image: url('+attachment.url+')');
+            this_a.classList.add('has-image');
+            this_a.nextElementSibling.classList.add('has-image');
+            document.querySelector('input[name="'+this_a.dataset.add+'"]').value = attachment.url;
+          });
+
+          image_view.open();
+        });
+      });
+
+      document.querySelectorAll('.remove_image').forEach(element => {
+        element.addEventListener('click', function(event) {
+          var el_input = document.querySelector('[data-add="'+this.dataset.remove+'"]');
+          el_input.setAttribute('style', 'background-image: url()');
+          el_input.classList.remove('has-image');
+          el_input.nextElementSibling.classList.remove('has-image');
+          document.querySelector('input[name="'+this.dataset.remove+'"]').value = "";
+        });
+      });
+    </script>
+
+    <?php
+  }
+}
+
+add_action('save_post', 'about_save');
+function about_save($post_id) {
+  if (!empty($_POST['about_mission'])) {
+    update_post_meta($post_id, 'about_mission', $_POST['about_mission']);
+  } else {
+    delete_post_meta($post_id, 'about_mission');
+  }
+
+  if (!empty($_POST['about_mission_image'])) {
+    update_post_meta($post_id, 'about_mission_image', $_POST['about_mission_image']);
+  } else {
+    delete_post_meta($post_id, 'about_mission_image');
+  }
+
+  if (!empty($_POST['about_purpose'])) {
+    update_post_meta($post_id, 'about_purpose', $_POST['about_purpose']);
+  } else {
+    delete_post_meta($post_id, 'about_purpose');
+  }
+
+  if (!empty($_POST['about_purpose_image'])) {
+    update_post_meta($post_id, 'about_purpose_image', $_POST['about_purpose_image']);
+  } else {
+    delete_post_meta($post_id, 'about_purpose_image');
+  }
+}
+
 
 /////////////////////////////
 // SPONSOR PREFOOTER BANNER - add note after title

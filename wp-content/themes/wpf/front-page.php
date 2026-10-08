@@ -205,8 +205,6 @@ wp_reset_postdata();
       header.innerHTML = `${firstTwo} ${rest}`;
     }
   });
-
-  document.querySelector("#ep #events .pinned:last-child")?.classList.add("pinnedlast");
 </script>
 
 <?php get_footer(); ?>
