@@ -3,59 +3,37 @@
 
 get_header();
 
-if ( have_posts() ) :
-  while ( have_posts() ) : the_post();
+if (have_posts()) :
+  while (have_posts() ) : the_post();
   ?>
-    <div class="title-banner">
+
+    <section id="page-title">
       <?php the_title('<h1 class="site-width">','</h1>'); ?>
-    </div>
+    </section>
+
+    <section id="what-we-do">
+      <?php
+      for($i = 1; $i <= 4; $i++) {
+        if ($post->{"wwd_page_section".$i."_text"}) {
+          ?>
+          <div class="wwd-row">
+            <div class="text">
+              <?php
+              if ($post->{"wwd_page_section".$i."_title"}) echo "<h2>".$post->{"wwd_page_section".$i."_title"}."</h2>\n";
+              echo nl2br(html_entity_decode($post->{"wwd_page_section".$i."_text"}))."\n";
+              ?>
+            </div>
+            <?php if ($post->{"wwd_page_section".$i."_image"}) echo '<div class="image" style="background-image: url('.$post->{"wwd_page_section".$i."_image"}.');"></div>'."\n"; ?>
+          </div>
+          <?php
+        }
+      }
+      ?>
+    </section>
+
   <?php
   endwhile;
 endif;
+
+get_footer();
 ?>
-
-<div class="wwd">
-  <div class="site-width">
-    <div class="text">
-      <h2><?php echo $post->wwd_page_section1_title; ?></h2>
-      <?php echo nl2br(html_entity_decode($post->wwd_page_section1_text)); ?>
-    </div>
-
-    <div class="image" style="background-image: url(<?php echo $post->wwd_page_section1_image; ?>);"></div>
-  </div>
-</div>
-
-<div class="wwd right">
-  <div class="site-width">
-    <div class="text">
-      <h2><?php echo $post->wwd_page_section2_title; ?></h2>
-      <?php echo nl2br(html_entity_decode($post->wwd_page_section2_text)); ?>
-    </div>
-
-    <div class="image" style="background-image: url(<?php echo $post->wwd_page_section2_image; ?>);"></div>
-  </div>
-</div>
-
-<div class="wwd">
-  <div class="site-width">
-    <div class="text">
-      <h2><?php echo $post->wwd_page_section3_title; ?></h2>
-      <?php echo nl2br(html_entity_decode($post->wwd_page_section3_text)); ?>
-    </div>
-
-    <div class="image" style="background-image: url(<?php echo $post->wwd_page_section3_image; ?>);"></div>
-  </div>
-</div>
-
-<div class="wwd right">
-  <div class="site-width">
-    <div class="text">
-      <h2><?php echo $post->wwd_page_section4_title; ?></h2>
-      <?php echo nl2br(html_entity_decode($post->wwd_page_section4_text)); ?>
-    </div>
-
-    <div class="image" style="background-image: url(<?php echo $post->wwd_page_section4_image; ?>);"></div>
-  </div>
-</div>
-
-<?php get_footer(); ?>

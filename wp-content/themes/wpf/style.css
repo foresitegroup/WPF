@@ -61,6 +61,14 @@ IMG { border: 0; max-width: 100%; height: auto; }
 A {
   color: var(--lightblue); text-decoration: none; transition: all 0.2s;
   &:hover { color: var(--darkblue); }
+
+  &.button {
+    display: inline-block; padding: 1.25em 1.4em 1em; background: var(--lightblue);
+    color: var(--white); font: 400 97.92%/1 'Geometos', sans-serif;
+    text-align: center; text-transform: uppercase;
+
+    &:hover { background: var(--white); color: var(--lightblue); }
+  }
 }
 
 HR {
@@ -299,9 +307,8 @@ HEADER {
           A {
             display: block; width: 100%; box-sizing: border-box;
             padding: 0.8em 0 0.5em; background: var(--darkblue);
-            color: var(--white); font-family: 'Geometos', sans-serif;
-            font-size: 13.79px; line-height: 1; text-transform: uppercase;
-            text-align: center;
+            color: var(--white); font: 600 13.79px/1 'Geometos', sans-serif;
+            text-transform: uppercase; text-align: center;
 
             @media (max-width: 500px) { & { font-size: 2.6vw; } }
 
@@ -336,8 +343,7 @@ HEADER {
     &:after { top: calc(50% + (var(--toggle-bar-height) * 1.5)); }
 
     + NAV {
-      background: var(--darkblue); font-family: 'Geometos', sans-serif;
-      font-weight: 400; font-size: 1.125rem; line-height: 1;
+      background: var(--darkblue); font: 400 1.125rem/1 'Geometos', sans-serif;
 
       @media (max-width: 750px) { & {
         position: absolute; top: -999999px; left: 0; z-index: 1100;
@@ -479,10 +485,9 @@ FOOTER {
 
             A {
               display: block; box-sizing: border-box; padding: 0.8em 0 0.5em;
-              background: var(--lightblue); color: var(--white);
-              font-family: 'Geometos', sans-serif; font-size: 1rem;
-              line-height: 1; text-transform: uppercase; text-align: center;
-
+              background: var(--lightblue); color: var(--white); text-align: center;
+              font: 600 1rem/1 'Geometos', sans-serif; text-transform: uppercase;
+              
               @media (max-width: 1000px) { & { font-size: 1.6vw; } }
               @media (max-width: 750px) { & { font-size: 2vw; } }
               @media (max-width: 600px) { & { font-size: 4vw; } }
@@ -567,8 +572,9 @@ FOOTER {
   background: var(--blue); color: var(--white); padding: 4em 0 3em;
 
   H1 {
-    margin: 0 auto; font-family: 'Geometos', sans-serif; font-weight: 400;
-    font-size: 3rem; line-height: 1; text-transform: uppercase;
+    margin: 0 auto; font: 400 3rem/1 'Geometos', sans-serif;
+    text-transform: uppercase;
+
   }
 }
 
@@ -769,8 +775,7 @@ FOOTER {
 
   .f-carousel__slide {
     display: flex; flex-direction: column; justify-content: center;
-    background-repeat: no-repeat; background-position: center;
-    background-size: cover;
+    background: center / cover no-repeat;
 
     .text {
       background-image: linear-gradient(105deg, var(--darkblue) 56%, transparent 56%);
@@ -794,8 +799,7 @@ FOOTER {
       @media (max-width: 480px) { & { font-size: 2.2vw; } }
 
       H1 {
-        margin: 0 0 0.1em; font-family: 'Geometos', sans-serif; font-weight: 400;
-        font-size: 329%; line-height: 1.2;
+        margin: 0 0 0.1em; font: 400 329%/1.2 'Geometos', sans-serif;
 
         @media (max-width: 1144px) { & { font-size: 310%; line-height: 1; } }
         @media (max-width: 480px) { & { font-size: 248%; } }
@@ -804,10 +808,7 @@ FOOTER {
       }
 
       .button {
-        display: inline-block; margin-top: 0.5em; padding: 1em 1em 0.75em;
-        background: var(--lightblue); color: var(--white);
-        font-family: 'Geometos', sans-serif; font-weight: 400;
-        font-size: 164%; line-height: 1;
+        margin-top: 0.5em; padding: 1em 1em 0.75em; font-size: 164%;
 
         @media (max-width: 1144px) { & { font-size: 150%; } }
         @media (max-width: 480px) { & { font-size: 125%; } }
@@ -826,8 +827,7 @@ FOOTER {
 
   H2 {
     margin: 0; padding: 1.2em 0 0.95em; box-sizing: border-box; color: var(--white);
-    font-family: 'Geometos', sans-serif; font-weight: 400; font-size: 2.25rem;
-    line-height: 1; text-transform: uppercase;
+    font: 400 2.25rem/1 'Geometos', sans-serif; text-transform: uppercase;
 
     @media (max-width: 1100px) { & { font-size: 3.25vw; } }
     @media (max-width: 750px) { & { font-size: 6vw; } }
@@ -873,8 +873,7 @@ FOOTER {
         .date {
           display: flex; flex-direction: column; justify-content: center;
           aspect-ratio: 1; border: 0.125em solid var(--gray); padding: 0.575em;
-          color: var(--lightblue); font-size: 150%; line-height: 1;
-          font-family: 'Geometos', sans-serif; font-weight: 400;
+          color: var(--lightblue); font: 400 150%/1 'Geometos', sans-serif;
           text-align: center; text-transform: uppercase;
 
           H3 {
@@ -888,10 +887,7 @@ FOOTER {
 
           @media (max-width: 750px) { & { width: 75%; font-size: 105%; } }
 
-          H3 {
-            margin: 0 0 0.3em; font-family: 'Geometos', sans-serif;
-            font-weight: 400; font-size: 1em; line-height: 1.2;
-          }
+          H3 { margin: 0 0 0.3em; font: 400 1em/1.2 'Geometos', sans-serif; }
 
           H4 {
             margin: 0 0 0.3em; color: var(--lightblue); font-style: italic;
@@ -904,9 +900,7 @@ FOOTER {
 
       .button {
         display: block; margin: 1.81em 2.27em 0; padding: 1em 2em 0.75em;
-        background: var(--lightblue); color: var(--white);
-        font-family: 'Geometos', sans-serif; font-weight: 400; font-size: 137.5%;
-        line-height: 1; text-align: center; text-transform: uppercase;
+        font-size: 137.5%;
 
         @media (max-width: 1175px) { & { margin: 1.81em 4.255vw 0; } }
 
@@ -969,8 +963,8 @@ FOOTER {
         }
 
         H4 {
-          margin: 0; color: var(--lightblue); font-family: 'Open Sans', sans-serif;
-          font-weight: 400; font-size: 114.28%; line-height: 1; font-style: italic;
+          margin: 0; color: var(--lightblue);
+          font: italic 400 114.28%/1 'Open Sans', sans-serif;
         }
 
         H5 {
@@ -987,9 +981,9 @@ FOOTER {
           display: flex; align-items: flex-start; gap: 0.5em; flex-wrap: wrap;
 
           A {
-            padding: 0.61em 1.1em; background: var(--lightblue); font-style: italic;
-            color: var(--white); font-family: 'Open Sans', sans-serif;
-            font-weight: 400; font-size: 96%; line-height: 1; text-transform: none;
+            padding: 0.61em 1.1em; background: var(--lightblue);
+            color: var(--white); font: italic 400 96%/1 'Open Sans', sans-serif;
+            text-transform: none;
 
             &:hover { background: var(--darkblue); }
           }
@@ -999,10 +993,7 @@ FOOTER {
       P { width: 100%; }
 
       .button {
-        display: inline-block; padding: 1em 2em 0.75em;
-        background: var(--lightblue); color: var(--white);
-        font-family: 'Geometos', sans-serif; font-weight: 400;
-        font-size: 157.14%; line-height: 1; text-transform: uppercase;
+        padding: 1em 2em 0.75em; font-size: 157.14%;
 
         @media (max-width: 1100px) { & { font-size: 2vw; } }
         @media (max-width: 750px) { & { font-size: 3vw; } }
@@ -1015,8 +1006,7 @@ FOOTER {
 
 #home-join {
   display: flex; justify-content: flex-end; align-items: center;
-  aspect-ratio: 1 / 0.455625; background-repeat: no-repeat;
-  background-position: center; background-size: cover;
+  aspect-ratio: 1 / 0.455625; background: center / cover no-repeat;
 
   @media (max-width: 750px) { & { aspect-ratio: 1 / 0.5; } }
   @media (max-width: 480px) { & { aspect-ratio: 1 / 0.7; } }
@@ -1044,8 +1034,7 @@ FOOTER {
     A {
       display: inline-block; padding: 0.9em 2.25em 0.65em;
       background: var(--orange); color: var(--white);
-      font-family: 'Geometos', sans-serif; font-weight: 400; font-size: 128.57%;
-      line-height: 1; text-transform: uppercase;
+      font: 400 128.57%/1 'Geometos', sans-serif; text-transform: uppercase;
 
       &:hover { background: var(--white); color: var(--orange); }
     }
@@ -1074,8 +1063,8 @@ FOOTER {
       @media (max-width: 750px) { & { width: 100%; } }
 
       H1 {
-        margin: 0 0 0.3em; color: var(--white); font-family: 'Geometos', sans-serif;
-        font-weight: 400; font-size: 184.71%; line-height: 1.2;
+        margin: 0 0 0.3em; color: var(--white);
+        font: 400 184.71%/1.2 'Geometos', sans-serif;
       }
 
       H2 {
@@ -1087,9 +1076,8 @@ FOOTER {
 
       A {
         align-self: center; margin-top: auto; padding: 0.8em 1.75em 0.55em;
-        background: var(--lightblue); color: var(--white);
-        font-family: 'Geometos', sans-serif; font-weight: 400; font-size: 142.85%;
-        line-height: 1; white-space: nowrap;
+        background: var(--lightblue); color: var(--white); white-space: nowrap;
+        font: 400 142.85%/1 'Geometos', sans-serif;
 
         @media (max-width: 900px) { & { padding: 0.9em 1.5em 0.65em; font-size: 140%; } }
         @media (max-width: 800px) { & { font-size: 110%; } }
@@ -1114,8 +1102,7 @@ FOOTER {
   @media (max-width: 600px) { & { flex-direction: column; } }
   
   .image {
-    width: 43.75%; background-repeat: no-repeat;
-    background-position: center; background-size: cover;
+    width: 43.75%; background: center / cover no-repeat;
 
     @media (max-width: 600px) { & { width: 100%; aspect-ratio: 1 / 0.6; } }
   }
@@ -1141,9 +1128,8 @@ FOOTER {
     }
 
     H2 {
-      margin: 0 0 0.25em; color: var(--lightblue); font-weight: 400;
-      font-family: 'Geometos', sans-serif; font-size: 267.31%; line-height: 1;
-      text-transform: uppercase;
+      margin: 0 0 0.25em; color: var(--lightblue); text-transform: uppercase;
+      font: 400 267.31%/1 'Geometos', sans-serif;
 
       SPAN { color: var(--white); }
     }
@@ -1159,8 +1145,7 @@ FOOTER {
   H2 {
     display: flex; align-items: center; gap: 0 1em; margin: 0 0 1.5em;
     padding-left: calc((100% - var(--site-width)) / 2);
-    font-family: 'Geometos', sans-serif; font-weight: 400;
-    font-size: 1.875rem; line-height: 1; letter-spacing: 0.15em;
+    font: 400 1.875rem/1 'Geometos', sans-serif; letter-spacing: 0.15em;
 
     @media (max-width: 1144px) { & { padding-left: 2%; } }
 
@@ -1186,16 +1171,13 @@ FOOTER {
       @media (max-width: 600px) { & { width: 100%; } }
 
       H3 {
-        margin: 0 0 0.2em; font-family: 'Geometos', sans-serif; font-weight: 400;
-        font-size: 150%; line-height: 1;
+        margin: 0 0 0.2em; font: 400 150%/1 'Geometos', sans-serif;
 
         SPAN { color: var(--darkblue); }
       }
 
       .button {
-        display: inline-flex; margin-top: auto; padding: 1em 1em 0.75em;
-        background: var(--lightblue); color: var(--white); font-weight: 400;
-        font-family: 'Geometos', sans-serif; font-size: 97.92%; line-height: 1;
+        display: inline-flex; margin-top: auto;
 
         &:hover { background: var(--darkblue); }
 
@@ -1208,6 +1190,49 @@ FOOTER {
     }
   }
 }
+
+/* WHAT WE DO */
+#what-we-do {
+  .wwd-row {
+    display: flex; background: var(--darkblue); color: var(--white);
+    font-weight: 400; line-height: 1.8;
+
+    &:nth-child(even) { flex-direction: row-reverse; }
+
+    @media (max-width: 750px) { &, &:nth-child(even) { flex-direction: column; } }
+
+    .text {
+      width: 50%; box-sizing: border-box;
+      padding: 5.5em 3.4375rem 5.5em calc((100% - var(--site-width)) / 2);
+
+      .wwd-row:nth-child(even) & {
+        text-align: right;
+        padding: 5.5em calc((100% - var(--site-width)) / 2) 5.5em 8rem;
+
+        @media (max-width: 1144px) { & { padding-left: 5%; padding-right: 2%; } }
+        @media (max-width: 750px) { & { text-align: left; } }
+      }
+
+      @media (max-width: 1144px) { & { padding-left: 2%; padding-right: 5%; } }
+      @media (max-width: 750px) { & { width: 100%; padding: 5.5em 2%; } }
+
+      H2 {
+        margin: 0 0 0.3em; color: var(--lightblue); text-transform: uppercase;
+        font: 400 305.5%/1 'Geometos', sans-serif;
+      }
+
+      .button { margin-top: 0.75em; }
+    }
+
+    .image {
+      width: 50%; background: center / cover no-repeat;
+
+      @media (max-width: 750px) { & { width: 100%; height: 400px; } }
+    }
+  }
+}
+
+
 
 #focus {
   background: #1275BB;
