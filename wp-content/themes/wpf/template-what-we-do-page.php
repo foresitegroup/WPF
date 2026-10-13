@@ -16,7 +16,7 @@ if (have_posts()) :
       for($i = 1; $i <= 4; $i++) {
         if ($post->{"wwd_page_section".$i."_text"}) {
           ?>
-          <div class="wwd-row">
+          <div class="row">
             <div class="text">
               <?php
               if ($post->{"wwd_page_section".$i."_title"}) echo "<h2>".$post->{"wwd_page_section".$i."_title"}."</h2>\n";
