@@ -2143,107 +2143,100 @@ FOOTER {
 /***********/
 /* MEMBERS */
 /***********/
-#modal-links {
-  display: flex; justify-content: space-between; flex-wrap: wrap; gap: 1.75rem 0;
-  
-  A {
-    position: relative; width: 48.6%; box-sizing: border-box; text-align: center;
-    padding: 2.5em 0.5em 2.25em; background: center / cover no-repeat;
-    color: var(--white); font: 400 1.75rem/1 'Geometos', sans-serif;
+#member-modals {
+  .site-width {
+    display: flex; justify-content: space-between; flex-wrap: wrap; gap: 1.75rem 0;
 
-    @media (max-width: 600px) { & { width: 100%; } }
+    &:after { display: none; }
 
-    &:last-of-type { width: 100%; }
+    > BUTTON {
+      width: 48.6%; box-sizing: border-box; outline: 0; border: 0;
+      padding: 2.5em 0.5em 2.25em; cursor: pointer;
+      background: rgba(28,48,91,0.7) center / cover no-repeat;
+      background-blend-mode: darken;
+      color: var(--white); font: 400 1.75rem/1 'Geometos', sans-serif;
+      text-shadow: 0 0 4px rgba(28,48,91,0.7); text-align: center;
 
-    &:before {
-      content: ""; position: absolute; inset: 0; background: rgba(28,48,91,0.7);
+      &:last-of-type:nth-of-type(odd) { width: 100%; }
+
+      @media (max-width: 600px) { & { width: 100%; } }
+
+      &:hover {
+        background-color: rgba(36,169,224,0.7); background-blend-mode: overlay;
+      }
     }
 
-    &:hover:before { background: rgba(36,169,224,0.7); }
+    .members-dialog {
+      max-height: 75vh; width: var(--site-width); border: 0; padding: 0;
+      box-sizing: border-box; overflow: visible;
 
-    SPAN { position: relative; z-index: 3; }
+      @media (max-width: 1144px) { & { width: 96%; } }
+      @media (max-width: 700px) { & { flex-direction: column; } }
 
-    IMG { display: none; }
+      &:open { display: flex; }
+
+      &::backdrop { background: rgba(28,48,91,0.85); }
+
+      .close-dialog {
+        width: 2.5rem; height: 2.5rem; position: absolute; top: 0; right: 0;
+        translate: 50% -50%; outline: 0; border: 0; border-radius: 50%;
+        box-sizing: border-box; cursor: pointer;
+        background: var(--lightblue) var(--close) center / 45% no-repeat;
+        
+        &:hover { background-color: var(--blue); }
+      }
+
+      .sidebar {
+        display: flex; justify-content: center; flex-direction: column;
+        width: 37.63%; box-sizing: border-box; padding: 2.25rem;
+        background: var(--blue); color: var(--white); text-align: right;
+        box-shadow: 0.3125rem 0 1.875rem 0 rgba(0,0,0,0.5);
+
+        @media (max-width: 700px) { & { width: 100%; text-align: center; } }
+
+        H2 {
+          margin: 0; font: 400 3rem/1 'Geometos', sans-serif;
+
+          @media (701px <= width <= 1144px) { & { font-size: 4.2vw; } }
+
+          DIV { padding-top: 0.25em; color: var(--darkblue); font-size: 50%; }
+        }
+      }
+
+      .text {
+        width: 62.37%; box-sizing: border-box; padding: 1.875rem 3.25rem;
+        color: var(--darkgray); font-size: 0.75rem; line-height: 1.8;
+        overflow-y: auto;
+
+        @media (max-width: 700px) { & { width: 100%; padding: 3em 4%; } }
+
+        IMG {
+          max-width: 75%; height: auto; max-height: 130px; width: auto;
+          margin: 25px 0;
+        }
+      }
+    }
   }
 }
 
-.modal-members {
-  max-height: 75vh;
+#member-slides {
+  padding: 3.5rem 0; background: var(--lightblue); color: var(--white);
 
-  .sidebar {
-    H2 {
-      width: calc(1100px / 2.65); box-sizing: border-box;
-      position: fixed; top: 50%; left: calc(50% - (1100px / 2));
-      transform: translateY(-50%); margin: 0; padding: 0 34px;
-      font: 400 3rem/1 'Geometos', sans-serif; text-align: right;
+  H3 { margin-bottom: 2.5rem; font: 400 1.875rem/1 'Geometos', sans-serif; }
 
-      @media (max-width: 1100px) { & {
-        left: 2%; font-size: 4.4vw; width: 33.63%; padding: 0;
-      } }
+  #slides {
+    --f-carousel-gap: calc(var(--site-width) * 0.05);
 
-      @media (max-width: 600px) { & {
-        position: static; transform: none; width: 100%; text-align: center;
-        font-size: 5.1vw;
-      } }
+    .f-carousel__viewport {
+      align-items: center;
 
-      SPAN { color: var(--darkblue); }
-
-      DIV { color: var(--darkblue); font-size: 50%; line-height: 1; margin-top: 0.25em; }
+      .f-carousel__slide {
+        max-width: calc((var(--site-width) / 4) - 2.5%); height: auto;
+        max-height: 137px; width: auto; opacity: 0.5;
+      }
     }
-  }
 
-  .content {
-    padding: 30px 82px 30px 52px;
-
-    &.logos IMG {
-      margin: 25px 0; max-width: 75%; height: auto; max-height: 130px; width: auto;
-    }
-  }
-}
-
-.members-dialog {
-  max-height: 75vh; width: var(--site-width); border: 0; padding: 0;
-  box-sizing: border-box; overflow: visible;
-
-  @media (max-width: 1144px) { & { width: 96%; } }
-  @media (max-width: 700px) { & { flex-direction: column; } }
-
-  &:open { display: flex; }
-
-  &::backdrop { background: rgba(28,48,91,0.85); }
-
-  .close-dialog {
-    width: 2.5rem; height: 2.5rem; position: absolute; top: 0; right: 0;
-    translate: 50% -50%; outline: 0; border: 0; border-radius: 50%; cursor: pointer;
-    background: var(--lightblue) var(--close) center / 45% no-repeat;
-    box-sizing: border-box;
-
-    &:hover { background-color: var(--blue); }
-  }
-
-  .sidebar {
-    display: flex; justify-content: center; flex-direction: column;
-    width: 37.63%; box-sizing: border-box; padding: 2.25rem;
-    background: var(--blue); color: var(--white); text-align: right;
-    box-shadow: 0.3125rem 0 1.875rem 0 rgba(0,0,0,0.5);
-
-    @media (max-width: 700px) { & { width: 100%; text-align: center; } }
-
-    H2 {
-      margin: 0; font: 400 3rem/1 'Geometos', sans-serif;
-
-      @media (701px <= width <= 1144px) { & { font-size: 4.2vw; } }
-
-      DIV { padding-top: 0.25em; color: var(--darkblue); font-size: 50%; }
-    }
-  }
-
-  .text {
-    width: 62.37%; box-sizing: border-box; padding: 1.875rem 3.25rem;
-    color: var(--darkgray); font-size: 0.75rem; line-height: 1.8;
-    overflow-y: scroll;
-
-    @media (max-width: 700px) { & { width: 100%; padding: 3em 4%; } }
+    &:after { display: none; }
   }
 }
 

@@ -1086,6 +1086,293 @@ function disable_events_quick_edit($actions, $post) {
 }
 
 
+
+
+// BOOKS
+add_action('edit_form_after_editor', 'members_sections');
+function members_sections() {
+  global $post;
+  $template = get_post_meta($post->ID, '_wp_page_template', true);
+
+  if ($template == "template-current-members.php") {
+    ?>
+    <style>
+      #members .row {
+        display: flex; gap: 0 16px; width: 100%;
+        margin-bottom: 2em; border-bottom: 1px solid #c3c4c7; padding-bottom: 2em;
+
+        .row_move {
+          width: 15px;
+          background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M24 6h-24v-4h24v4zm0 4h-24v4h24v-4zm0 8h-24v4h24v-4z'/%3E%3C/svg%3E") no-repeat center;
+          background-size: contain;
+          cursor: move;
+        }
+
+        .row_image {
+          width: 230px;
+
+          .add_image {
+            width: 100%; border: 1px dashed #C3C4C7; box-sizing: border-box;
+            padding: 12px 0; background-color: #F0F0F1; cursor: pointer;
+            &:before { content: attr(data-text); }
+            &:hover { background-color: #FFFFFF; }
+          }
+
+          &.has-image .add_image {
+            padding: 0; aspect-ratio: 540 / 161;
+            background: #FFFFFF center / cover no-repeat;
+            &:before { display: none; }
+            &:hover { border-color: #2271B1; }
+          }
+
+          &.actions { display: none; }
+          &.has-image .actions { display: block; padding: 4px 0; }
+        }
+
+        .row_inputs { width: calc(100% - 275px); margin-left: auto; }
+
+        INPUT, TEXTAREA {
+          width: 100%; margin-bottom: 1.5em; &:is(TEXTAREA) { height: 15em; }
+        }
+      }
+
+      .add_image {
+        width: 100%; border: 1px dashed #C3C4C7; box-sizing: border-box;
+        padding: 12px 0; background-color: #F0F0F1; cursor: pointer;
+
+        &:hover { background-color: #FFFFFF; }
+
+        &:before { content: attr(data-text); }
+
+        &.has-image {
+          padding: 0; aspect-ratio: 1 / 1.5;
+          background: #FFFFFF center / contain no-repeat;
+
+          &:before { display: none; }
+
+          &:hover { border-color: #2271B1; }
+        }
+      }
+
+      .actions {
+        display: none;
+
+        &.has-image { display: block; padding: 4px 0; }
+
+        P { margin-top: 0; }
+
+        INPUT { width: 100%; margin-bottom: 1.5em; }
+      }
+
+      .button-primary.red { background: #B32D2E; border-color: #B32D2E; }
+      .button-primary.red:hover { background: #A30000; border-color: #A30000; }
+
+      #members_wrap, #members_slides_wrap {
+        margin-top: 2em; border: 1px solid #c3c4c7; box-sizing: border-box;
+        box-shadow: 0 1px 1px rgba(0,0,0,.04); padding: 12px;
+        background: #FFFFFF;
+      }
+
+      #members_slides {
+        display: flex; flex-wrap: wrap; gap: 25px 20px; padding: 15px 0;
+
+        .row {
+          width: 23%; position: relative; box-sizing: border-box;
+
+          .image {
+            width: 100%; aspect-ratio: 1 / 0.75; border: 1px dotted #c3c4c7;
+            background: center / contain no-repeat; cursor: move;
+          }
+
+          BUTTON {
+            position: absolute; z-index: 3; top: 0; right: 0; cursor: pointer;
+            transform: translate(50%, -50%); width: 30px; height: 30px;
+            border-radius: 50%; border: 2px solid #FFFFFF; background: #B32D2E;
+
+            &:after { content: "\2715"; color: #FFFFFF; font-weight: bold; }
+          }
+        }
+      }
+    </style>
+
+    <div id="members_wrap">
+      <h2 style="margin-bottom: 0.5em; padding: 0;">Modals</h2>
+
+      <div id="members" class="rows">
+        <?php
+        $members = get_post_meta($post->ID, 'members', true);
+        if (isset($members['title'])) {
+          for($i = 0; $i < count($members['title']); $i++) {
+            ?>
+            <div class="row">
+              <div class="row_move"></div>
+
+              <div class="row_image<?php if ($members['image'][$i] != "") echo ' has-image'; ?>">
+                <input type="hidden" name="members[image][]" id="image<?php echo $i; ?>" value="<?php esc_html_e($members['image'][$i]); ?>">
+                <button type="button" class="add_image" data-add="image<?php echo $i; ?>" data-text="Add Image" <?php if ($members['image'][$i] != "") echo 'style="background-image: url('.$members['image'][$i].');"' ?> onclick="add_image('image<?php echo $i; ?>')"></button>
+                <div class="actions">
+                  <p>Click image to change.</p>
+                  <button type="button" class="button-primary red" onclick="remove_image('image<?php echo $i; ?>')">Remove Image</button>
+                </div>
+              </div>
+
+              <div class="row_inputs">
+                <input type="text" name="members[title][]" value="<?php echo $members['title'][$i]; ?>" placeholder="Link Title">
+                <input type="text" name="members[header][]" value="<?php echo $members['header'][$i]; ?>" placeholder="Header">
+                <input type="text" name="members[subheader][]" value="<?php echo $members['subheader'][$i]; ?>" placeholder="Subheader">
+                <textarea name="members[content][]" placeholder="Content"><?php echo $members['content'][$i]; ?></textarea>
+                <button onclick="remove_row(this)" class="button-primary red">Remove Modal</button>
+              </div>
+            </div>
+            <?php
+          }
+        }
+        ?>
+      </div>
+
+      <div onclick="add_row('members')" class="button-primary">Add Modal</div>
+    </div>
+
+    <h2 style="margin-top: 2em; padding: 0;">Slides</h2>
+    <input type="text" name="members_slides_title" value="<?php echo $post->members_slides_title; ?>" placeholder="Slides Title" style="width: 100%;">
+
+    <div id="members_slides_wrap">
+      <h2 style="padding: 0;">Slide Images</h2>
+
+      <div id="members_slides" class="rows">
+        <?php
+        $members_slides = get_post_meta($post->ID, 'members_slides', true);
+        if (isset($members_slides['image'])) {
+          for($i = 0; $i < count($members_slides['image']); $i++) {
+            ?>
+            <div class="row">
+              <div class="image" style="background-image: url(<?php esc_html_e($members_slides['image'][$i]); ?>);"></div>
+              <input type="hidden" name="members_slides[image][]" value="<?php esc_html_e($members_slides['image'][$i]); ?>">
+              <button onclick="remove_members_slide(this)"></button>
+            </div>
+            <?php
+          }
+        }
+        ?>
+      </div>
+
+      <div onclick="add_members_slide('members_slides')" class="button-primary">Add Image</div>
+    </div>
+
+    <script>
+      jQuery(function() { jQuery(".rows").sortable(); });
+
+      function add_row(value) {
+        var now = Date.now();
+
+        var row = '<div class="row">'+
+          '<div class="row_move"></div>'+
+          '<div class="row_image">'+
+            '<input type="hidden" name="'+value+'[image][]" id="image'+now+'">'+
+            '<button type="button" class="add_image" data-add="image'+now+'" data-text="Add Image" onclick="add_image(\'image'+now+'\')"></button>'+
+            '<div class="actions">'+
+              '<p>Click image to change.</p>'+
+              '<button type="button" class="button-primary red" onclick="remove_image(\'image'+now+'\')">Remove Image</button>'+
+            '</div>'+
+          '</div>'+
+          '<div class="row_inputs">'+
+            '<input type="text" name="'+value+'[title][]" value="" placeholder="Link Title">'+
+            '<input type="text" name="'+value+'[header][]" value="" placeholder="Header">'+
+            '<input type="text" name="'+value+'[subheader][]" value="" placeholder="Subheader">'+
+            '<textarea name="'+value+'[content][]" placeholder="Content"></textarea>'+
+            '<button onclick="remove_row(this)" class="button-primary red">Remove Modal</button>'+
+          '</div>'+
+        '</div>';
+
+        jQuery(row).appendTo('#'+value);
+      }
+
+      function remove_row(value) { jQuery(value).parent().parent().remove(); }
+
+      function add_image(value) {
+        media_uploader = wp.media({ frame: "post", state: "insert" });
+
+        media_uploader.on("insert", function() {
+          var length = media_uploader.state().get("selection").length;
+          var images = media_uploader.state().get("selection").models
+
+          for(var iii = 0; iii < length; iii++) {
+            var image_url = images[iii].changed.url;
+            
+            jQuery('#'+value).val(image_url);
+            jQuery('#'+value).parent().addClass('has-image');
+            jQuery('[data-add="'+value+'"]').css("background-image", "url("+image_url+")");
+          }
+        });
+
+        media_uploader.open();
+      }
+
+      function remove_image(value) {
+        jQuery('#'+value).val("");
+        jQuery('#'+value).parent().removeClass('has-image');
+        jQuery('[data-add="'+value+'"]').css("background-image", "none");
+      }
+
+      function add_members_slide(value){
+        media_uploader = wp.media({ frame: "post", state: "insert", multiple: true });
+
+        media_uploader.on("insert", function() {
+          var length = media_uploader.state().get("selection").length;
+          var images = media_uploader.state().get("selection").models
+
+          for(var iii = 0; iii < length; iii++) {
+            var image_url = images[iii].changed.url;
+
+            var row = '<div class="row">';
+              row += '<div class="image"></div>'+
+              '<input type="hidden" name="'+value+'[image][]" value="">'+
+              '<button onclick="remove_members_slide(this)"></button>'+
+            '</div>';
+
+            jQuery(row).appendTo('#'+value);
+
+            var element = jQuery('#'+value+' .row:last-child');
+            var elementimg = jQuery('#'+value+' .row:last-child .image');
+            elementimg.css('background-image', 'url('+image_url+')');
+            element.find('INPUT[name^="'+value+'[image]"]').val(image_url);
+          }
+        });
+
+        media_uploader.open();
+      }
+
+      function remove_members_slide(value) { jQuery(value).parent().remove(); }
+    </script>
+    <?php
+  }
+}
+
+add_action('save_post', 'members_save');
+function members_save($post_id) {
+  if (!empty($_POST['members'])) {
+    update_post_meta($post_id, 'members', $_POST['members']);
+  } else {
+    delete_post_meta($post_id, 'members');
+  }
+  if (!empty($_POST['members_slides_title'])) {
+    update_post_meta($post_id, 'members_slides_title', $_POST['members_slides_title']);
+  } else {
+    delete_post_meta($post_id, 'members_slides_title');
+  }
+  if (!empty($_POST['members_slides'])) {
+    update_post_meta($post_id, 'members_slides', $_POST['members_slides']);
+  } else {
+    delete_post_meta($post_id, 'members_slides');
+  }
+}
+
+
+
+
+
+
+
 /////////////
 // RESEARCH
 /////////////
